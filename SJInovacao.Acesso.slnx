@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/API/" />
+  <Folder Name="/Crosscutting/">
+    <Project Path="src/SJInovacao.Acesso.Common/SJInovacao.Acesso.Common.csproj" Id="9ef8f440-6855-4db8-bc8e-a5f2f13a6507" />
+  </Folder>
+  <Folder Name="/Database/">
+    <Project Path="src/SJInovacao.Acesso.Database/SJInovacao.Acesso.Database.csproj" Id="f8634149-07e4-4ac2-83bf-48a5f52fc2bf" />
+  </Folder>
+  <Folder Name="/Modules/" />
+  <Folder Name="/Modules/UserAccess/">
+    <Project Path="src/SJInovacao.Acesso.Modules.UserAccess.Domain/SJInovacao.Acesso.Modules.UserAccess.Domain.csproj" Id="2625ab53-7062-4b88-bfcf-5c13945bc1c7" />
+    <Project Path="src/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" Id="837959f7-cff5-4ad7-9b87-a9bb15089012" />
+  </Folder>
+</Solution>
