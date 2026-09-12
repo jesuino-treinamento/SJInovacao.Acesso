@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="OneOf" Version="3.0.271" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\SJInovacao.Acesso.Common\SJInovacao.Acesso.Common.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Domain\SJInovacao.Acesso.Modules.UserAccess.Domain.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" />
+  </ItemGroup>
+
+</Project>
