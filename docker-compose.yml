@@ -1,0 +1,102 @@
+# services:
+#   database:
+#     container_name: sjinovacao_developer_evaluation_database
+#     image: postgres:13
+#     environment:
+#       POSTGRES_DB: silverjbase
+#       POSTGRES_USER: developer
+#       POSTGRES_PASSWORD: ev@luAt10n
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     restart: unless-stopped
+#     healthcheck:
+#       test: ["CMD", "pg_isready", "-U", "developer", "-d", "silverjbase"]
+#       interval: 5s
+#       timeout: 5s
+#       retries: 5
+#   cache:
+#     container_name: silverj_developer_evaluation_cache
+#     image: redis:7.4.1-alpine
+#     command: redis-server --requirepass ev@luAt10n
+#     ports:
+#       - "6379:6379"
+#     restart: unless-stopped
+#     healthcheck:
+#       test: ["CMD", "redis-cli", "-a", "ev@luAt10n", "ping"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   sjinovacao.acesso.webapi:
+#     image: ${DOCKER_REGISTRY-}sjinovacaoacessowebapi
+#     build:
+#       context: .
+#       dockerfile: src/SJInovacao.Acesso.WebAPI/Dockerfile
+#     ports:
+#     - "8080:8080"
+#     - "8081:8081"
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Docker
+#     depends_on:
+#       - database
+#     restart: unless-stopped
+
+# volumes:
+#   db-data:
+#     driver: local
+
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL
+  database:
+    image: postgres:13
+    container_name: sjinovacao_developer_evaluation_database
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: ev@luAt10n
+      POSTGRES_DB: silverjbase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "developer", "-d", "silverjbase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  silverj_developer_evaluation_cache:
+    image: redis:7-alpine
+    container_name: silverj_developer_evaluation_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - sjinovacao_network
+
+  # API
+  sjinovacao.acesso.webapi:
+    image: sjinovacaoacessowebapi
+    build:
+      context: .
+      dockerfile: src/SJInovacao.Acesso.WebAPI/Dockerfile
+    container_name: sjinovacao_acesso_api
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    depends_on:
+      - database
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  sjinovacao_network:
+    driver: bridge

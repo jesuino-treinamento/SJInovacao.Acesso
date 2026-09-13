@@ -1,7 +1,8 @@
 <Solution>
-  <Folder Name="/API/" />
+  <Folder Name="/API/"></Folder>
   <Folder Name="/Crosscutting/">
     <Project Path="src/SJInovacao.Acesso.Common/SJInovacao.Acesso.Common.csproj" Id="9ef8f440-6855-4db8-bc8e-a5f2f13a6507" />
+    <Project Path="src/SJInovacao.Acesso.IoC/SJInovacao.Acesso.IoC.csproj" Id="e2aabcbf-5e18-4dac-b1db-12a075dc10fd" />
   </Folder>
   <Folder Name="/Database/">
     <Project Path="src/SJInovacao.Acesso.Database/SJInovacao.Acesso.Database.csproj" Id="f8634149-07e4-4ac2-83bf-48a5f52fc2bf" />

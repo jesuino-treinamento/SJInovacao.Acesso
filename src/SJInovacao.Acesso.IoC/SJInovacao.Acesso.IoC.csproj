@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SJInovacao.Acesso.Common\SJInovacao.Acesso.Common.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Application\SJInovacao.Acesso.Modules.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Domain\SJInovacao.Acesso.Modules.UserAccess.Domain.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" />
+  </ItemGroup>
+  
+</Project>
