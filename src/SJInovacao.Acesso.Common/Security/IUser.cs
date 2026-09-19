@@ -22,5 +22,7 @@
 
         // Novo: lista de grupos do usuário
         IEnumerable<string> Permissions { get; }
+
+        IEnumerable<string> Groups { get; }
     }
 }

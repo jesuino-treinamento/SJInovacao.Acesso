@@ -65,8 +65,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
             if (command.UseFakeData)
             {
                 // Telefone fake
-                var fakeNumber = FakeDataHelper.GetFakePhoneNumber();
-                phone = new Phone(fakeNumber, PhoneType.Celular, user);
+                //var fakeNumber = new Phone();// FakeDataHelper.GetFakePhoneNumber();
+                phone = new Phone(); //new Phone(fakeNumber, PhoneType.Celular, user);
                 user.AddPhone(phone);
             }
             else
@@ -74,7 +74,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
                 // Inicializa listas
                 foreach (var phoneDto in command.Phones)
                 {
-                    phone = await _phoneRepository.GetByIdAsync(phoneDto.PhoneId, cancellationToken) ?? new (); 
+                    phone = await _phoneRepository.GetByIdAsync(phoneDto.PhoneId, cancellationToken);// ?? new (); 
 
                     if (phone == null)
                     {
@@ -91,19 +91,19 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
             if (command.UseFakeData)
             {
                 // Endereço fake
-                var fakeStreet = FakeDataHelper.GetFakeStreet();
-                var fakeNumber = FakeDataHelper.GetFakeNumber();
-                var fakeNeighborhood = FakeDataHelper.GetFakeNeighborhood();
-                var fakeCity = FakeDataHelper.GetFakeCity();
-                var fakeState = FakeDataHelper.GetFakeState();
-                var fakeZipCode = FakeDataHelper.GetFakeZipCode();
-                var (lat, lng) = FakeDataHelper.GetFakeGeolocation();
-                var geolocation = new Geolocation(lat, lng);
+                //var fakeStreet = FakeDataHelper.GetFakeStreet();
+                //var fakeNumber = FakeDataHelper.GetFakeNumber();
+                //var fakeNeighborhood = FakeDataHelper.GetFakeNeighborhood();
+                //var fakeCity = FakeDataHelper.GetFakeCity();
+                //var fakeState = FakeDataHelper.GetFakeState();
+                //var fakeZipCode = FakeDataHelper.GetFakeZipCode();
+                //var (lat, lng) = FakeDataHelper.GetFakeGeolocation();
+                var geolocation = new Geolocation();// (lat, lng);
 
-                address = new Address(
-                    fakeStreet, fakeNumber, fakeNeighborhood,
-                    fakeCity, fakeState, fakeZipCode,
-                    user.Id, geolocation);
+                address = new Address();
+                    //fakeStreet, fakeNumber, fakeNeighborhood,
+                    //fakeCity, fakeState, fakeZipCode,
+                    //user.Id, geolocation);
 
                 user.AddAddress(address);
             }
@@ -111,7 +111,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
             {
                 foreach (var addressDto in command.Addresses)
                 {
-                    address = await _addressRepository.GetByIdAsync(addressDto.Id, cancellationToken) ?? new();
+                    address = await _addressRepository.GetByIdAsync(addressDto.Id, cancellationToken);// ?? new();
                     if (address == null)
                     {
                         var geolocation = new Geolocation(addressDto.Geolocation.Lat, addressDto.Geolocation.Long);

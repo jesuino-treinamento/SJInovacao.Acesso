@@ -22,10 +22,15 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public DateTime? UpdatedAt { get; set; }
 
         // Usuários com permissão direta
-        public ICollection<User> Users { get; set; } = new List<User>();
+        //public ICollection<User> Users { get; set; } = new List<User>();
+
+        public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
 
         // Grupos que possuem esta permissão
         public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
+       
+
+        //public User User { get; set; }
 
         public void Deactivate()
         {

@@ -34,7 +34,7 @@ namespace SJInovacao.Acesso.Common.Security
         /// The token is valid for 8 hours from the moment of generation.
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when user or secret key is not provided.</exception>
-        public string GenerateToken(IUser user, IEnumerable<string> permissions)
+        public string GenerateToken(IUser user, IEnumerable<string> permissions, IEnumerable<string> groups)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
@@ -53,6 +53,9 @@ namespace SJInovacao.Acesso.Common.Security
             // Adiciona todas as permissions como claims
             claims.AddRange(permissions.Select(permission =>
                 new Claim("permissions", permission)));
+
+            claims.AddRange(groups.Select(group =>
+               new Claim("groups", group)));
 
             //// Adiciona as permissões como claims individuais
             //foreach (var permission in user.Permissions)

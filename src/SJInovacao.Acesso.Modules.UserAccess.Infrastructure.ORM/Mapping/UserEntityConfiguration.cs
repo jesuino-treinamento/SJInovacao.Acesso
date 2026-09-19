@@ -30,25 +30,33 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
                 .IsRequired(false);     // pode ser nulo se não houver refresh token ativo
 
             // User <-> Permission (Many-to-Many)
-            builder.HasMany(u => u.Permissions)
-                .WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserPermissions",
-                    j => j.HasOne<Permission>()
-                          .WithMany()
-                          .HasForeignKey("PermissionId")
-                          .OnDelete(DeleteBehavior.Cascade),
-                    j => j.HasOne<User>()
-                          .WithMany()
-                          .HasForeignKey("UserId")
-                          .OnDelete(DeleteBehavior.Cascade),
-                    j =>
-                    {
-                        j.Property<string>("Status").HasConversion<string>();
-                        j.Property<DateTime>("CreatedAt")
-                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
-                        j.Property<DateTime?>("UpdatedAt");
-                    });
+            //builder.HasMany(u => u.Permissions)
+            //    .WithMany(p => p.Users)
+            //    .UsingEntity<Dictionary<string, object>>(
+            //        "UserPermissions",
+            //        j => j.HasOne<Permission>()
+            //              .WithMany()
+            //              .HasForeignKey("PermissionId")
+            //              .OnDelete(DeleteBehavior.Cascade),
+            //        j => j.HasOne<User>()
+            //              .WithMany()
+            //              .HasForeignKey("UserId")
+            //              .OnDelete(DeleteBehavior.Cascade),
+            //        j =>
+            //        {
+            //            j.Property<string>("Status").HasConversion<string>();
+            //            j.Property<DateTime>("CreatedAt")
+            //             .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            //            j.Property<DateTime?>("UpdatedAt");
+            //        });
+
+            // Relacionamento User <-> UserPermission (Many-to-Many explícito)
+            builder.HasMany(u => u.UserPermissions)
+                   .WithOne(up => up.User)
+                   .HasForeignKey(up => up.UserId);
+
+
+
 
             // Relacionamento User -> UserGroup (one-to-many)
             builder.HasMany(u => u.UserGroups)

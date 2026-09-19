@@ -1,30 +1,17 @@
-﻿using SJInovacao.Acesso.Common.Security.Authentication;
-using SJInovacao.Acesso.Common.Security.Context;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using SJInovacao.Acesso.Common.Validation;
-using System;
-using System.Linq;
-using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 using SJInovacao.Acesso.Common.Security;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser;
-using Microsoft.AspNetCore.Mvc;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users.DTOs;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Util.Addresses;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Util.Phones;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
-using System.Collections.Generic;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.CreateGroupUsersPermission;
-using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
-//using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.DTOs;
+using SJInovacao.Acesso.Common.Security.Authentication;
+using SJInovacao.Acesso.Common.Security.Authentication.GroupAccess;
+using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
+using SJInovacao.Acesso.Common.Security.Context;
+using SJInovacao.Acesso.Common.Validation;
+using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
 
 namespace SJInovacao.Acesso.IoC.ModuleInitializers
 {
@@ -34,8 +21,11 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
         {
             // Registrando serviços necessários antecipadamente para permitir uso do DbContext
             builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
-            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, HybridPolicyProvider>();
+            //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            //builder.Services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
             builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler, GroupAuthorizationHandler>();
             builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IUserContext, UserContext>();
 

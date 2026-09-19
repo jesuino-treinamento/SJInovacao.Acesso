@@ -15,7 +15,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
                 .ForMember(dest => dest.GroupId, opt => opt.Ignore()) // Será definido manualmente
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Name.ToString()))
                 .ForMember(dest => dest.Permissions, opt => opt.MapFrom(src =>
-                    src.Groups.SelectMany(g => g.Permissions)));
+                    src.UserGroups.SelectMany(g => g.Group.Permissions)));
 
             CreateMap<DeleteGroupUsersPermissionCommand, GroupPermission>()
                   .ForMember(dest => dest.Permissions, opt => opt.Ignore());

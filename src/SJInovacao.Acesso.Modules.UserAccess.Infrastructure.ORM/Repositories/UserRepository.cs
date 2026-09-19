@@ -102,54 +102,72 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
         public async Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
         {
-            // Carrega usuário com permissões para evitar problemas de tracking
+            // Carrega usuário com grupos e permissões
             var user = await _context.Users
-                .Include(u => u.Groups)
-                .ThenInclude(p => p.Permissions)
+                .Include(u => u.UserGroups)
+                    .ThenInclude(ug => ug.Group)
+                        .ThenInclude(g => g.Permissions)
                 .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
             if (user == null)
                 throw new Exception("User not found");
 
-            // Busca permissão
-            var group = await _context.GroupPermissions.FindAsync(new object[] { groupId }, cancellationToken);
+            // Busca grupo
+            var group = await _context.GroupPermissions
+                .FirstOrDefaultAsync(g => g.Id == groupId, cancellationToken);
 
             if (group == null)
-                throw new Exception("GroupUser not found");
+                throw new Exception("Group not found");
 
-            // Verifica se usuário já possui a permissão para evitar duplicidade
-            if (!user.Groups.Contains(group))
+            // Verifica se já existe vínculo
+            var existingUserGroup = user.UserGroups.FirstOrDefault(ug => ug.GroupId == groupId);
+
+            if (existingUserGroup == null)
             {
-                user.Groups.Add(group);
+                user.UserGroups.Add(new UserGroup
+                {
+                    UserId = userId,
+                    GroupId = groupId,
+                    IsActive = true,
+                    AssignedAt = DateTime.UtcNow
+                });
+
                 await _context.SaveChangesAsync(cancellationToken);
             }
 
             return user;
         }
+
 
         public async Task<User> RemoveGroupFromUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-               .Include(u => u.Groups)
-               .ThenInclude(p => p.Permissions)
-               .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+                .Include(u => u.UserGroups)
+                    .ThenInclude(ug => ug.Group)
+                        .ThenInclude(g => g.Permissions)
+                .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
             if (user == null)
                 throw new Exception("User not found");
 
-            var group = await _context.GroupPermissions.FindAsync(new object[] { groupId }, cancellationToken);
+            var group = await _context.GroupPermissions
+                .FirstOrDefaultAsync(g => g.Id == groupId, cancellationToken);
 
             if (group == null)
-                throw new Exception("GroupUser not found");
+                throw new Exception("Group not found");
 
-            if (user.Groups.Contains(group))
+            // Localiza o vínculo UserGroup
+            var userGroup = user.UserGroups.FirstOrDefault(ug => ug.GroupId == groupId);
+
+            if (userGroup != null)
             {
-                user.Groups.Remove(group);
+                user.UserGroups.Remove(userGroup);
                 await _context.SaveChangesAsync(cancellationToken);
             }
-            
+
             return user;
         }
+
 
         public async Task<bool> ExistsWithEmailOrUsernameAsync(string email, string username, CancellationToken cancellationToken = default)
         {
@@ -352,9 +370,14 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<User?> GetGroupToUserAsync(Guid userId, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .Include(u => u.Groups)
-                    .ThenInclude(g => g.Permissions)
-                .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+                        .AsNoTracking()
+                        .Include(u => u.UserGroups)
+                            .ThenInclude(g => g.Group.Permissions)
+                        .Include(u => u.UserPermissions)
+                            .ThenInclude(up => up.Permission)
+                        .Include(u => u.Phones)
+                        .Include(u => u.Addresses)
+                        .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
             return user;
         }
@@ -436,9 +459,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<User?> GetByEmailWithPermissionsAndGroupsAsync(string email, CancellationToken cancellationToken)
         {
             return await _context.Set<User>()
-                .Include(u => u.Permissions)
-                .Include(u => u.Groups)
-                    .ThenInclude(g => g.Permissions)
+                .Include(u => u.UserPermissions)
+                .Include(u => u.UserGroups)
+                    .ThenInclude(g => g.Group.Permissions)
                 .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
         }
 
@@ -447,7 +470,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             //return await _context.Set<User>()
             //    .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenExpiry > DateTime.UtcNow, cancellationToken);
             return await _context.Users
-                .Include(u => u.Permissions)
+                .Include(u => u.UserPermissions)
                 .Include(u => u.UserGroups)
                     .ThenInclude(ug => ug.Group)
                         .ThenInclude(g => g.Permissions)

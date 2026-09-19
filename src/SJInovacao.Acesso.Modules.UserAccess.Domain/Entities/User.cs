@@ -21,17 +21,25 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public ICollection<Supplier> Suppliers { get; set; } = null!;
 
         // Relacionamento com permissões diretas
-        public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
+        //public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 
         // Relacionamento com grupos
-        public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
+        //public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
 
         // Implementação da interface
         IEnumerable<string> IUser.Permissions =>
             // Permissões diretas do usuário
-            Permissions.Select(p => p.Name)
+            UserPermissions.Select(p => p.PermissionId.ToString())//.Name)
             // + permissões de todos os grupos que o usuário pertence
-            .Concat(Groups.SelectMany(g => g.Permissions).Select(p => p.Name))
+            .Concat(UserGroups.SelectMany(g => g.Group.Permissions).Select(p => p.Name))
+            // evitar duplicatas
+            .Distinct();
+
+        IEnumerable<string> IUser.Groups =>
+            // Permissões diretas do usuário
+            UserGroups.Select(p => p.GroupId.ToString())//.Name)
+                                                                  // + permissões de todos os grupos que o usuário pertence
+            .Concat(UserGroups.SelectMany(g => g.Group.Permissions).Select(p => p.Name))
             // evitar duplicatas
             .Distinct();
 
@@ -39,6 +47,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public string? RefreshToken { get; set; } = string.Empty;
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 
+        public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
         public User() { }
 
         public User(string username, string email, string passwordHash, UserRole role, Name name, Document document)
@@ -55,22 +64,22 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         }
 
         // Método para adicionar permissão direta ao usuário
-        public void AddPermission(Permission permission)
-        {
-            if (!Permissions.Contains(permission))
-            {
-                Permissions.Add(permission);
-            }
-        }
+        //public void AddPermission(Permission permission)
+        //{
+        //    if (!Permissions.Contains(permission))
+        //    {
+        //        Permissions.Add(permission);
+        //    }
+        //}
 
         // Método para adicionar grupo ao usuário
-        public void AddGroup(GroupPermission group)
-        {
-            if (!Groups.Contains(group))
-            {
-                Groups.Add(group);
-            }
-        }
+        //public void AddGroup(GroupPermission group)
+        //{
+        //    if (!Groups.Contains(group))
+        //    {
+        //        Groups.Add(group);
+        //    }
+        //}
 
         public void Deactivate()
         {

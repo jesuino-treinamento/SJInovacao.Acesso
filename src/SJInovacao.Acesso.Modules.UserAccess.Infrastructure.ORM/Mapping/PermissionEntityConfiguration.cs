@@ -25,10 +25,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.Property(u => u.UpdatedAt);
 
             // Relacionamentos inversos (opcional, mas recomendado)
-            builder.HasMany(p => p.Users)
-                   .WithMany(u => u.Permissions)
-                   .UsingEntity(j => j.ToTable("UserPermissions"));
-
+            builder.HasMany(p => p.UserPermissions)
+                   .WithOne(up => up.Permission)
+                   .HasForeignKey(up => up.PermissionId);
+            
+            // Analisar melhor para criar uma classe e tabela
             builder.HasMany(p => p.Groups)
                    .WithMany(g => g.Permissions)
                    .UsingEntity(j => j.ToTable("Groups_Permissions"));

@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/API/"></Folder>
+  <Folder Name="/API/">
+    <Project Path="src/SJInovacao.Acesso.WebAPI/SJInovacao.Acesso.WebAPI.csproj" Id="5e5ad2b4-570b-4fd2-b7ca-9809b69b3c32" />
+  </Folder>
   <Folder Name="/Crosscutting/">
     <Project Path="src/SJInovacao.Acesso.Common/SJInovacao.Acesso.Common.csproj" Id="9ef8f440-6855-4db8-bc8e-a5f2f13a6507" />
     <Project Path="src/SJInovacao.Acesso.IoC/SJInovacao.Acesso.IoC.csproj" Id="e2aabcbf-5e18-4dac-b1db-12a075dc10fd" />
@@ -13,4 +15,7 @@
     <Project Path="src/SJInovacao.Acesso.Modules.UserAccess.Domain/SJInovacao.Acesso.Modules.UserAccess.Domain.csproj" Id="2625ab53-7062-4b88-bfcf-5c13945bc1c7" />
     <Project Path="src/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" Id="837959f7-cff5-4ad7-9b87-a9bb15089012" />
   </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
 </Solution>

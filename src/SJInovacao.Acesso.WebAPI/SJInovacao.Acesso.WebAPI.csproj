@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>c8289c6b-f18f-406b-ac8a-f7b24e22ef80</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SJInovacao.Acesso.Common\SJInovacao.Acesso.Common.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.IoC\SJInovacao.Acesso.IoC.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Application\SJInovacao.Acesso.Modules.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Domain\SJInovacao.Acesso.Modules.UserAccess.Domain.csproj" />
+    <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
+</Project>

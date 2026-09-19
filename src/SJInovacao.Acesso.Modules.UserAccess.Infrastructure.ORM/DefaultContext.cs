@@ -38,6 +38,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
         public DbSet<TimeSheetOvertime> TimeSheetOvertimes { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
         public DbSet<Permission> Permissions { get; set; }
+
+        public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<GroupPermission> GroupPermissions { get; set; }
 
         public DbSet<UserGroup> UserGroup { get; set; }

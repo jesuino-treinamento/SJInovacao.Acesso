@@ -21,8 +21,9 @@ namespace SJInovacao.Acesso.Common.Middleware
                 var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
 
                 var permissions = user.FindAll("permissions").Select(p => p.Value).ToList();
+                var groups = user.FindAll("groups").Select(p => p.Value).ToList();
 
-                concreteUserContext.SetUserData(userId, userName, userRole, permissions);
+                concreteUserContext.SetUserData(userId, userName, userRole, permissions, groups);
             }
 
             if (context.Response.StatusCode == StatusCodes.Status403Forbidden)

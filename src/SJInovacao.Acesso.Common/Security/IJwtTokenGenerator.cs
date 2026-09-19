@@ -2,6 +2,6 @@
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(IUser user, IEnumerable<string> permissions);
+        string GenerateToken(IUser user, IEnumerable<string> permissions, IEnumerable<string> groups);
     }
 }

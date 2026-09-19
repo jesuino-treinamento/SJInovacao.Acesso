@@ -36,13 +36,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
 
             if (existingUser == null)
             {
-                throw new DomainException($"User with ID {request.UserId} not found");
+                throw new KeyNotFoundException($"User with ID {request.UserId} not found");
             }
 
             var existingGroup = await _groupUserRepository.GetByIdAsync(request.GroupAccessId, cancellationToken) ?? new GroupPermission();
 
             if (existingGroup == null)
-                throw new InvalidOperationException($"Grupo {request.GroupAccessId} já existe!");
+                throw new KeyNotFoundException($"Grupo {request.GroupAccessId} já existe!");
 
             // Mapeia as permissões manualmente
             var permissionResults = _mapper.Map<List<PermissionDto>>(existingGroup?.Permissions ?? new List<Permission>());

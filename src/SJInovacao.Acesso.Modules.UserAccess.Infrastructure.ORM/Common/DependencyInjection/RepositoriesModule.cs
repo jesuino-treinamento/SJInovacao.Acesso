@@ -14,6 +14,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Common.Depende
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IGroupPermissionRepository, GroupPermissionRepository>();
 
+            // Usar tipo totalmente qualificado para evitar ambiguidade entre namespaces
+            services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+
             return services;
         }
     }

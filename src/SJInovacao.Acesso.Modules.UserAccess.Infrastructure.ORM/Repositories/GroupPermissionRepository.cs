@@ -130,5 +130,63 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             return await _context.GroupPermissions
                 .AnyAsync(g => g.Name.ToLower() == lowerName && g.Id != excludeGroupId, cancellationToken);
         }
+
+        public async Task<IEnumerable<GroupPermission>> GetAllWithGroupPermissionsAsync(CancellationToken ct)
+        {
+            return await _context.GroupPermissions
+                 .Include(g => g.Permissions)
+                 .Include(g => g.UserGroups) // se quiser trazer também os usuários vinculados
+                 .ToListAsync(ct);
+        }
+
+        public async Task<IEnumerable<Permission>> GetByGroupIdAsync(Guid groupId, CancellationToken ct)
+        {
+            var group = await _context.GroupPermissions
+                .Include(g => g.Permissions)
+                .FirstOrDefaultAsync(g => g.Id == groupId, ct);
+
+            if (group == null)
+                return Enumerable.Empty<Permission>();
+
+            return group.Permissions.Where(p => p.IsActive).ToList();
+        }
+
+        // Analisar melhor os classes e a tabela
+        public async Task RemoveAsync(Guid groupId, Guid permissionId, CancellationToken ct)
+        {
+            var group = await _context.GroupPermissions
+                .Include(g => g.Permissions)
+                .FirstOrDefaultAsync(g => g.Id == groupId, ct);
+
+            if (group == null)
+                throw new DomainException("Group not found");
+
+            var permission = group.Permissions.FirstOrDefault(p => p.Id == permissionId);
+            if (permission == null)
+                throw new DomainException("Permission not found in group");
+
+            group.Permissions.Remove(permission);
+            await _context.SaveChangesAsync(ct);
+        }
+
+        // Analisar melhor os classes e a tabela
+        public async Task UpdateStatusAsync(Guid groupId, Guid permissionId, bool isActive, CancellationToken ct)
+        {
+            var group = await _context.GroupPermissions
+                .Include(g => g.Permissions)
+                .FirstOrDefaultAsync(g => g.Id == groupId, ct);
+
+            if (group == null)
+                throw new DomainException("Group not found");
+
+            var permission = group.Permissions.FirstOrDefault(p => p.Id == permissionId);
+            if (permission == null)
+                throw new DomainException("Permission not found in group");
+
+            permission.IsActive = isActive;
+            _context.Permissions.Update(permission);
+            await _context.SaveChangesAsync(ct);
+        }
+
     }
 }
