@@ -573,6 +573,7 @@
 //}
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
@@ -584,10 +585,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DefaultContext _context;
+        private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(DefaultContext context)
+        public UserRepository(DefaultContext context, ILogger<UserRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -728,42 +731,183 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             return updatedPermissions;
         }
 
+        //public async Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
+        //{
+        //    var user = await GetGroupToUserAsync(userId, cancellationToken);
+        //    var group = await _context.GroupPermissions
+        //        .Include(g => g.GroupsPermissions) // carrega vínculos de permissões
+        //        .FirstOrDefaultAsync(g => g.Id == groupId, cancellationToken);
+
+        //    if (user == null || group == null)
+        //        throw new InvalidOperationException("Usuário ou grupo não encontrado.");
+
+        //    // 1️⃣ Criar vínculo User ↔ Group
+        //    var userGroup = new UserGroup { UserId = user.Id, GroupId = group.Id };
+        //    user.UserGroups.Add(userGroup);
+
+        //    await _context.UserGroup.AddAsync(userGroup);
+
+        //    // 2️⃣ Criar vínculos User ↔ Group ↔ Permissions
+        //    foreach (var gp in group.GroupsPermissions.Where(gp => gp.IsActive))
+        //    {
+        //        var ugp = new UsersGroupsPermissions
+        //        {
+        //            UserId = user.Id,
+        //            GroupId = group.Id,
+        //            PermissionId = gp.PermissionId,
+        //            IsActive = true,
+        //            CreatedAt = DateTime.UtcNow
+        //        };
+
+
+
+        //        await _context.UsersGroupsPermissions.AddAsync(ugp, cancellationToken);
+        //    }
+
+        //    // 3️⃣ Salvar alterações
+        //    await _context.SaveChangesAsync(cancellationToken);
+
+        //    return user;
+        //}
+
+        //public async Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
+        //{
+        //    var user = await _context.Users
+        //        .Include(u => u.UserGroups)
+        //        .Include(u => u.UsersGroupsPermissions)
+        //        .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+
+        //    var group = await _context.GroupPermissions
+        //        .Include(p => p.UserGroups)
+        //            .ThenInclude(ug => ug.User)
+        //        .Include(p => p.Permissions)
+        //            .ThenInclude(p => p.GroupsPermissions)
+        //        .Include(p => p.GroupsPermissions)
+        //            .ThenInclude(gp => gp.Permission)
+        //        .FirstOrDefaultAsync(p => p.Id == groupId, cancellationToken);
+
+        //    if (user == null || group == null)
+        //        throw new InvalidOperationException("Usuário ou grupo não encontrado.");
+
+        //    // 1️⃣ Criar vínculo User ↔ Group
+        //    if (!user.UserGroups.Any(ug => ug.GroupId == group.Id))
+        //    {
+        //        var userGroup = new UserGroup { UserId = user.Id, GroupId = group.Id };
+        //        await _context.UserGroup.AddAsync(userGroup, cancellationToken);
+        //    }
+
+
+
+        //    // 2️⃣ Criar vínculos User ↔ Group ↔ Permissions
+        //    foreach (var gp in group.GroupsPermissions.Where(gp => gp.IsActive))
+        //    {
+        //        if (!user.UsersGroupsPermissions.Any(ugp =>
+        //            ugp.GroupId == group.Id && ugp.PermissionId == gp.PermissionId))
+        //        {
+        //            var ugp = new UsersGroupsPermissions
+        //            {
+        //                UserId = user.Id,
+        //                GroupId = group.Id,
+        //                PermissionId = gp.PermissionId,
+        //                IsActive = true,
+        //                CreatedAt = DateTime.UtcNow
+        //            };                    
+        //        }
+        //        var exists = await _context.UsersGroupsPermissions
+        //                                    .AnyAsync(x => x.UserId == user.Id &&
+        //                                    x.GroupId == group.Id && x.PermissionId == gp.PermissionId,
+        //                                    cancellationToken);
+
+        //        if (!exists)
+        //        {
+        //            await _context.UsersGroupsPermissions.AddAsync(ugp, cancellationToken);
+        //        }
+
+        //    }
+
+        //    // 3️⃣ Salvar alterações
+        //    await _context.SaveChangesAsync(cancellationToken);
+
+        //    return user;
+        //}
+
         public async Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
         {
-            var user = await GetGroupToUserAsync(userId, cancellationToken);
-            var group = await _context.GroupPermissions
-                .Include(g => g.GroupsPermissions) // carrega vínculos de permissões
-                .FirstOrDefaultAsync(g => g.Id == groupId, cancellationToken);
-
-            if (user == null || group == null)
-                throw new InvalidOperationException("Usuário ou grupo não encontrado.");
-
-            // 1️⃣ Criar vínculo User ↔ Group
-            var userGroup = new UserGroup { UserId = user.Id, GroupId = group.Id };
-            user.UserGroups.Add(userGroup);
-
-            // 2️⃣ Criar vínculos User ↔ Group ↔ Permissions
-            foreach (var gp in group.GroupsPermissions.Where(gp => gp.IsActive))
+            try
             {
-                var ugp = new UsersGroupsPermissions
+                var user = await _context.Users
+                    .Include(u => u.UserGroups)
+                    .Include(u => u.UsersGroupsPermissions)
+                    .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+
+                var group = await _context.GroupPermissions
+                    .Include(p => p.UserGroups)
+                        .ThenInclude(ug => ug.User)
+                    .Include(p => p.Permissions)
+                        .ThenInclude(p => p.GroupsPermissions)
+                    .Include(p => p.GroupsPermissions)
+                        .ThenInclude(gp => gp.Permission)
+                    .FirstOrDefaultAsync(p => p.Id == groupId, cancellationToken);
+
+                if (user == null || group == null)
                 {
-                    UserId = user.Id,
-                    GroupId = group.Id,
-                    PermissionId = gp.PermissionId,
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow
-                };
+                    _logger.LogWarning("Usuário ou grupo não encontrado. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                    throw new InvalidOperationException("Usuário ou grupo não encontrado.");
+                }
 
-               
+                // 1️⃣ Criar vínculo User ↔ Group
+                if (!user.UserGroups.Any(ug => ug.GroupId == group.Id))
+                {
+                    var userGroup = new UserGroup { UserId = user.Id, GroupId = group.Id };
+                    await _context.UserGroup.AddAsync(userGroup, cancellationToken);
+                    _logger.LogInformation("Vínculo UserGroup criado: UserId={UserId}, GroupId={GroupId}", user.Id, group.Id);
+                }
 
-                await _context.UsersGroupsPermissions.AddAsync(ugp, cancellationToken);
+                // 2️⃣ Criar vínculos User ↔ Group ↔ Permissions
+                foreach (var gp in group.GroupsPermissions.Where(gp => gp.IsActive))
+                {
+                    var exists = await _context.UsersGroupsPermissions
+                        .AnyAsync(x => x.UserId == user.Id &&
+                                       x.GroupId == group.Id &&
+                                       x.PermissionId == gp.PermissionId,
+                                       cancellationToken);
+
+                    if (!exists)
+                    {
+                        var ugp = new UsersGroupsPermissions
+                        {
+                            UserId = user.Id,
+                            GroupId = group.Id,
+                            PermissionId = gp.PermissionId,
+                            IsActive = true,
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        await _context.UsersGroupsPermissions.AddAsync(ugp, cancellationToken);
+                        _logger.LogInformation("Vínculo UsersGroupsPermissions criado: UserId={UserId}, GroupId={GroupId}, PermissionId={PermissionId}",
+                            user.Id, group.Id, gp.PermissionId);
+                    }
+                }
+
+                // 3️⃣ Salvar alterações
+                await _context.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Alterações salvas com sucesso para UserId={UserId}", user.Id);
+
+                return user;
             }
-
-            // 3️⃣ Salvar alterações
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return user;
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar alterações no banco. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                throw new InvalidOperationException($"Erro ao salvar alterações: {ex.InnerException?.Message ?? ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao adicionar grupo ao usuário. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                throw;
+            }
         }
+
+
 
         public async Task<bool> GetGroupNameAsync(string name, CancellationToken cancellationToken)
             => await _context.GroupPermissions.AnyAsync(g => g.Name == name, cancellationToken);

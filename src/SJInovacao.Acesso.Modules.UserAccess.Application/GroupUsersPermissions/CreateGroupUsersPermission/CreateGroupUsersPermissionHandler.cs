@@ -43,8 +43,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
 
             if (existingGroup == null)
                 throw new KeyNotFoundException($"Grupo {request.GroupAccessId} já existe!");
-            
-            var permissions = existingGroup.GroupsPermissions.Select(p => p.Permission).ToList();
+
+            //var permissions = existingGroup.GroupsPermissions.Select(p => p.Permission).ToList();
+            var permissions = existingGroup.Permissions;
             // Mapeia as permissões manualmente
             var permissionResults = _mapper.Map<List<PermissionDto>>(permissions ?? new List<Permission>());
 

@@ -11,9 +11,9 @@
         public DateTime? UpdatedAt { get; set; }
 
         // Navegações
-        public User User { get; set; } = new();
-        public GroupPermission Group { get; set; } = new(); 
-        public Permission Permission { get; set; } = new();
+        public User User { get; set; } = null!;
+        public GroupPermission Group { get; set; } = null!;
+        public Permission Permission { get; set; } = null!;
     }
 
 }
