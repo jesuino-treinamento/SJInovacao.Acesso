@@ -23,6 +23,10 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddScoped<IPhoneRepository, PhoneRepository>();
             builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
             builder.Services.AddScoped<IGroupPermissionRepository, GroupPermissionRepository>();
+            builder.Services.AddScoped<IGroupsPermissionsRepository, GroupsPermissionsRepository>();
+
+            builder.Services.AddScoped<IUsersGroupsPermissionsRepository, UsersGroupsPermissionsRepository>();
+
             builder.Services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
 
             builder.Services.AddScoped<IUserAccessModule, UserAccessModule>();

@@ -28,11 +28,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.HasMany(p => p.UserPermissions)
                    .WithOne(up => up.Permission)
                    .HasForeignKey(up => up.PermissionId);
-            
+
             // Analisar melhor para criar uma classe e tabela
-            builder.HasMany(p => p.Groups)
-                   .WithMany(g => g.Permissions)
-                   .UsingEntity(j => j.ToTable("Groups_Permissions"));
+            builder.HasMany(p => p.GroupsPermissions)
+                   .WithOne(gp => gp.Permission)
+                   .HasForeignKey(gp => gp.PermissionId);
+
+
         }
     }
 }

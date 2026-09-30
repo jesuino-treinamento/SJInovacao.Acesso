@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SJInovacao.Acesso.Common.Security.Authentication.GroupAccess;
 using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.CreatePermission;
+using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.GetIdPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePermission;
 using SJInovacao.Acesso.WebAPI.Common;
@@ -27,7 +28,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions
             _mapper = mapper;
         }
 
-        [Authorize]
+       // [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<PermissionResponse>), StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] CreatePermissionRequest request, CancellationToken cancellationToken)
@@ -60,7 +61,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions
             }
         }
 
-        [Authorize]
+       // [Authorize]
         [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(ApiResponseWithData<PermissionResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
@@ -99,9 +100,17 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions
             }
         }
 
-        [Authorize]
-        [Group("group.all")]
-        [Permission("user.view", "user.update")] // 🔒 exige permissão
+        [HttpGet("{permissionId:guid}")]
+        public async Task<IActionResult> GetByUserId(Guid permissionId, CancellationToken ct)
+        {
+            var query = new GetIdPermissionsQuery { PermissionId = permissionId };
+            var result = await _mediator.Send(query, ct);
+            return Ok(result);
+        }
+
+        //[Authorize]
+        //[Group("group.all")]
+        //[Permission("user.view", "user.update")] // 🔒 exige permissão
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithData<List<PermissionResponse>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> List(CancellationToken cancellationToken)

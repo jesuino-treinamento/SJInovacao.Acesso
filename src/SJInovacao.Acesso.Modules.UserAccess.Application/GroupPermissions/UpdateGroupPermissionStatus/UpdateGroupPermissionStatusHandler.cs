@@ -8,12 +8,15 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupPermissions.RemoveGroupPermi
 {
     public class UpdateGroupPermissionStatusHandler : IRequestHandler<UpdateGroupPermissionStatusCommand, UpdateGroupPermissionStatusResult>
     {
-        private readonly IGroupPermissionRepository _repository;
+        private readonly IGroupPermissionRepository _groupAccessrepository;
+        private readonly IGroupsPermissionsRepository _groupsPermissionsrepository;
         private readonly IMapper _mapper;
 
-        public UpdateGroupPermissionStatusHandler(IGroupPermissionRepository repository, IMapper mapper)
+        public UpdateGroupPermissionStatusHandler(IGroupPermissionRepository groupAccessrepository,
+            IGroupsPermissionsRepository groupsPermissionsrepository, IMapper mapper)
         {
-            _repository = repository;
+            _groupAccessrepository = groupAccessrepository;
+            _groupsPermissionsrepository = groupsPermissionsrepository;
             _mapper = mapper;
         }
 
@@ -25,7 +28,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupPermissions.RemoveGroupPermi
             //if (!validationResult.IsValid)
             //    throw new ValidationException(validationResult.Errors);
 
-            await _repository.UpdateStatusAsync(command.GroupId, command.PermissionId, command.IsActive, ct);
+            await _groupsPermissionsrepository.UpdateStatusAsync(command.GroupId, command.PermissionId, command.IsActive, ct);
 
             return new UpdateGroupPermissionStatusResult
             {

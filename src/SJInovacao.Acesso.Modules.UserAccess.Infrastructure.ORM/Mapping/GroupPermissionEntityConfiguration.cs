@@ -8,7 +8,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
     {       
         public void Configure(EntityTypeBuilder<GroupPermission> builder)
         {
-            builder.ToTable("GroupAccess");
+            builder.ToTable("GroupPermissions");
 
             builder.HasKey(g => g.Id);
             builder.Property(g => g.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");

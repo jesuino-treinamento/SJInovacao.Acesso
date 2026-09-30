@@ -7,7 +7,13 @@
         public Guid GroupId { get; set; }
         public string GroupName { get; set; } = string.Empty; // Novo campo
 
-        public bool UserIsActive { get; internal set; } = true;
+        public List<Guid>? PermissionIds { get; set; }
+        //public string PermissionName { get; set; } = string.Empty; // Novo campo
+        public bool PermissionIsActive { get; set; } = true;
+
+        public bool UserIsActive { get; set; } = true;
         public List<PermissionDto?> Permissions { get; set; } = new List<PermissionDto?>();
+
+        
     }
 }

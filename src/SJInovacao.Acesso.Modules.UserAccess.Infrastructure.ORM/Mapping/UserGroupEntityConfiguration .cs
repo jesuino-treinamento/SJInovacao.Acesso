@@ -15,14 +15,18 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             // 2. Configura o relacionamento com User
             builder.HasOne(ug => ug.User) // CORRETO: navegação para User
                    .WithMany(u => u.UserGroups)
-                   .HasForeignKey(ug => ug.UserId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .HasForeignKey(ug => ug.UserId);
+                   //.OnDelete(DeleteBehavior.Restrict);
 
             // 3. Configura o relacionamento com GroupPermission
-            builder.HasOne(ug => ug.Group) // CORRETO: navegação para GroupPermission
-                   .WithMany(g => g.UserGroups)
-                   .HasForeignKey(ug => ug.GroupId)
-                   .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(ug => ug.Group) // CORRETO: navegação para GroupPermission
+            //       .WithMany(g => g.UserGroups)
+            //       .HasForeignKey(ug => ug.GroupId)
+            //       .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(ug => ug.Group)
+              .WithMany(g => g.UserGroups)
+              .HasForeignKey(ug => ug.GroupId);
 
             // 4. Configura as propriedades adicionais
             builder.Property(ug => ug.IsActive)

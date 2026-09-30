@@ -1,8 +1,8 @@
 ﻿using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions.CreatePermission;
 
-namespace SJInovacao.Acesso.WebAPI.Features.GroupPermissions.CreateGroupPermission
+namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.CreateGroupAccess
 {
-    public class GroupPermissionResponse
+    public class GroupAccessResponse
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;

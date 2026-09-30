@@ -27,8 +27,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
 
         // Grupos que possuem esta permissão
-        public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
-       
+        //public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
+
+        public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
+        public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
 
         //public User User { get; set; }
 

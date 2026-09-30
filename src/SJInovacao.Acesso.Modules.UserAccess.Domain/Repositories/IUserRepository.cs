@@ -1,5 +1,6 @@
 ﻿using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
+using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
 {
@@ -19,7 +20,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
 
         Task<User?> GetGroupToUserAsync(Guid userId, CancellationToken cancellationToken);
         Task<User> RemoveGroupFromUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default);
-
+        Task<List<Permission>> UpdateGroupPermissionAsync(Guid userId, Guid groupId, bool userIsActive, List<Guid>? permissionIds, bool? permissionIsActive, CancellationToken cancellationToken = default);
         Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken);
         Task<bool> GetGroupNameAsync(string name, CancellationToken cancellationToken);
 
@@ -35,5 +36,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
         Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
         Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiry, CancellationToken cancellationToken);
         Task RevokeRefreshTokenAsync(Guid userId, CancellationToken cancellationToken);
+        Task UpdateAllUsersPermissionStatusAsync(Guid id, bool isActive, CancellationToken cancellationToken);
     }
 }

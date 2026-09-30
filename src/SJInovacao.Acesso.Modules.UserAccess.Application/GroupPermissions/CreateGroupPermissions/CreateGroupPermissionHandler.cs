@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
+using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions
 {
@@ -11,43 +16,169 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Crea
     {
         private readonly IUserRepository _userRepository;
         private readonly IPermissionRepository _permissionRepository;
-        private readonly IGroupPermissionRepository _groupUserRepository;
+        //private readonly IGroupPermissionRepository _groupPermissionRepository;
+        //private readonly IGroupsPermissionsRepository _groupsPermissionsRepository;
+        private readonly DefaultContext _context;
+        private readonly ILogger<CreateGroupPermissionHandler> _logger;
         private readonly IMapper _mapper;
 
-        public CreateGroupPermissionHandler(IUserRepository userRepository, 
-            IPermissionRepository permissionRepository, IGroupPermissionRepository groupUserRepository,
+        public CreateGroupPermissionHandler(
+            IUserRepository userRepository, 
+            IPermissionRepository permissionRepository, 
+            //IGroupPermissionRepository groupPermissionRepository,
+            //IGroupsPermissionsRepository groupsPermissionsRepository,
+            DefaultContext context,
+            ILogger<CreateGroupPermissionHandler> logger,
             IMapper mapper)
         {
             _userRepository = userRepository;
             _permissionRepository = permissionRepository;
-            _groupUserRepository = groupUserRepository;
+            //_groupPermissionRepository = groupPermissionRepository;
+            //_groupsPermissionsRepository = groupsPermissionsRepository;
+            _logger = logger;
+            _context = context;
             _mapper = mapper;
         }
 
+        //public async Task<CreateGroupPermissionResult> Handle(CreateGroupPermissionCommand request, CancellationToken cancellationToken)
+        //{
+        //    if (await _userRepository.GetGroupNameAsync(request.Name, cancellationToken))
+        //        throw new InvalidOperationException($"Grupo {request.Name} já existe!");
+
+        //    var group = new GroupPermission(request.Name, request.Description);
+
+        //    // Salva o grupo primeiro
+        //    await _groupPermissionRepository.CreateAsync(group, cancellationToken);
+
+        //    if (request.PermissionIds is not null)
+        //    {
+        //        var permissoesFiltradas = (await _permissionRepository.GetAllAsync(cancellationToken))
+        //            .Where(p => request.PermissionIds.Contains(p.Id) && p.IsActive)
+        //            .ToList();
+
+        //        if (permissoesFiltradas.Count == 0)
+        //            throw new InvalidOperationException($"Não foi encontrada permissão informada!");
+
+        //        // Cria vínculos em GroupsPermissions
+        //        //foreach (var permission in permissoesFiltradas)
+        //        //{
+        //        //    var gp = new GroupsPermissions
+        //        //    {
+        //        //        //UserId = Guid.Empty, // se não usar usuário aqui, pode remover da entidade
+        //        //        GroupId = group.Id,
+        //        //        PermissionId = permission.Id,
+        //        //        IsActive = true,
+        //        //        CreatedAt = group.CreatedAt
+        //        //    };
+
+
+        //        //    gp.Permission = permission;
+        //        //    gp.Group = group;
+
+        //        //    //await _groupsPermissionsRepository.CreateAsync(gp, cancellationToken);
+        //        //}
+
+        //        group.Permissions = permissoesFiltradas;
+        //    }
+
+        //    return _mapper.Map<CreateGroupPermissionResult>(group);
+        //}
+
+
+        //public async Task<CreateGroupPermissionResult> Handle(CreateGroupPermissionCommand request, CancellationToken cancellationToken)
+        //{            
+        //    if(await _userRepository.GetGroupNameAsync(request.Name, cancellationToken))
+        //        throw new InvalidOperationException($"Grupo {request.Name} já existe!");
+
+        //    var group = new GroupPermission(request.Name, request.Description);
+
+        //    if (request.PermissionIds is not null)
+        //    {
+        //        var permissoesFiltradas = (await _permissionRepository.GetAllAsync(cancellationToken))
+        //           .Where(p => request.PermissionIds.Contains(p.Id) && p.IsActive == true)
+        //           .ToList();
+
+        //        if(permissoesFiltradas.Count == 0)
+        //            throw new InvalidOperationException($"Não foi encontrada permissão informada!");
+
+        //        group.Permissions = permissoesFiltradas;
+
+        //        //foreach (var permission in permissoesFiltradas)
+        //        //    group.AddPermission(permission);
+        //    }
+
+
+        //    await _groupUserRepository.CreateAsync(group, cancellationToken);            
+
+        //    return _mapper.Map<CreateGroupPermissionResult>(group);
+        //}
+
         public async Task<CreateGroupPermissionResult> Handle(CreateGroupPermissionCommand request, CancellationToken cancellationToken)
-        {            
-            if(await _userRepository.GetGroupNameAsync(request.Name, cancellationToken))
-                throw new InvalidOperationException($"Grupo {request.Name} já existe!");
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
 
-            var group = new GroupPermission(request.Name, request.Description);
-
-            if (request.PermissionIds is not null)
+            try
             {
-                var permissoesFiltradas = (await _permissionRepository.GetAllAsync(cancellationToken))
-                   .Where(p => request.PermissionIds.Contains(p.Id) && p.IsActive == true)
-                   .ToList();
+                _logger.LogInformation("Iniciando criação do grupo {GroupName}", request.Name);
 
-                if(permissoesFiltradas.Count == 0)
-                    throw new InvalidOperationException($"Não foi encontrada permissão informada!");
+                if (await _userRepository.GetGroupNameAsync(request.Name, cancellationToken))
+                {
+                    _logger.LogWarning("Grupo {GroupName} já existe", request.Name);
+                    throw new InvalidOperationException($"Grupo {request.Name} já existe!");
+                }
 
-                foreach (var permission in permissoesFiltradas)
-                    group.AddPermission(permission);
+                var group = new GroupPermission(request.Name, request.Description);
+
+                await _context.GroupPermissions.AddAsync(group, cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (request.PermissionIds is not null)
+                {
+                    var permissoesFiltradas = (await _permissionRepository.GetAllAsync(cancellationToken))
+                        .Where(p => request.PermissionIds.Contains(p.Id) && p.IsActive)
+                        .ToList();
+
+                    if (permissoesFiltradas.Count == 0)
+                    {
+                        _logger.LogError("Nenhuma permissão válida encontrada para o grupo {GroupName}", request.Name);
+                        throw new InvalidOperationException("Não foi encontrada permissão informada!");
+                    }
+
+                    _logger.LogInformation("Associando {Count} permissões ao grupo {GroupName}", permissoesFiltradas.Count, request.Name);
+
+                    foreach (var permission in permissoesFiltradas)
+                    {
+                        var gp = new GroupsPermissions
+                        {
+                            GroupId = group.Id,
+                            PermissionId = permission.Id,
+                            IsActive = true,
+                            CreatedAt = DateTime.UtcNow
+                        };
+                        gp.Permission = null;
+                        gp.Group = null;
+                        _context.Entry(permission).State = EntityState.Unchanged;
+                        _context.GroupsPermissions.Add(gp);
+                    }
+
+                    group.Permissions = permissoesFiltradas;
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+               
+                await transaction.CommitAsync(cancellationToken);
+
+                _logger.LogInformation("Grupo {GroupName} criado com sucesso", request.Name);
+
+                return _mapper.Map<CreateGroupPermissionResult>(group);
             }
-
-
-            await _groupUserRepository.CreateAsync(group, cancellationToken);            
-
-            return _mapper.Map<CreateGroupPermissionResult>(group);
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "Erro inesperado ao criar grupo {GroupName}", request.Name);
+                await transaction.RollbackAsync(cancellationToken);
+                throw;
+            }
         }
+
+
     }
 }

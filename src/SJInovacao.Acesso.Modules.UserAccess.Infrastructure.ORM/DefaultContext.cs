@@ -43,6 +43,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
         public DbSet<GroupPermission> GroupPermissions { get; set; }
 
         public DbSet<UserGroup> UserGroup { get; set; }
+        public DbSet<GroupsPermissions> GroupsPermissions { get; set; }
+        public DbSet<UsersGroupsPermissions> UsersGroupsPermissions { get; set; }
+
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {
         }

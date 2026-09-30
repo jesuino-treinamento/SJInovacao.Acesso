@@ -11,7 +11,7 @@ using SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions.CreateUserPerm
 
 namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions
 {
-    [Route("api/userAccess/userPermissions")]
+    [Route("api/userPermissions")]
     [ApiController]
     public class UserPermissionsController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions
             _mapper = mapper;
         }
 
-        // POST: api/userAccess/userPermissions
+        // POST: api/userPermissions
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateUserPermissionRequest request, CancellationToken ct)
@@ -71,7 +71,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions
             return Ok(result);
         }
 
-        // DELETE: api/userAccess/userPermissions/{userId}/{permissionId}
+        // DELETE: api/userPermissions/{userId}/{permissionId}
         [HttpDelete("{userId:guid}/{permissionId:guid}")]
         public async Task<IActionResult> Remove(Guid userId, Guid permissionId, CancellationToken ct)
         {
@@ -85,7 +85,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions
             return Ok(result);
         }
 
-        // GET: api/userAccess/userPermissions/{userId}
+        // GET: api/userPermissions/{userId}
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetByUserId(Guid userId, CancellationToken ct)
         {
@@ -94,13 +94,25 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.UserPermissions
             return Ok(result);
         }
 
-        // GET: api/userAccess/userPermissions
+        // GET: api/userPermissions
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {
-            var query = new GetAllUsersWithPermissionsQuery();
-            var result = await _mediator.Send(query, ct);
-            return Ok(result);
+            try
+            {
+                var query = new GetAllUsersWithPermissionsQuery();
+                var result = await _mediator.Send(query, ct);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
+            
         }
     }
 }

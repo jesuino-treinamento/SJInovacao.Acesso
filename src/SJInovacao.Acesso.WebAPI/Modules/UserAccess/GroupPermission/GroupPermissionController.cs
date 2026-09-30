@@ -1,57 +1,45 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions;
+using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreaterPermissionGroup;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetGroupPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.UpdateGroupPermissionStatus;
 using SJInovacao.Acesso.WebAPI.Common;
-using SJInovacao.Acesso.WebAPI.Features.GroupPermissions.CreateGroupPermission;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermissions.CreateGroupPermission;
 
-namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsers
+namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermission
 {
-    [Route("api/userAccess/groupAccess")]
+    [Route("api/groupPermission")]
     [ApiController]
-    public class GroupPermissionsController : ControllerBase
+    public class GroupPermissionController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public GroupPermissionsController(IMediator mediator, IMapper mapper)
+        public GroupPermissionController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-        }
+        }        
 
-        [Authorize]
-        [HttpPost]
+        [HttpPost("{groupId:guid}/{permissionId:guid}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponseWithData<GroupPermissionResponse>), StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateGroupAccess([FromBody] CreateGroupPermissionRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateGroupPermissionAccess(Guid groupId, Guid permissionId, CancellationToken ct)
         {
-            //var command = _mapper.Map<CreateGroupUserCommand>(request);
-            //var result = await _sender.Send(command, cancellationToken);
-            //return Created(string.Empty, new ApiResponseWithData<GroupUserResponse>(_mapper.Map<GroupUserResponse>(result)));
+            //if (request == null) return BadRequest();
             try
             {
-                var validator = new CreateGroupPermissionRequestValidator();
-                var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-                if (!validationResult.IsValid)
-                    return BadRequest(validationResult.Errors);
-
-                var command = _mapper.Map<CreateGroupPermissionCommand>(request);
-                var response = await _mediator.Send(command, cancellationToken);
-
-                return Created(string.Empty, new ApiResponseWithData<GroupPermissionResponse>
+                var command = new CreaterPermissionGroupCommand
                 {
-                    Success = true,
-                    Message = "Group access created successfully",
-                    Data = _mapper.Map<GroupPermissionResponse>(response)
-                });
+                    GroupId = groupId,
+                    PermissionId = permissionId
+                };
+
+                var result = await _mediator.Send(command, ct);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -61,6 +49,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsers
                     Message = ex.Message
                 });
             }
+
         }
 
         // PUT: api/groupAccess/groupPermissions/{groupId}/{permissionId}/status
@@ -117,46 +106,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsers
                     Message = ex.Message
                 });
             }
-        }
-
-        // GET: api/groupAccess/groupPermissions/{groupId}
-        [HttpGet("{groupId:guid}")]
-        public async Task<IActionResult> GetByUserId(Guid groupId, CancellationToken ct)
-        {
-            try
-            {
-                var query = new GetGroupPermissionsQuery { GroupId = groupId };
-                var result = await _mediator.Send(query, ct);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }           
-        }
-
-        // GET: api/groupAccess/groupPermissions
-        [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken ct)
-        {
-            try
-            {
-                var query = new GetAllGroupsWithPermissionsQuery();
-                var result = await _mediator.Send(query, ct);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }           
         }
     }
 }

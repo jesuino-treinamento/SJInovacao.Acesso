@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermissions.CreateGroupPermission
+namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.CreateGroupAccess
 {
-    public class CreateGroupPermissionRequestValidator : AbstractValidator<CreateGroupPermissionRequest>
+    public class CreateGroupAccessRequestValidator : AbstractValidator<CreateGroupAccessRequest>
     {
-        public CreateGroupPermissionRequestValidator()
+        public CreateGroupAccessRequestValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
             RuleFor(x => x.Description).NotEmpty().MaximumLength(250);

@@ -43,9 +43,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
 
             if (existingGroup == null)
                 throw new KeyNotFoundException($"Grupo {request.GroupAccessId} já existe!");
-
+            
+            var permissions = existingGroup.GroupsPermissions.Select(p => p.Permission).ToList();
             // Mapeia as permissões manualmente
-            var permissionResults = _mapper.Map<List<PermissionDto>>(existingGroup?.Permissions ?? new List<Permission>());
+            var permissionResults = _mapper.Map<List<PermissionDto>>(permissions ?? new List<Permission>());
 
             var user = await _userRepository.AddGroupToUserAsync(request.UserId, request.GroupAccessId, cancellationToken);
 

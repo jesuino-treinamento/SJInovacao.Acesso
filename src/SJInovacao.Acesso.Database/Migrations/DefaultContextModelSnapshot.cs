@@ -22,21 +22,6 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("GroupPermissionPermission", b =>
-                {
-                    b.Property<Guid>("GroupsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PermissionsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("GroupsId", "PermissionsId");
-
-                    b.HasIndex("PermissionsId");
-
-                    b.ToTable("Groups_Permissions", (string)null);
-                });
-
             modelBuilder.Entity("OvertimeTimeSheet", b =>
                 {
                     b.Property<Guid>("OvertimesId")
@@ -610,7 +595,38 @@ namespace SJInovacao.Acesso.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroupAccess", (string)null);
+                    b.ToTable("GroupPermissions", (string)null);
+                });
+
+            modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupsPermissions", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GroupId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupsPermissions", (string)null);
                 });
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Inventory", b =>
@@ -765,6 +781,9 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<Guid?>("GroupPermissionId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -777,6 +796,8 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupPermissionId");
 
                     b.ToTable("Permissions", (string)null);
                 });
@@ -1222,6 +1243,39 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.ToTable("UserPermissions", (string)null);
                 });
 
+            modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.UsersGroupsPermissions", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "GroupId", "PermissionId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("UsersGroupsPermissions", (string)null);
+                });
+
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Vacation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1321,21 +1375,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.HasIndex("GroupPermissionId");
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("GroupPermissionPermission", b =>
-                {
-                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", null)
-                        .WithMany()
-                        .HasForeignKey("GroupsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Permission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OvertimeTimeSheet", b =>
@@ -1598,6 +1637,29 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.Navigation("Salary");
                 });
 
+            modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupsPermissions", b =>
+                {
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", "Group")
+                        .WithMany("GroupsPermissions")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Permission", "Permission")
+                        .WithMany("GroupsPermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", null)
+                        .WithMany("GroupsPermissions")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Permission");
+                });
+
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Inventory", b =>
                 {
                     b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Product", "Product")
@@ -1659,6 +1721,13 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Permission", b =>
+                {
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("GroupPermissionId");
                 });
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Person", b =>
@@ -1894,13 +1963,13 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", "Group")
                         .WithMany("UserGroups")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", "User")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
@@ -1921,6 +1990,33 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.UsersGroupsPermissions", b =>
+                {
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", "Group")
+                        .WithMany("UsersGroupsPermissions")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Permission", "Permission")
+                        .WithMany("UsersGroupsPermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", "User")
+                        .WithMany("UsersGroupsPermissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
 
                     b.Navigation("Permission");
 
@@ -2032,9 +2128,15 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", b =>
                 {
+                    b.Navigation("GroupsPermissions");
+
+                    b.Navigation("Permissions");
+
                     b.Navigation("UserGroups");
 
                     b.Navigation("Users");
+
+                    b.Navigation("UsersGroupsPermissions");
                 });
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Overtime", b =>
@@ -2044,7 +2146,11 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Permission", b =>
                 {
+                    b.Navigation("GroupsPermissions");
+
                     b.Navigation("UserPermissions");
+
+                    b.Navigation("UsersGroupsPermissions");
                 });
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Person", b =>
@@ -2098,11 +2204,15 @@ namespace SJInovacao.Acesso.Database.Migrations
 
                     b.Navigation("Employees");
 
+                    b.Navigation("GroupsPermissions");
+
                     b.Navigation("Suppliers");
 
                     b.Navigation("UserGroups");
 
                     b.Navigation("UserPermissions");
+
+                    b.Navigation("UsersGroupsPermissions");
                 });
 #pragma warning restore 612, 618
         }

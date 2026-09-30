@@ -25,7 +25,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         // Permissões atribuídas ao grupo
         public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
-        //public ICollection<Groups_Permissions> Groups_Permissions { get; set; } = new List<Groups_Permissions>();
+       
+        public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
+        public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
 
         public void AddPermission(Permission permission)
         {

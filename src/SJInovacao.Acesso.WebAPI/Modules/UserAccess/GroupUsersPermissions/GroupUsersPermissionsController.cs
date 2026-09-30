@@ -1,27 +1,20 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.CreateGroupUsersPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.DeleteGroupUsersPermission;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePermission;
+using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.UpdateGroupUsersPermission;
 using SJInovacao.Acesso.WebAPI.Common;
-using SJInovacao.Acesso.WebAPI.Features.GroupPermissions.CreateGroupPermission;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermissions.CreateGroupPermission;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.CreateGroupUsersPermissions;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.DeleteGroupUsersPermissions;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions.CreatePermission;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions.UpdatePermission;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.CreateUser;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.DeleteUser;
+using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.UpdateGroupUsersPermissions;
 
 namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
 {
-    [Route("api/userAccess/GroupUsersPermissions")]
+    [Route("api/UserGroups/GroupUsersPermissions")]
     [ApiController]
-    public class GroupUsersPermissionsController : ControllerBase
+    public class GroupUsersPermissionsController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -73,7 +66,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponseWithData<DeleteGroupUsersPermissionsResponse>), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update([FromRoute] Guid UserId, [FromRoute] Guid GroupAccessId, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] Guid UserId, [FromRoute] Guid GroupAccessId, CancellationToken cancellationToken)
         {
             try
             {
@@ -91,8 +84,52 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
                 return Ok(new ApiResponseWithData<DeleteGroupUsersPermissionsResponse>
                 {
                     Success = true,
-                    Message = "Group useraccess updated successfully",
+                    Message = "Group useraccess delete successfully",
                     Data = _mapper.Map<DeleteGroupUsersPermissionsResponse>(response)
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        //[Authorize]
+        //[HttpPut("{UserId:guid}/{groupAccessId:guid}/{userIsActive:bool}/{permissionId:guid}/{permissionIsActive:bool}")]
+        [HttpPut("{UserId:guid}/{GroupAccessId:guid}/{UserIsActive:bool}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateGroupUsersPermissionsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateGroupUsersPermissionsResponse>), StatusCodes.Status401Unauthorized)]
+        //public async Task<IActionResult> Update(Guid UserId, Guid GroupAccessId, bool UserIsActive, [FromRoute]  Guid PermissionId, [FromRoute] bool PermissionIsActive, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update([FromRoute] Guid UserId, [FromRoute] Guid GroupAccessId, [FromRoute] bool UserIsActive, [FromBody] UpdateGroupUsersPermissionsRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                request.UserId = UserId;
+                request.GroupAccessId = GroupAccessId;
+                request.UserIsActive = UserIsActive;
+
+                var validator = new UpdateGroupUsersPermissionRequestValidator();
+                var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+
+                var command = _mapper.Map<UpdateGroupUsersPermissionCommand>(request);
+                var response = await _mediator.Send(command, cancellationToken);
+
+                return Ok(new ApiResponseWithData<UpdateGroupUsersPermissionsResponse>
+                {
+                    Success = true,
+                    Message = "Group useraccess updated successfully",
+                    Data = _mapper.Map<UpdateGroupUsersPermissionsResponse>(response)
                 });
             }
             catch (Exception ex)

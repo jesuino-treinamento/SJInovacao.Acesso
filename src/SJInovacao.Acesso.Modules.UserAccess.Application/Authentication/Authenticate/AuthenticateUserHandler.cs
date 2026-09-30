@@ -41,10 +41,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Authentication.Authen
 
            // var _perm = permissions?.UserPermissions.Select(p => p.Permission.Name).ToList() ?? new List<string>();
 
-            List<string> permissionNames = permissions?.UserGroups?.Select(p => p.Group.Name).ToList() ?? new List<string?>();
+            List<string> permissionNames = permissions?.UserGroups?.Where(p => p.IsActive == true).Select(p => p.Group.Name).ToList() ?? new List<string?>();
+
+            //List<string> permissionNames2 = permissions?.UsersGroupsPermissions?.Where(p => p.Permission.IsActive == true).Select(p => p.Group.Name).ToList() ?? new List<string?>();
 
             // 1. Permissões via entidade UserPermission
-            var directPermissions = permissions?.UserPermissions.Select(p => p.Permission.Name).ToList() ?? new List<string>();
+            var directPermissions = permissions?.UserPermissions.Where(p => p.IsActive == true).Select(p => p.Permission.Name).ToList() ?? new List<string>();
 
 
             // 2. Permissões dos grupos
@@ -53,9 +55,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Authentication.Authen
 
             if (permissions?.UserGroups != null)
             {
-                foreach (var group in permissions.UserGroups)
+                foreach (var group in permissions.UserGroups.Where(p => p.IsActive == true))
                 {
-                    var groupPerms = group.Group.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
+                    //var groupPerms = group.Group.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
+                    var groupPerms = group.Group.UsersGroupsPermissions?.Where(x => x.IsActive == true).Select(p => p.Permission.Name).ToList() ?? new List<string>();
                     groupInfos.Add(new UserGroupInfo
                     {
                         GroupName = group.Group.Name,

@@ -156,9 +156,26 @@ public class Program
                     }
                 };
 
+                // 🔑 API Key
+                var apiKeySecurityScheme = new OpenApiSecurityScheme
+                {
+                    Description = "Digite sua API Key",
+                    Name = "X-API-KEY", // nome do header
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "ApiKey"
+                    }
+                };
+
+                c.AddSecurityDefinition("ApiKey", apiKeySecurityScheme);
+
                 c.AddSecurityDefinition("Bearer", securityScheme);
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
+                    { apiKeySecurityScheme, Array.Empty<string>() },
                     { securityScheme, Array.Empty<string>() }
                 });
             });

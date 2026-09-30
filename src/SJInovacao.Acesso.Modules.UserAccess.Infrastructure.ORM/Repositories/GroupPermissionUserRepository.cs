@@ -7,7 +7,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
     public class GroupPermissionUserRepository : IGroupPermissionUserRepository
     {
-        private readonly DefaultContext _context; // substitua pelo seu DbContext
+        private readonly DefaultContext _context; 
 
         public GroupPermissionUserRepository(DefaultContext context)
         {
@@ -83,16 +83,26 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        public async Task DeleteUserGroupAsync(Guid userId, Guid groupId)
+        public async Task DeleteUserGroupAsync(Guid userId, Guid groupId, CancellationToken ct)
         {
-            var userGroup = await _context.Set<UserGroup>()
-                .FirstOrDefaultAsync(ug => ug.UserId == userId && ug.GroupId == groupId);
+            // remove vínculo usuário ↔ grupo ↔ permissão
+            var userGroupPermissions = _context.UsersGroupsPermissions
+                .Where(ugp => ugp.UserId == userId && ugp.GroupId == groupId);
 
-            if (userGroup != null)
-            {
-                _context.Set<UserGroup>().Remove(userGroup);
-                await _context.SaveChangesAsync();
-            }
+            _context.UsersGroupsPermissions.RemoveRange(userGroupPermissions);
+            await _context.SaveChangesAsync(ct);
         }
+
+        //public async Task DeleteUserGroupAsync(Guid userId, Guid groupId)
+        //{
+        //    var userGroup = await _context.Set<UserGroup>()
+        //        .FirstOrDefaultAsync(ug => ug.UserId == userId && ug.GroupId == groupId);
+
+        //    if (userGroup != null)
+        //    {
+        //        _context.Set<UserGroup>().Remove(userGroup);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
     }
 }

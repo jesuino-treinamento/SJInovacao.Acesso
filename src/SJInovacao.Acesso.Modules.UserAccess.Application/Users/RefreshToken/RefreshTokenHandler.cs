@@ -29,7 +29,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
 
             var permissions = await _userRepository.GetGroupToUserAsync(user.Id, cancellationToken);
 
-            List<string> permissionNames = permissions?.UserGroups.Select(p => p.Group.Name).ToList() ?? new List<string>();
+            List<string> permissionNames = permissions?.UserGroups?.Where(p => p.IsActive == true).Select(p => p.Group.Name).ToList() ?? new List<string>();
 
             // 1. Permissões via entidade UserPermission
             var directPermissions = user.UserPermissions?
@@ -44,9 +44,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
 
             if (permissions?.UserGroups != null)
             {
-                foreach (var group in user.UserGroups)
+                foreach (var group in user.UserGroups.Where(p => p.IsActive == true))
                 {
-                    var groupPerms = group.Group.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
+                    //var groupPerms = group.Group.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
+                    var groupPerms = group.Group.UsersGroupsPermissions?.Where(x => x.IsActive == true).Select(p => p.Permission.Name).ToList() ?? new List<string>();
                     groupInfos.Add(new UserGroupInfo
                     {
                         GroupName = group.Group.Name,

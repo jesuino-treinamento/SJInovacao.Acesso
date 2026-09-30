@@ -37,13 +37,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetA
             {
                 Id = g.Id,
                 Name = g.Name,
-                Permissions = g.Permissions
-                    .Where(p => p.IsActive) // só permissões ativas
+                Permissions = g.GroupsPermissions
+                    //.Where(p => p.IsActive) // só permissões ativas
                     .Select(p => new PermissionDto
                     {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
+                        Id = p.Permission.Id,
+                        Name = p.Permission.Name,
+                        Description = p.Permission.Description,
                         IsActive = p.IsActive,
                         CreatedAt = p.CreatedAt,
                         UpdatedAt = p.UpdatedAt
