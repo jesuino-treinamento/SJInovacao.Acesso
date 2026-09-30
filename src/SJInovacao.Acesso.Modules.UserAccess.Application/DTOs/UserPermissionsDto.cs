@@ -3,9 +3,8 @@
     public class UserPermissionsDto
     {
         public Guid Id { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public List<PermissionDto> Permissions { get; set; }
-        
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public List<PermissionDto> Permissions { get; set; } = new ();        
     }
 }

@@ -138,23 +138,44 @@ namespace SJInovacao.Acesso.Database.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     RefreshTokenExpiry = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    RefreshToken = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    GroupPermissionId = table.Column<Guid>(type: "uuid", nullable: true)
+                    RefreshToken = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_GroupPermissions_GroupPermissionId",
-                        column: x => x.GroupPermissionId,
-                        principalTable: "GroupPermissions",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_Persons_Id",
                         column: x => x.Id,
                         principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupsPermissions",
+                columns: table => new
+                {
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupsPermissions", x => new { x.GroupId, x.PermissionId });
+                    table.ForeignKey(
+                        name: "FK_GroupsPermissions_GroupPermissions_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "GroupPermissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GroupsPermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,39 +246,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GroupsPermissions",
-                columns: table => new
-                {
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupsPermissions", x => new { x.GroupId, x.PermissionId });
-                    table.ForeignKey(
-                        name: "FK_GroupsPermissions_GroupPermissions_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "GroupPermissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_GroupsPermissions_Permissions_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "Permissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_GroupsPermissions_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1142,11 +1130,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupsPermissions_UserId",
-                table: "GroupsPermissions",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Inventories_ProductId",
                 table: "Inventories",
                 column: "ProductId");
@@ -1293,11 +1276,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_GroupPermissionId",
-                table: "Users",
-                column: "GroupPermissionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UsersGroupsPermissions_GroupId",
                 table: "UsersGroupsPermissions",
                 column: "GroupId");
@@ -1434,6 +1412,9 @@ namespace SJInovacao.Acesso.Database.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
+                name: "GroupPermissions");
+
+            migrationBuilder.DropTable(
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
@@ -1456,9 +1437,6 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Catalogs");
-
-            migrationBuilder.DropTable(
-                name: "GroupPermissions");
         }
     }
 }

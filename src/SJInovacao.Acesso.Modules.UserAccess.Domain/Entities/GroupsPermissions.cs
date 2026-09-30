@@ -4,9 +4,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
     public class GroupsPermissions
     {
-        //public Guid UserId { get; set; }
-        //public User User { get; set; }
-
         public Guid GroupId { get; set; }
         public GroupPermission Group { get; set; } = new();
 

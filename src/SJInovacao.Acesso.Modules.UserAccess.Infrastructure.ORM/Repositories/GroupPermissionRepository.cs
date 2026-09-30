@@ -202,11 +202,23 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         }
 
         public async Task<GroupPermission?> GetByIdAsync(Guid id, CancellationToken ct)
-            => await _context.GroupPermissions
-            .Include(p => p.GroupsPermissions)
-                .ThenInclude(gp => gp.Permission)
-            .Where(p => p.Id == id)
-            .FirstOrDefaultAsync(ct);
+        {
+            var groupPermission = await _context.GroupPermissions
+                .Include(p => p.UserGroups)
+                    .ThenInclude(ug => ug.User)
+                .Include(p => p.Permissions)
+                    .ThenInclude(p => p.GroupsPermissions)
+                .Include(p => p.GroupsPermissions)
+                    .ThenInclude(gp => gp.Permission)
+                .FirstOrDefaultAsync(p => p.Id == id, ct);
+            
+            return groupPermission;
+        }
+            //=> await _context.GroupPermissions
+            //.Include(p => p.GroupsPermissions)
+            //    .ThenInclude(gp => gp.Permission)
+            //.Where(p => p.Id == id)
+            //.FirstOrDefaultAsync(ct);
 
         public async Task<List<GroupPermission>> GetAllAsync(CancellationToken ct)
             => await _context.GroupPermissions.ToListAsync(ct);

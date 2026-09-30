@@ -4,8 +4,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
     public class UserGroup
     {
-        public Guid UserId { get; set; }        // tipo da chave de User
-        public Guid GroupId { get; set; }       // tipo da chave de Group
+        public Guid UserId { get; set; }     
+        public Guid GroupId { get; set; }      
         public bool IsActive { get; set; } = true;
         public DateTime AssignedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
@@ -14,7 +14,5 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public User User { get; set; } = null!;
 
         public GroupPermission Group { get; set; } = null!;
-        //public GroupsPermissions GroupsPermissions { get; set; } = null!;
-
     }
 }

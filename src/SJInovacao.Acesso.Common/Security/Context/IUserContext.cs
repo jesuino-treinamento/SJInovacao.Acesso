@@ -6,5 +6,6 @@
         string? UserName { get; }
         string? UserRole { get; }
         IReadOnlyList<string> Permissions { get; }
+        IReadOnlyList<string> Groups { get; }
     }
 }

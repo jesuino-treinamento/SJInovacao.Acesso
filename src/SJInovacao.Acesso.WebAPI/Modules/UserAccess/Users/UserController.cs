@@ -1,19 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SJInovacao.Acesso.Common.Security.Authentication;
-using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
 using SJInovacao.Acesso.Common.Validation;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users.DeleteUser;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Users.GetUser;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Users.ListUser;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.WebAPI.Common;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.CreateUser;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.DeleteUser;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.GetUser;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.UpdateUser;
 
@@ -158,7 +152,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users
 
                 var result = _mapper.Map<UserResponse>(response);
                 return Ok(result, "Usuário recuperado com sucesso");
-                //return Ok(ApiResponseWithData<UserResponse>.SuccessResponse(result, "Usuário recuperado com sucesso"));
             }
             catch (Exception ex)
             {
@@ -176,7 +169,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users
         [ProducesResponseType(typeof(ApiResponseWithData<UserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UserRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UserRequest request, CancellationToken cancellationToken)
         {
             try
             {

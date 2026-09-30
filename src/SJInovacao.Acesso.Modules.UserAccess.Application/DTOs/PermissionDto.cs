@@ -1,6 +1,4 @@
-﻿using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
-
-namespace SJInovacao.Acesso.Modules.UserAccess.Application.DTOs
+﻿namespace SJInovacao.Acesso.Modules.UserAccess.Application.DTOs
 {
     public class PermissionDto
     {

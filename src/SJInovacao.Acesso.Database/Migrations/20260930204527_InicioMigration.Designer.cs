@@ -12,7 +12,7 @@ using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
 namespace SJInovacao.Acesso.Database.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20260927155418_InicioMigration")]
+    [Migration("20260930204527_InicioMigration")]
     partial class InicioMigration
     {
         /// <inheritdoc />
@@ -620,14 +620,9 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("GroupId", "PermissionId");
 
                     b.HasIndex("PermissionId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("GroupsPermissions", (string)null);
                 });
@@ -1344,9 +1339,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<Guid?>("GroupPermissionId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -1374,8 +1366,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.HasIndex("GroupPermissionId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -1653,10 +1643,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", null)
-                        .WithMany("GroupsPermissions")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Group");
 
@@ -2050,10 +2036,6 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", b =>
                 {
-                    b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.GroupPermission", null)
-                        .WithMany("Users")
-                        .HasForeignKey("GroupPermissionId");
-
                     b.HasOne("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Person", null)
                         .WithOne()
                         .HasForeignKey("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.User", "Id")
@@ -2137,8 +2119,6 @@ namespace SJInovacao.Acesso.Database.Migrations
 
                     b.Navigation("UserGroups");
 
-                    b.Navigation("Users");
-
                     b.Navigation("UsersGroupsPermissions");
                 });
 
@@ -2206,8 +2186,6 @@ namespace SJInovacao.Acesso.Database.Migrations
                     b.Navigation("Customers");
 
                     b.Navigation("Employees");
-
-                    b.Navigation("GroupsPermissions");
 
                     b.Navigation("Suppliers");
 

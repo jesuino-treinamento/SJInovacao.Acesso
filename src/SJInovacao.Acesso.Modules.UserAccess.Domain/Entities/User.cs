@@ -7,7 +7,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
     public class User : Person, IUser
     {
         public string Username { get; set; } = string.Empty;
-        public string Email { get; set; } = null!;                  // E-mail da pessoa
+        public string Email { get; set; } = null!;                  
         public string Password { get; set; } = string.Empty;
         public UserRole Role { get; set; }
         public StatusTypes Status { get; set; }
@@ -19,12 +19,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public ICollection<Customer> Customers { get; set; } = null!;
         public ICollection<Employee> Employees { get; set; } = null!;
         public ICollection<Supplier> Suppliers { get; set; } = null!;
-
-        // Relacionamento com permissões diretas
-        //public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
-
-        // Relacionamento com grupos
-        //public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
 
         // Implementação da interface
         IEnumerable<string> IUser.Permissions =>
@@ -44,7 +38,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 
         public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
-        public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
+        //public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
         public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
 
         public User() { }
@@ -60,25 +54,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
             this.Name = name;
             Status = StatusTypes.Active;
             CreatedAt = DateTime.UtcNow;
-        }
-
-        // Método para adicionar permissão direta ao usuário
-        public void AddPermission(UserPermission userPermission)
-        {
-            if (!UserPermissions.Any(up => up.PermissionId == userPermission.PermissionId))
-            {
-                UserPermissions.Add(userPermission);
-            }
-        }
-
-        // Método para adicionar grupo ao usuário
-        public void AddGroup(UserGroup userGroup)
-        {
-            if (!UserGroups.Any(ug => ug.GroupId == userGroup.GroupId))
-            {
-                UserGroups.Add(userGroup);
-            }
-        }
+        }        
 
         public void Deactivate()
         {

@@ -10,7 +10,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.CreateGro
         {
             CreateMap<CreateGroupAccessCommand, GroupPermission>()
              .ForMember(dest => dest.Permissions, opt => opt.Ignore())
-             .ForMember(dest => dest.Users, opt => opt.Ignore())
+             //.ForMember(dest => dest.Users, opt => opt.Ignore())
              .ForMember(dest => dest.UserGroups, opt => opt.Ignore());
 
             CreateMap<GroupPermission, CreateGroupAccessResult>()

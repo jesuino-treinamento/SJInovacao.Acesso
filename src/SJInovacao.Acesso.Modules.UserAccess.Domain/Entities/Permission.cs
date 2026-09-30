@@ -21,28 +21,18 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        // Usuários com permissão direta
-        //public ICollection<User> Users { get; set; } = new List<User>();
-
         public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
 
         // Grupos que possuem esta permissão
-        //public ICollection<GroupPermission> Groups { get; set; } = new List<GroupPermission>();
-
         public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
         public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
 
-        //public User User { get; set; }
-
-        public void Deactivate()
+       public void Deactivate()
         {
             if (!IsActive) return;
             IsActive = false;
         }
 
-        /// <summary>
-        /// Ativa o endereço (marca como ativo)
-        /// </summary>
         public void Activate()
         {
             if (IsActive) return;

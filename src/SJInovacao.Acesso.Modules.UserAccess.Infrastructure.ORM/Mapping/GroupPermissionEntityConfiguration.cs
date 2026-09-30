@@ -23,7 +23,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
 
             builder.Property(u => u.IsActive).IsRequired();
 
-            builder.HasMany(g => g.UserGroups)
+            builder.HasMany(g => g.GroupsPermissions)
                .WithOne(ug => ug.Group)
                .HasForeignKey(ug => ug.GroupId);
         }
