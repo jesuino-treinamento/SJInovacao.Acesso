@@ -1,7 +1,9 @@
-﻿using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
@@ -20,42 +22,76 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 .FirstOrDefaultAsync(g => g.GroupId == id, cancellationToken);
         }
 
+        public IQueryable<UserGroup> Query()
+        {
+            return _context.Set<UserGroup>()
+                .Include(g => g.Group.UsersGroupsPermissions)
+                    .ThenInclude(ugp => ugp.Permission)
+                .AsNoTracking(); // leitura, sem rastrear
+        }
+
+        public async Task<PaginatedList<UserGroup>> GetAllPaginatedAsync(int page, int size, string orderBy, CancellationToken cancellationToken)
+        {
+            var query = _context.UserGroup.Include(p => p.Group.UsersGroupsPermissions)
+                .ThenInclude(ugp => ugp.Permission).AsQueryable();
+            var totalCount = await query.CountAsync(cancellationToken);
+            var items = await query.Skip((page - 1) * size).Take(size).ToListAsync(cancellationToken);
+            return new PaginatedList<UserGroup>(items, totalCount, page, size);
+        }
+
+        //// Métodos auxiliares para ordenação dinâmica
+        //// Usando System.Linq.Expressions
+        //public IQueryable<T> OrderByDynamic<T>(this IQueryable<T> source, string propertyName)
+        //{
+        //    var parameter = Expression.Parameter(typeof(T), "x");
+        //    var property = Expression.Property(parameter, propertyName);
+        //    var lambda = Expression.Lambda(property, parameter);
+        //    var method = typeof(Queryable).GetMethods()
+        //        .First(m => m.Name == "OrderBy" && m.GetParameters().Length == 2)
+        //        .MakeGenericMethod(typeof(T), property.Type);
+        //    return (IQueryable<T>)method.Invoke(null, new object[] { source, lambda })!;
+        //}
+
+        //public IQueryable<T> OrderByDescendingDynamic<T>(this IQueryable<T> source, string propertyName)
+        //{
+        //    var parameter = Expression.Parameter(typeof(T), "x");
+        //    var property = Expression.Property(parameter, propertyName);
+        //    var lambda = Expression.Lambda(property, parameter);
+        //    var method = typeof(Queryable).GetMethods()
+        //        .First(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2)
+        //        .MakeGenericMethod(typeof(T), property.Type);
+        //    return (IQueryable<T>)method.Invoke(null, new object[] { source, lambda })!;
+        //}
+
+        //public IOrderedQueryable<T> ThenByDynamic<T>(this IOrderedQueryable<T> source, string propertyName)
+        //{
+        //    var parameter = Expression.Parameter(typeof(T), "x");
+        //    var property = Expression.Property(parameter, propertyName);
+        //    var lambda = Expression.Lambda(property, parameter);
+        //    var method = typeof(Queryable).GetMethods()
+        //        .First(m => m.Name == "ThenBy" && m.GetParameters().Length == 2)
+        //        .MakeGenericMethod(typeof(T), property.Type);
+        //    return (IOrderedQueryable<T>)method.Invoke(null, new object[] { source, lambda })!;
+        //}
+
+        //public IOrderedQueryable<T> ThenByDescendingDynamic<T>(this IOrderedQueryable<T> source, string propertyName)
+        //{
+        //    var parameter = Expression.Parameter(typeof(T), "x");
+        //    var property = Expression.Property(parameter, propertyName);
+        //    var lambda = Expression.Lambda(property, parameter);
+        //    var method = typeof(Queryable).GetMethods()
+        //        .First(m => m.Name == "ThenByDescending" && m.GetParameters().Length == 2)
+        //        .MakeGenericMethod(typeof(T), property.Type);
+        //    return (IOrderedQueryable<T>)method.Invoke(null, new object[] { source, lambda })!;
+        //}
+
         public async Task<List<UserGroup>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _context.Set<UserGroup>()
-                .AsNoTracking()
+                .Include(g => g.Group.UsersGroupsPermissions)
+                    .ThenInclude(ugp => ugp.Permission)
+                //.AsNoTracking()
                 .ToListAsync(cancellationToken);
-        }
-
-        //public async Task<UserGroup> CreateAsync(GroupPermission groupUser, CancellationToken cancellationToken)
-        //{
-        //    var exists = await _context.GroupPermissions
-        //    .AnyAsync(u => u.Name == groupUser.Name, cancellationToken);
-
-        //    if (exists)
-        //        throw new DomainException("A groupUser with the same name already exists");
-
-
-        //    await _context.Set<UserGroup>().AddAsync(groupUser, cancellationToken);
-        //    await _context.SaveChangesAsync(cancellationToken);
-        //    return groupUser;
-        //}
-
-        public async Task UpdateAsync(UserGroup groupUser, CancellationToken cancellationToken = default)
-        {
-            _context.Set<UserGroup>().Update(groupUser);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var entity = await GetByIdAsync(id, cancellationToken);
-            if (entity == null)
-                return false;
-
-            _context.Set<UserGroup>().Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
         }
 
         public async Task DeleteAsync(Guid groupId, Guid permissionId, CancellationToken ct)
@@ -69,40 +105,5 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 await _context.SaveChangesAsync(ct);
             }
         }
-
-        public async Task DeactivateAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default)
-        {
-            var userGroup = await _context.Set<UserGroup>()
-                .FirstOrDefaultAsync(g => g.GroupId == groupId && g.UserId == userId, cancellationToken);
-            if (userGroup != null)
-            {
-                _context.Entry(userGroup).CurrentValues.SetValues(userGroup);
-                userGroup.IsActive = false;
-                userGroup.UpdatedAt = DateTime.UtcNow;
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-
-        public async Task DeleteUserGroupAsync(Guid userId, Guid groupId, CancellationToken ct)
-        {
-            // remove vínculo usuário ↔ grupo ↔ permissão
-            var userGroupPermissions = _context.UsersGroupsPermissions
-                .Where(ugp => ugp.UserId == userId && ugp.GroupId == groupId);
-
-            _context.UsersGroupsPermissions.RemoveRange(userGroupPermissions);
-            await _context.SaveChangesAsync(ct);
-        }
-
-        //public async Task DeleteUserGroupAsync(Guid userId, Guid groupId)
-        //{
-        //    var userGroup = await _context.Set<UserGroup>()
-        //        .FirstOrDefaultAsync(ug => ug.UserId == userId && ug.GroupId == groupId);
-
-        //    if (userGroup != null)
-        //    {
-        //        _context.Set<UserGroup>().Remove(userGroup);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
     }
 }

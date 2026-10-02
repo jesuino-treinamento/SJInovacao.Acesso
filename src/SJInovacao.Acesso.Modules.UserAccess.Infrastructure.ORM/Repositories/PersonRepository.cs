@@ -2,7 +2,6 @@
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {

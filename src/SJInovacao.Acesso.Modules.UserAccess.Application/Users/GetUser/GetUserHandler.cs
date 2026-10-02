@@ -26,11 +26,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.GetUser
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+            var user = await _userRepository.GetByIdUserAddressesPhonesAsync(request.Id, cancellationToken);
             if (user == null)
                 throw new KeyNotFoundException($"Usuário com ID {request.Id} não encontrado");
-
-            //user.Password = "";//_passwordHasher.HashPassword(user.Password);
 
             var _user = _mapper.Map<UserResult>(user);
 

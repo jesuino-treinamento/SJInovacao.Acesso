@@ -96,7 +96,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
             try
             {
-                // 1️⃣ Verifica se o grupo e a permissão existem no banco
                 var groupExists = await _context.GroupPermissions
                     .AsNoTracking()
                     .AnyAsync(g => g.Id == entity.GroupId, ct);
@@ -112,9 +111,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
                 entity.Group = null;
                 entity.Permission = null;
-                // 2️⃣ Marca as entidades como não modificadas (sem recriar)
-                //_context.Entry(entity.Group).State = EntityState.Unchanged;
-                //_context.Entry(entity.Permission).State = EntityState.Unchanged;
 
                 // 3️⃣ Adiciona o vínculo
                 await _context.GroupsPermissions.AddAsync(entity, ct);

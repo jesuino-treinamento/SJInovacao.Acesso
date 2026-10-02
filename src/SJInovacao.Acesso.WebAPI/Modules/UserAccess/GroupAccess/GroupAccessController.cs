@@ -66,67 +66,10 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
                 });
             }
         }
-
-        //[HttpPost("{groupId:guid}/{permissionId:guid}")]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> CreateGroupPermissionAccess(Guid groupId, Guid permissionId, CancellationToken ct)
-        //{
-        //    //if (request == null) return BadRequest();
-        //    try
-        //    {
-        //        var command = new CreaterPermissionGroupCommand
-        //        {
-        //            GroupId = groupId,
-        //            PermissionId = permissionId
-        //        };
-
-        //        var result = await _mediator.Send(command, ct);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ApiResponse
-        //        {
-        //            Success = false,
-        //            Message = ex.Message
-        //        });
-        //    }
-
-        //}
-
-        //// PUT: api/groupAccess/groupPermissions/{groupId}/{permissionId}/status
-        //[HttpPut("{groupId:guid}/{permissionId:guid}/{status:bool}")]
-        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        ////public async Task<IActionResult> UpdateStatus(Guid userId, Guid permissionId, [FromBody] UpdateUserPermissionStatusResult request, CancellationToken ct)
-        //public async Task<IActionResult> UpdateStatus(Guid groupId, Guid permissionId, bool status, CancellationToken ct)
-        //{
-        //    //if (request == null) return BadRequest();
-        //    try
-        //    {
-        //        var command = new UpdateGroupPermissionStatusCommand
-        //        {
-        //            GroupId = groupId,
-        //            PermissionId = permissionId,
-        //            IsActive = status
-        //        };
-
-        //        var result = await _mediator.Send(command, ct);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ApiResponse
-        //        {
-        //            Success = false,
-        //            Message = ex.Message
-        //        });
-        //    }
-
-        //}
+        
 
         [HttpPut("{groupId:guid}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> UpdateStatus(Guid userId, Guid permissionId, [FromBody] UpdateUserPermissionStatusResult request, CancellationToken ct)
         public async Task<IActionResult> UpdateGroupStatus(Guid groupId, [FromBody] UpdateGroupAccessRequest request, CancellationToken ct)
         {
             //if (request == null) return BadRequest();

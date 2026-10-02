@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Common.Security;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.ValueObjects;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
 {
@@ -19,137 +15,22 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly DefaultContext _context;
         private readonly ILogger<UpdateUserHandler> _logger;
 
         public UpdateUserHandler(IUserRepository userRepository,
-            IAddressRepository addressRepository,
-            IMapper mapper,
-            IPasswordHasher passwordHasher,DefaultContext defaultContext, ILogger<UpdateUserHandler> logger)
+            IAddressRepository addressRepository, IMapper mapper,
+            IPasswordHasher passwordHasher, ILogger<UpdateUserHandler> logger)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
-            _context = defaultContext;
             _logger = logger;
         }
 
-        //    public async Task<UserResult> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
-        //    {
-        //        var validator = new UpdateUserCommandValidator();
-        //        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-        //        if (!validationResult.IsValid)
-        //            throw new ValidationException(validationResult.Errors);
-
-        //        var existingUser = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
-
-        //        if (existingUser == null)
-        //        {
-        //            throw new DomainException($"User with ID {command.Id} not found for update");
-        //        }
-
-        //        if ((existingUser.Email != command.Email) || (existingUser.Username != command.Username))
-        //        {
-        //            var isEmailOrUsernameToken = await _userRepository.ExistsWithEmailOrUsernameAsync(
-        //               command.Email,
-        //               command.Username,
-        //               cancellationToken);
-
-        //            if (isEmailOrUsernameToken)
-        //            {
-        //                throw new DomainException($"Email {command.Email} or username {command.Username} already in use by another user");
-        //            }
-        //        }
-
-        //        existingUser.Username = command.Username;
-        //        existingUser.Email = command.Email;
-        //        existingUser.Role = command.Role;
-        //        existingUser.Status = command.Status;
-
-        //        if (!string.IsNullOrEmpty(command.Password))
-        //        {
-        //            existingUser.Password = _passwordHasher.HashPassword(command.Password);
-        //        }
-
-        //        existingUser.UpdateName(command.Name.FirstName, command.Name.LastName);
-        //        existingUser.ClearPhones();
-        //        // Atualiza os telefones
-        //        foreach (var phoneDto in command.Phones)
-        //        {                
-        //            var userPhone = new Phone(phoneDto.Number, phoneDto.Type, existingUser);
-        //            existingUser.AddPhone(userPhone);
-        //        }
-
-        //        existingUser.ClearAddresses();
-        //        // Atualiza os endereços
-        //        foreach (var addressDto in command.Addresses)
-        //        {
-        //            var geolocation = new Geolocation(addressDto.Geolocation.Lat, addressDto.Geolocation.Long);
-
-        //            var userAddress = new Address(
-        //                addressDto.Street,
-        //                addressDto.Number,
-        //                addressDto.Neighborhood,
-        //                addressDto.City,
-        //                addressDto.State,
-        //                addressDto.ZipCode,
-        //                addressDto.Id,
-        //                geolocation
-        //            );
-
-        //            existingUser.AddAddress(userAddress);
-        //        }
-
-        //        var updatedUser = await _userRepository.UpdateAsync(existingUser, cancellationToken);
-        //        return _mapper.Map<UserResult>(updatedUser);
-        //    }
-
-        //}
-
         public async Task<UserResult> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
-
             try
-            {
-                _logger.LogInformation("Iniciando atualização do usuário {UserId}", command.Id);
-
-                // Atualiza UsersGroupsPermissions
-                var entities = await _context.UsersGroupsPermissions
-                    .Where(ugp => ugp.UserId == command.Id)
-                    .ToListAsync(cancellationToken);
-
-                foreach (var entity in entities)
-                {
-                    entity.IsActive = command.Status == StatusTypes.Active;
-                    entity.UpdatedAt = DateTime.UtcNow;
-                }
-
-                _logger.LogInformation("Atualizando UserPermissions para usuário {UserId}", command.Id);
-
-                // Atualiza UserPermissions
-                var usersPermissions = await _context.UserPermissions
-                    .Where(up => up.UserId == command.Id)
-                    .ToListAsync(cancellationToken);
-
-                foreach (var userPermission in usersPermissions)
-                {
-                    userPermission.IsActive = command.Status == StatusTypes.Active;
-                    userPermission.UpdatedAt = DateTime.UtcNow;
-                }
-
-                // Atualiza UserGroup
-                var usersGroups = await _context.UserGroup
-                    .Where(up => up.UserId == command.Id)
-                    .ToListAsync(cancellationToken);
-
-                foreach (var usersGroup in usersGroups)
-                {
-                    usersGroup.IsActive = command.Status == StatusTypes.Active;
-                    usersGroup.UpdatedAt = DateTime.UtcNow;
-                }
-
+            {           
                 // Validação
                 var validator = new UpdateUserCommandValidator();
                 var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -161,7 +42,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
                     throw new ValidationException(validationResult.Errors);
                 }
 
-                var existingUser = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
+                var existingUser = await _userRepository.GetByIdUserAddressesPhonesAsync(command.Id, cancellationToken);
                 if (existingUser == null)
                 {
                     _logger.LogError("Usuário {UserId} não encontrado", command.Id);
@@ -217,37 +98,27 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
                         addressDto.Id,
                         geolocation
                     ));
-                }
+            }
 
-                var updatedUser = _context.Users.Update(existingUser);// _userRepository.UpdateAsync(existingUser, cancellationToken);
-
-                await _context.SaveChangesAsync(cancellationToken);
-
-                await transaction.CommitAsync(cancellationToken);
-
-                _logger.LogInformation("Usuário {UserId} atualizado com sucesso", command.Id);
-
-                return _mapper.Map<UserResult>(updatedUser.Entity);
+                var updatedUser = await _userRepository.UpdateUserGroupsPermissions(existingUser, cancellationToken);
+                return _mapper.Map<UserResult>(updatedUser);
+            
             }
             catch (ValidationException ex)
             {
                 _logger.LogWarning(ex, "Erro de validação ao atualizar usuário {UserId}", command.Id);
-                await transaction.RollbackAsync(cancellationToken);
                 throw;
             }
             catch (DomainException ex)
             {
                 _logger.LogError(ex, "Erro de domínio ao atualizar usuário {UserId}", command.Id);
-                await transaction.RollbackAsync(cancellationToken);
                 throw;
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, "Erro inesperado ao atualizar usuário {UserId}", command.Id);
-                await transaction.RollbackAsync(cancellationToken);
                 throw;
             }
         }
     }
-
 }

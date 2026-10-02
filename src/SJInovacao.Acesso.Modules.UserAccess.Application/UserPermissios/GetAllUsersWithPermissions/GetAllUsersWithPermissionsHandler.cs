@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 
@@ -34,9 +32,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.GetAl
             if (query.MaxResults.HasValue)
                 users = users.Take(query.MaxResults.Value);
 
-            //var teste = _mapper.Map<UserPermissionsDto>(users.perm);
-
-            // Monta DTO
             var result = users.Select(u => new UserPermissionsDto
             {
                 Id = u.Id,

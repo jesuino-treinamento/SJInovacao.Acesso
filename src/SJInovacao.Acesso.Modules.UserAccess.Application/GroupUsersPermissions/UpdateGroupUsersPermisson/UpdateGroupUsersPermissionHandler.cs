@@ -47,6 +47,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
             //var allPermissions = existingGroup.Select(g => g.Permission).ToList();            
 
             var permissionsAtualizadas = await _userRepository.UpdateGroupPermissionAsync(request.UserId, request.GroupAccessId, request.UserIsActive, request.PermissionIds, request.PermissionIsActive, cancellationToken);
+            
             var permissionResults = _mapper.Map<List<PermissionDto>>(permissionsAtualizadas ?? new List<Permission>());
             
             var result = new GroupUsersPermissionDto

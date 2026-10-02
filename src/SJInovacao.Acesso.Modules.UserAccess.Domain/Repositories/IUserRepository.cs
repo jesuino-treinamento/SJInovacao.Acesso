@@ -1,5 +1,6 @@
 ﻿using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
@@ -7,6 +8,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
     public interface IUserRepository
     {
         Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<User?> GetByIdUserAddressesPhonesAsync(Guid id, CancellationToken cancellationToken);
         Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
         Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default);
         Task<bool> ExistsWithEmailOrUsernameAsync(string email, string username, CancellationToken cancellationToken = default);
@@ -20,7 +22,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
 
         Task<User?> GetGroupToUserAsync(Guid userId, CancellationToken cancellationToken);
         Task<User> RemoveGroupFromUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken = default);
+
         Task<List<Permission>> UpdateGroupPermissionAsync(Guid userId, Guid groupId, bool userIsActive, List<Guid>? permissionIds, bool? permissionIsActive, CancellationToken cancellationToken = default);
+        
+        
         Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken);
         Task<bool> GetGroupNameAsync(string name, CancellationToken cancellationToken);
 
@@ -37,5 +42,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
         Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiry, CancellationToken cancellationToken);
         Task RevokeRefreshTokenAsync(Guid userId, CancellationToken cancellationToken);
         Task UpdateAllUsersPermissionStatusAsync(Guid id, bool isActive, CancellationToken cancellationToken);
+
+        //Importante
+        Task<User> UpdateUserGroupsPermissions(User user, CancellationToken cancellationToken);
     }
 }

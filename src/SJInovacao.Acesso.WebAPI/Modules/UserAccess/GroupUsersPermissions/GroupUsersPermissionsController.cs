@@ -2,9 +2,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.CreateGroupUsersPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.DeleteGroupUsersPermission;
+using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.GetAllUserGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.UpdateGroupUsersPermission;
+using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
+using SJInovacao.Acesso.Modules.UserAccess.Application.Users.ListUser;
 using SJInovacao.Acesso.WebAPI.Common;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.CreateGroupUsersPermissions;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.DeleteGroupUsersPermissions;
@@ -139,6 +143,52 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
                     Success = false,
                     Message = ex.Message
                 });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll(CancellationToken ct)
+        {
+            try
+            {
+                var query = new GetAllUserGroupsWithPermissionsQuery();
+                var result = await _mediator.Send(query, ct);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        // [Authorize]
+        [HttpGet("paginated")]
+        public async Task<ActionResult<PaginatedResponse<GroupUsersPermissionResult>>> GetAllGroupUsersPermission(
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10,
+        [FromQuery] string order = "username asc, groupname desc",
+        CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var queryUGP = new GetAllUGWithPermissionsPaginatedQuery
+                {
+                    Page = page,
+                    Size = size,
+                    Order = order
+                };
+
+                var result = await _mediator.Send(queryUGP, cancellationToken);
+
+                return OkPaginated(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse { Success = false, Message = ex.Message });
             }
         }
     }

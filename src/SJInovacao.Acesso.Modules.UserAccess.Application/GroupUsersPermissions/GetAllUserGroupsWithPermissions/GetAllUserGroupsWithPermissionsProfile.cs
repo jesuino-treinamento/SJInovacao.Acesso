@@ -3,11 +3,11 @@ using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using System.Text.RegularExpressions;
 
-namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePermission
+namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.GetAllUserGroupsWithPermissions
 {
-    public class UpdatePermissionProfile : Profile
+    public class GetAllUserGroupsWithPermissionsProfile : Profile
     {
-        public UpdatePermissionProfile()
+        public GetAllUserGroupsWithPermissionsProfile()
         {
             // Permission ↔ PermissionDto
             CreateMap<Permission, PermissionDto>().ReverseMap();
@@ -18,8 +18,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
             // User ↔ UserDto
             CreateMap<User, UserPermissionsDto>().ReverseMap();
 
+            // User ↔ UserDto
+            CreateMap<UserGroup, UserGroupDTO>().ReverseMap();
+
             // UsersGroupsPermissions ↔ GroupUsersPermissionDto
-            CreateMap<UsersGroupsPermissions, GroupUsersPermissionDto>()
+            CreateMap<UsersGroupsPermissions, GroupUsersPermissionResult>()
                 .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.UserIsActive, opt => opt.MapFrom(src => src.User.Status))
@@ -32,12 +35,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     Description = src.Permission.Description,
                     IsActive = src.Permission.IsActive                    
                 }))
-
-                //.ForMember(dest => dest.PermissionIds, opt => opt.MapFrom(src => src.PermissionId))
                 .ReverseMap();
 
             // Command ↔ Entidade (se necessário)
-            CreateMap<UpdatePermissionCommand, Permission>();
+            //CreateMap<GetAllUserGroupsWithPermissionsCommand, Permission>();
 
         }
     }
