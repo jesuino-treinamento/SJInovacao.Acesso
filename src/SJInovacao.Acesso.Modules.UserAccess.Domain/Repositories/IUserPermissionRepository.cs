@@ -2,30 +2,49 @@
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
 {
+    /// <summary>
+    /// Interface para gerenciar relacionamentos entre usuários e permissões.
+    /// </summary>
     public interface IUserPermissionRepository
     {
-        // Criar vínculo entre usuário e permissão
+        /// <summary>
+        /// Criar vínculo entre usuário e permissão
+        /// </summary>
         Task AddAsync(Guid userId, Guid permissionId, CancellationToken ct);
 
-        // Alterar status da permissão de um usuário
+        /// <summary>
+        /// Alterar status da permissão de um usuário
+        /// </summary>
         Task UpdateStatusAsync(Guid userId, Guid permissionId, bool status, CancellationToken ct);
 
-        // Remover vínculo (ou marcar como inativo, dependendo da regra de negócio)
+        /// <summary>
+        /// Remover vínculo entre usuário e permissão
+        /// </summary>
         Task RemoveAsync(Guid userId, Guid permissionId, CancellationToken ct);
 
-        // Listar todas as permissões de um usuário
+        /// <summary>
+        /// Listar todas as permissões de um usuário específico
+        /// </summary>
         Task<IEnumerable<Permission>> GetByUserIdAsync(Guid userId, CancellationToken ct);
 
-        // Listar todos os usuários que possuem uma permissão específica
+        /// <summary>
+        /// Listar todos os usuários que possuem uma permissão específica
+        /// </summary>
         Task<IEnumerable<User>> GetByPermissionIdAsync(Guid permissionId, CancellationToken ct);
 
-        // Listar todos os usuários com suas permissões
+        /// <summary>
+        /// Listar todos os usuários com suas permissões carregadas
+        /// </summary>
         Task<IEnumerable<User>> GetAllWithPermissionsAsync(CancellationToken ct);
 
-        // Consultar um usuário específico com suas permissões
+        /// <summary>
+        /// Consultar um usuário específico com suas permissões
+        /// </summary>
         Task<User?> GetUserWithPermissionsAsync(Guid userId, CancellationToken ct);
 
+        /// <summary>
+        /// Verificar se um usuário possui uma permissão específica
+        /// </summary>
         Task<bool> GetExistUserWithUsersPermissionsAsync(Guid userId, Guid permissionId, CancellationToken ct);
     }
-
 }

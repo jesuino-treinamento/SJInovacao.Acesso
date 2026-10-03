@@ -14,7 +14,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Common.DependencyInje
             services.AddScoped<IAuthorizationRequirement, PermissionRequirement>();                                                                             //services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
             services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
             services.AddScoped<IAuthorizationRequirement, GroupRequirement>();
-            //PermissionPolicyProvider : IAuthorizationPolicyProvider
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

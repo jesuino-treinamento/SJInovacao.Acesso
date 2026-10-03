@@ -16,9 +16,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         string IUser.Id => Id.ToString();
         string IUser.Username => Username;
         string IUser.Role => Role.ToString();
-        public ICollection<Customer> Customers { get; set; } = null!;
-        public ICollection<Employee> Employees { get; set; } = null!;
-        public ICollection<Supplier> Suppliers { get; set; } = null!;
 
         // Implementação da interface
         IEnumerable<string> IUser.Permissions =>

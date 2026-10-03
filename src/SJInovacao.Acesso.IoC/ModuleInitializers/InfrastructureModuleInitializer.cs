@@ -23,27 +23,15 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddScoped<IPhoneRepository, PhoneRepository>();
             builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
             builder.Services.AddScoped<IGroupPermissionRepository, GroupPermissionRepository>();
-            builder.Services.AddScoped<IGroupsPermissionsRepository, GroupsPermissionsRepository>();//IGroupPermissionUserRepository
-
+            builder.Services.AddScoped<IGroupsPermissionsRepository, GroupsPermissionsRepository>();
             builder.Services.AddScoped<IGroupPermissionUserRepository, GroupPermissionUserRepository>();
-
             builder.Services.AddScoped<IUsersGroupsPermissionsRepository, UsersGroupsPermissionsRepository>();
-
             builder.Services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
-
-            builder.Services.AddScoped<IUserAccessModule, UserAccessModule>();
-
+            builder.Services.AddScoped<IUserAccessModule, UserAccessModule>();//HybridPolicyProvider
             builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            //builder.Services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
             builder.Services.AddScoped<IAuthorizationHandler, GroupAuthorizationHandler>();
 
-            //builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            //builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            //builder.Services.AddScoped<ISaleRepository, SaleRepository>();
-            //builder.Services.AddScoped<ISaleItemRepository, SaleItemRepository>();
-            //builder.Services.AddScoped<IBranchRepository, BranchRepository>();
-
-            //builder.Services.AddScoped<IDiscountService, DiscountService>();
+            
         }
 
         public Task InitializeAsync(WebApplicationBuilder builder)

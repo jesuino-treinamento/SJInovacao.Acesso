@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@ using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
 using SJInovacao.Acesso.Common.Security.Context;
 using SJInovacao.Acesso.Common.Validation;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+using FluentValidation;
 
 namespace SJInovacao.Acesso.IoC.ModuleInitializers
 {
@@ -19,11 +19,9 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
     {
         public void Initialize(WebApplicationBuilder builder)
         {
-            // Registrando serviços necessários antecipadamente para permitir uso do DbContext
+            // ===== SECURITY & CONTEXT =====
             builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             builder.Services.AddSingleton<IAuthorizationPolicyProvider, HybridPolicyProvider>();
-            //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-            //builder.Services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
             builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             builder.Services.AddScoped<IAuthorizationHandler, GroupAuthorizationHandler>();
             builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -31,48 +29,163 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
 
             builder.Services.AddAuthorization();
 
+            // ===== DATABASE =====
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM")
+                    b => b.MigrationsAssembly("SJInovacao.Acesso.Database")
                 )
             );
 
+            // ===== AUTOMAPPER =====
             builder.Services.AddAutoMapper(typeof(ApplicationModuleInitializer).Assembly);
 
-            // Registrar validators do FluentValidation a partir dos assemblies carregados
-            // Substitui AddValidatorsFromAssemblies (pode faltar referência/namespace) por registro manual:
-            // 1. Carregar assemblies relevantes.
-            // 2. Enumerar tipos não abstratos.
-            // 3. Encontrar interfaces que implementam IValidator<T>.
-            // 4. Registrar cada par (IValidator<T>, Implementation) como transient no DI.
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
-                .ToArray();
+            // ===== MEDIATR HANDLERS =====
+            RegisterMediatRHandlers(builder.Services);
 
-            var validatorMappings = assemblies
-                .SelectMany(a =>
-                {
-                    try { return a.GetTypes(); } catch { return Array.Empty<Type>(); }
-                })
-                .Where(t => !t.IsAbstract && !t.IsInterface)
-                .SelectMany(t => t.GetInterfaces(), (t, i) => new { Implementation = t, Service = i })
-                .Where(x => x.Service.IsGenericType && x.Service.GetGenericTypeDefinition() == typeof(IValidator<>))
-                .ToList();
+            // ===== VALIDATORS =====
+            RegisterValidators(builder.Services);
 
-            foreach (var mapping in validatorMappings)
-            {
-                builder.Services.AddTransient(mapping.Service, mapping.Implementation);
-            }
-
-            // Registrar o pipeline de validação (aplica validação antes dos handlers do MediatR)
+            // ===== MEDIATR PIPELINE BEHAVIORS =====
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 
         public Task InitializeAsync(WebApplicationBuilder builder)
         {
-            // Não chamar Initialize de novo para evitar registros duplicados
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Registra handlers MediatR do assembly de Application
+        /// </summary>
+        private static void RegisterMediatRHandlers(IServiceCollection services)
+        {
+            try
+            {
+                // Obter assembly de Application que contém os handlers
+                var applicationAssembly = typeof(SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions.GetAllGroupsWithPermissionsQuery).Assembly;
+
+                // Usar MediatR para registrar automaticamente todos os handlers deste assembly
+                services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
+
+                System.Diagnostics.Debug.WriteLine($"✅ MediatR handlers registrados do assembly: {applicationAssembly.GetName().Name}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"⚠️ Erro ao registrar MediatR handlers: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Registra validators FluentValidation com filtro rigoroso
+        /// </summary>
+        private static void RegisterValidators(IServiceCollection services)
+        {
+            try
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location) && 
+                               (a.GetName().Name?.Contains("SJInovacao") ?? false))
+                    .ToArray();
+
+                var validatorMappings = new List<ValidatorMapping>();
+
+                foreach (var assembly in assemblies)
+                {
+                    try
+                    {
+                        var types = assembly.GetTypes();
+                        
+                        foreach (var type in types)
+                        {
+                            // ✅ FILTRO RIGOROSO - APENAS tipos que herdam de AbstractValidator<T>
+                            if (IsConcreteValidator(type))
+                            {
+                                var interfaces = type.GetInterfaces()
+                                    .Where(i => i.IsGenericType && 
+                                               i.GetGenericTypeDefinition() == typeof(IValidator<>))
+                                    .ToList();
+
+                                foreach (var iface in interfaces)
+                                {
+                                    validatorMappings.Add(new ValidatorMapping(iface, type));
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"⚠️ Erro ao escanear assembly {assembly.GetName().Name}: {ex.Message}");
+                    }
+                }
+
+                // Remover duplicatas
+                var distinct = validatorMappings.DistinctBy(x => x.InterfaceType.FullName).ToList();
+
+                // Registrar
+                foreach (var mapping in distinct)
+                {
+                    services.AddTransient(mapping.InterfaceType, mapping.ImplementationType);
+                }
+
+                System.Diagnostics.Debug.WriteLine($"✅ {distinct.Count} validators registrados");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"⚠️ Erro geral ao registrar validators: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Verifica se um tipo é um validator concreto (herda de AbstractValidator{T})
+        /// Exclui tipos internos do FluentValidation
+        /// </summary>
+        private static bool IsConcreteValidator(Type type)
+        {
+            try
+            {
+                // ❌ Excluir tipos internos do FluentValidation
+                if (type.Namespace?.StartsWith("FluentValidation") ?? false)
+                    return false;
+
+                // ❌ Excluir tipos abstratos e interfaces
+                if (type.IsAbstract || type.IsInterface)
+                    return false;
+
+                // ❌ Excluir tipos genéricos abertos (Type<>)
+                if (type.IsGenericTypeDefinition)
+                    return false;
+
+                // ✅ Verificar se herda de AbstractValidator<T>
+                var baseType = type.BaseType;
+                while (baseType != null)
+                {
+                    if (baseType.IsGenericType &&
+                        baseType.GetGenericTypeDefinition() == typeof(AbstractValidator<>))
+                    {
+                        return true;
+                    }
+                    baseType = baseType.BaseType;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private class ValidatorMapping
+        {
+            public Type InterfaceType { get; }
+            public Type ImplementationType { get; }
+
+            public ValidatorMapping(Type interfaceType, Type implementationType)
+            {
+                InterfaceType = interfaceType;
+                ImplementationType = implementationType;
+            }
         }
     }
 }
