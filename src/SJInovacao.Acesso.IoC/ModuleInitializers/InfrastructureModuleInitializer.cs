@@ -30,8 +30,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddScoped<IUserAccessModule, UserAccessModule>();//HybridPolicyProvider
             builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             builder.Services.AddScoped<IAuthorizationHandler, GroupAuthorizationHandler>();
-
-            
         }
 
         public Task InitializeAsync(WebApplicationBuilder builder)

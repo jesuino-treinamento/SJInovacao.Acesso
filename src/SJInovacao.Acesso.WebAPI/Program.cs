@@ -1,15 +1,15 @@
-using SJInovacao.Acesso.IoC;
-using Serilog;
-using Serilog.Context;
-using SJInovacao.Acesso.WebAPI.Middleware;
-using SJInovacao.Acesso.Common.Logging;
-using SJInovacao.Acesso.Common.HealthChecks;
-using SJInovacao.Acesso.Common.Middleware;
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.OpenApi.Models;
 using Polly;
+using Serilog;
+using Serilog.Context;
+using SJInovacao.Acesso.Common.HealthChecks;
+using SJInovacao.Acesso.Common.Logging;
+using SJInovacao.Acesso.Common.Middleware;
+using SJInovacao.Acesso.IoC;
+using SJInovacao.Acesso.WebAPI.Middleware;
+using System.Text;
 
 public class Program
 {
@@ -17,25 +17,25 @@ public class Program
     {
         try
         {
-            Log.Information("Starting SJInovacao.Acesso WebAPI - {DateTime}", DateTime.UtcNow);
+            Log.Information("Starting web application");
 
             var builder = WebApplication.CreateBuilder(args);
 
             // ===== LOGGING COM CORRELATION ID =====
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.Console(
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .WriteTo.File(
-                    path: Path.Combine(AppContext.BaseDirectory, "logs", "app-.txt"),
-                    rollingInterval: RollingInterval.Day,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] [{CorrelationId}] {Message:lj}{NewLine}{Exception}",
-                    retainedFileCountLimit: 30)
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("Application", "SJInovacao.Acesso.WebAPI")
-                .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //    .MinimumLevel.Information()
+            //    .WriteTo.Console(
+            //        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+            //    .WriteTo.File(
+            //        path: Path.Combine(AppContext.BaseDirectory, "logs", "app-.txt"),
+            //        rollingInterval: RollingInterval.Day,
+            //        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] [{CorrelationId}] {Message:lj}{NewLine}{Exception}",
+            //        retainedFileCountLimit: 30)
+            //    .Enrich.FromLogContext()
+            //    .Enrich.WithProperty("Application", "SJInovacao.Acesso.WebAPI")
+            //    .CreateLogger();
 
-            builder.Host.UseSerilog();
+            //builder.Host.UseSerilog();
 
             // ===== VALIDATION CONFIG =====
             var jwtSecret = builder.Configuration["Jwt:SecretKey"];
@@ -49,10 +49,7 @@ public class Program
 
             Log.Information("✅ Configurações validadas com sucesso");
 
-            // ===== CREATE LOGS FOLDER =====
-            var logsPath = Path.Combine(AppContext.BaseDirectory, "logs");
-            if (!Directory.Exists(logsPath))
-                Directory.CreateDirectory(logsPath);
+            
 
             // ===== SERVICES =====
             builder.Services.AddEndpointsApiExplorer();
@@ -67,7 +64,10 @@ public class Program
             });
 
             // ===== HEALTH CHECKS =====
+            builder.AddDefaultLogging();
             builder.AddBasicHealthChecks();
+
+            
 
             // ===== SWAGGER/OPENAPI =====
             builder.Services.AddSwaggerGen(c =>
@@ -134,6 +134,8 @@ public class Program
                     };
                 });
 
+            //builder.MediatRModule();
+
             builder.Services.AddAuthorization();
 
             // ===== AUTOMAPPER =====
@@ -161,6 +163,11 @@ public class Program
             // ===== BUILD APP =====
             var app = builder.Build();
 
+            // ===== CREATE LOGS FOLDER =====
+            var logsPath = Path.Combine(AppContext.BaseDirectory, "logs");
+            if (!Directory.Exists(logsPath))
+                Directory.CreateDirectory(logsPath);
+
             // ===== MIDDLEWARE =====
             app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseMiddleware<ValidationExceptionMiddleware>();
@@ -186,11 +193,12 @@ public class Program
             app.UseAuthorization();
 
             app.UseBasicHealthChecks();
+            app.UseAdvancedHealthChecks();
 
             app.MapControllers();
 
             Log.Information("🚀 WebAPI iniciada com sucesso");
-            await app.RunAsync();
+            app.Run();
         }
         catch (Exception ex)
         {

@@ -27,6 +27,11 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IUserContext, UserContext>();
 
+            ////builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();//PermissionRequirement : IAuthorizationRequirement
+            //builder.Services.AddScoped<IAuthorizationRequirement, PermissionRequirement>();                                                                             //services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
+            ////builder.Services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
+            //builder.Services.AddScoped<IAuthorizationRequirement, GroupRequirement>();
+
             builder.Services.AddAuthorization();
 
             // ===== DATABASE =====

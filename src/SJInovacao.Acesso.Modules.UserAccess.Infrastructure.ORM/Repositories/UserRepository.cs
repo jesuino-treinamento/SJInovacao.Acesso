@@ -6,58 +6,75 @@ using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
-
+    
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        private readonly DefaultContext _context;
-        private readonly ILogger<UserRepository> _logger;
-
         public UserRepository(DefaultContext context, ILogger<UserRepository> logger)
+        : base(context, logger)
         {
-            _context = context;
-            _logger = logger;
         }
 
-        public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => await _context.Users.FindAsync(new object[] { id }, cancellationToken);
-
+        public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            return await ExecuteWithLoggingAsync(
+                "GetById",
+                async () =>
+                {
+                    return await Context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.Id == id, ct);
+                });
+        }
         public async Task<User?> GetByIdUserAddressesPhonesAsync(Guid id, CancellationToken cancellationToken)
-            => await _context.Users
-            .Include(u => u.Addresses)
-            .Include(u => u.Phones)
-            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+        {
+            return await ExecuteWithLoggingAsync(
+            "GetByIdUserAddressesPhones",
+            async () =>
+            {
+                return await Context.Users
+                .Include(u => u.Addresses)
+                .Include(u => u.Phones)
+                .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+            
+            });
+        }
 
         public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync(cancellationToken);
-            return user;
+            return await ExecuteWithLoggingAsync(
+            "Create",
+            async () =>
+            {
+                Context.Users.Add(user);
+                await Context.SaveChangesAsync(cancellationToken);
+                return user;
+            });
         }
 
         public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync(cancellationToken);
+            Context.Users.Update(user);
+            await Context.SaveChangesAsync(cancellationToken);
             return user;
         }
 
         public async Task<bool> ExistsWithEmailOrUsernameAsync(string email, string username, CancellationToken cancellationToken = default)
-            => await _context.Users.AnyAsync(u => u.Email == email || u.Username == username, cancellationToken);
+            => await Context.Users.AnyAsync(u => u.Email == email || u.Username == username, cancellationToken);
 
         public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
-            => await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+            => await Context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
         public async Task<User?> GetByNameAsync(string name, CancellationToken cancellationToken)
-            => await _context.Users.FirstOrDefaultAsync(u => u.Username == name, cancellationToken);
+            => await Context.Users.FirstOrDefaultAsync(u => u.Username == name, cancellationToken);
 
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var user = await GetByIdAsync(id, cancellationToken);
             if (user == null) return false;
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync(cancellationToken);
+            Context.Users.Remove(user);
+            await Context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
@@ -66,13 +83,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             var user = await GetByIdAsync(id, cancellationToken);
             if (user == null) return false;
             user.Deactivate();
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
             return true;
         }
 
         public async Task<(IEnumerable<User> Users, int totalCount)> GetAllAsync(int page, int size, string orderBy)
         {
-            var query = _context.Users.AsQueryable();
+            var query = Context.Users.AsQueryable();
             var totalCount = await query.CountAsync();
             var users = await query.Skip((page - 1) * size).Take(size).ToListAsync();
             return (users, totalCount);
@@ -80,16 +97,21 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         //Paginação de todos os usuários 
         public async Task<PaginatedList<User>> GetAllPaginatedAsync(int page, int size, string orderBy)
         {
-            var query = _context.Users.AsQueryable();
-            var totalCount = await query.CountAsync();
-            var items = await query.Skip((page - 1) * size).Take(size).ToListAsync();
-            return new PaginatedList<User>(items, totalCount, page, size);
+            return await ExecuteWithLoggingAsync(
+            "GetAllPaginated",
+            async () =>
+            {
+                var query = Context.Users.AsQueryable();
+                var totalCount = await query.CountAsync();
+                var items = await query.Skip((page - 1) * size).Take(size).ToListAsync();
+                return new PaginatedList<User>(items, totalCount, page, size);
+            });
         }
 
-        public IQueryable<User> Query() => _context.Users.AsQueryable();
+        public IQueryable<User> Query() => Context.Users.AsQueryable();
 
         public async Task<User?> GetGroupToUserAsync(Guid userId, CancellationToken cancellationToken)
-            => await _context.Users  
+            => await Context.Users  
             .Include(u => u.UserPermissions)
                 .ThenInclude(g => g.Permission)
             .Include(u => u.UserGroups)
@@ -106,10 +128,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 var group = user.UserGroups.FirstOrDefault(g =>g.UserId == userId && g.GroupId == groupId);
 
             if (user.UsersGroupsPermissions.Any())
-                _context.UsersGroupsPermissions.RemoveRange(user.UsersGroupsPermissions.Where(ugp => ugp.GroupId == groupId));
+                Context.UsersGroupsPermissions.RemoveRange(user.UsersGroupsPermissions.Where(ugp => ugp.GroupId == groupId));
 
             if (group != null) user.UserGroups.Remove(group);
-                await _context.SaveChangesAsync(cancellationToken);
+                await Context.SaveChangesAsync(cancellationToken);
             return user;
         }
 
@@ -143,7 +165,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     updatedPermissions.Add(ugp.Permission);
                 }
 
-                _context.UsersGroupsPermissions.UpdateRange(group.User.UsersGroupsPermissions);
+                Context.UsersGroupsPermissions.UpdateRange(group.User.UsersGroupsPermissions);
             }
             else
             {
@@ -155,10 +177,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     updatedPermissions.Add(ugp.Permission);
                 }
 
-                _context.UsersGroupsPermissions.UpdateRange(group.User.UsersGroupsPermissions);
+                Context.UsersGroupsPermissions.UpdateRange(group.User.UsersGroupsPermissions);
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
 
             // Retorna lista de permissões atualizadas
             return updatedPermissions;
@@ -169,36 +191,36 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             try
             {
                 // 1️⃣ Carregar apenas o usuário e vínculos já existentes (sem rastrear tudo)
-                var user = await _context.Users
+                var user = await Context.Users
                     .Include(u => u.UserGroups)
                     .Include(u => u.UsersGroupsPermissions)
                     .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
                 if (user == null)
                 {
-                    _logger.LogWarning("Usuário não encontrado. UserId={UserId}", userId);
+                    Logger.LogWarning("Usuário não encontrado. UserId={UserId}", userId);
                     throw new InvalidOperationException("Usuário não encontrado.");
                 }
 
                 // 2️⃣ Carregar apenas permissões ativas do grupo (projeção direta)
-                var activePermissions = await _context.GroupsPermissions
+                var activePermissions = await Context.GroupsPermissions
                     .Where(gp => gp.GroupId == groupId && gp.IsActive)
                     .Select(gp => gp.PermissionId)
                     .ToListAsync(cancellationToken);
 
                 if (!activePermissions.Any())
                 {
-                    _logger.LogWarning("Grupo não encontrado ou sem permissões ativas. GroupId={GroupId}", groupId);
+                    Logger.LogWarning("Grupo não encontrado ou sem permissões ativas. GroupId={GroupId}", groupId);
                     throw new InvalidOperationException("Grupo não encontrado ou sem permissões ativas.");
                 }
 
                 // 3️⃣ Criar vínculo User ↔ Group se não existir
-                var alreadyInGroup = await _context.UserGroup
+                var alreadyInGroup = await Context.UserGroup
                     .AnyAsync(ug => ug.UserId == userId && ug.GroupId == groupId, cancellationToken);
 
                 if (!alreadyInGroup)
                 {
-                    await _context.UserGroup.AddAsync(new UserGroup
+                    await Context.UserGroup.AddAsync(new UserGroup
                     {
                         UserId = userId,
                         GroupId = groupId,
@@ -206,16 +228,16 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         AssignedAt = DateTime.UtcNow
                     }, cancellationToken);
 
-                    _logger.LogInformation("Vínculo UserGroup criado: UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                    Logger.LogInformation("Vínculo UserGroup criado: UserId={UserId}, GroupId={GroupId}", userId, groupId);
                 }
                 else
                 {
-                    _logger.LogInformation("Já existe vínculo UserGroup criado: UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                    Logger.LogInformation("Já existe vínculo UserGroup criado: UserId={UserId}, GroupId={GroupId}", userId, groupId);
                     throw new InvalidOperationException("Já existe vínculo do usuário com o grupo.");
                 }
 
                 // 4️⃣ Criar vínculos User ↔ Group ↔ Permissions em lote
-                var existingPermissions = await _context.UsersGroupsPermissions
+                var existingPermissions = await Context.UsersGroupsPermissions
                     .Where(ugp => ugp.UserId == userId && ugp.GroupId == groupId)
                     .Select(ugp => ugp.PermissionId)
                     .ToListAsync(cancellationToken);
@@ -234,17 +256,17 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
                 if (newLinks.Any())
                 {
-                    await _context.UsersGroupsPermissions.AddRangeAsync(newLinks, cancellationToken);
-                    _logger.LogInformation("Criados {Count} vínculos UsersGroupsPermissions para UserId={UserId}, GroupId={GroupId}",
+                    await Context.UsersGroupsPermissions.AddRangeAsync(newLinks, cancellationToken);
+                    Logger.LogInformation("Criados {Count} vínculos UsersGroupsPermissions para UserId={UserId}, GroupId={GroupId}",
                         newLinks.Count, userId, groupId);
                 }
 
                 // 5️⃣ Salvar alterações
-                await _context.SaveChangesAsync(cancellationToken);
-                _logger.LogInformation("Alterações salvas com sucesso para UserId={UserId}", userId);
+                await Context.SaveChangesAsync(cancellationToken);
+                Logger.LogInformation("Alterações salvas com sucesso para UserId={UserId}", userId);
 
                 // Retornar usuário atualizado já com grupos e permissões
-                return await _context.Users
+                return await Context.Users
                     .Include(u => u.UserGroups)
                         .ThenInclude(ug => ug.Group)
                     .Include(u => u.UsersGroupsPermissions)
@@ -253,12 +275,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, "Erro ao salvar alterações no banco. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                Logger.LogError(ex, "Erro ao salvar alterações no banco. UserId={UserId}, GroupId={GroupId}", userId, groupId);
                 throw new InvalidOperationException($"Erro ao salvar alterações: {ex.InnerException?.Message ?? ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro inesperado ao adicionar grupo ao usuário. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                Logger.LogError(ex, "Erro inesperado ao adicionar grupo ao usuário. UserId={UserId}, GroupId={GroupId}", userId, groupId);
                 throw;
             }
         }
@@ -267,14 +289,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         // Atualiza o status de todas as permissões do usuário com base no status do usuário
         public async Task<User> UpdateUserGroupsPermissions(User user, CancellationToken cancellationToken)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+            using var transaction = await Context.Database.BeginTransactionAsync(cancellationToken);
 
             try
             {
-                _logger.LogInformation("Iniciando atualização do usuário {UserId}", user.Id);
-
+                Logger.LogInformation("Iniciando atualização do usuário {UserId}", user.Id);
                 // Atualiza UsersGroupsPermissions
-                var entities = await _context.UsersGroupsPermissions
+                var entities = await Context.UsersGroupsPermissions
                     .Where(ugp => ugp.UserId == user.Id)
                     .ToListAsync(cancellationToken);
 
@@ -284,10 +305,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     entity.UpdatedAt = DateTime.UtcNow;
                 }
 
-                _logger.LogInformation("Atualizando UserPermissions para usuário {UserId}", user.Id);
+                Logger.LogInformation("Atualizando UserPermissions para usuário {UserId}", user.Id);
 
                 // Atualiza UserPermissions
-                var usersPermissions = await _context.UserPermissions
+                var usersPermissions = await Context.UserPermissions
                     .Where(up => up.UserId == user.Id)
                     .ToListAsync(cancellationToken);
 
@@ -298,7 +319,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 }
 
                 // Atualiza UserGroup
-                var usersGroups = await _context.UserGroup
+                var usersGroups = await Context.UserGroup
                     .Where(up => up.UserId == user.Id)
                     .ToListAsync(cancellationToken);
 
@@ -308,36 +329,35 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     usersGroup.UpdatedAt = DateTime.UtcNow;
                 }                
 
-                var updatedUser = _context.Users.Update(user);
+                var updatedUser = Context.Users.Update(user);
 
-                await _context.SaveChangesAsync(cancellationToken);
+                await Context.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
 
-                _logger.LogInformation("Usuário {UserId} atualizado com sucesso", user.Id);
-
+                Logger.LogInformation("Usuário {UserId} atualizado com sucesso", user.Id);
                 return updatedUser.Entity;
             }
             catch (DomainException ex)
             {
-                _logger.LogError(ex, "Erro de domínio ao atualizar usuário {UserId}", user.Id);
+                Logger.LogError(ex, "Erro de domínio ao atualizar usuário {UserId}", user.Id);
                 await transaction.RollbackAsync(cancellationToken);
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Erro inesperado ao atualizar usuário {UserId}", user.Id);
+                Logger.LogCritical(ex, "Erro inesperado ao atualizar usuário {UserId}", user.Id);
                 await transaction.RollbackAsync(cancellationToken);
                 throw;
             }
         }
 
         public async Task<bool> GetGroupNameAsync(string name, CancellationToken cancellationToken)
-            => await _context.GroupPermissions.AnyAsync(g => g.Name == name, cancellationToken);
+            => await Context.GroupPermissions.AnyAsync(g => g.Name == name, cancellationToken);
 
         public async Task<(List<User> users, int totalCount)> GetAllPagedAsync(int pageNumber, int pageSize, string sortBy, bool sortDescending, string searchTerm, CancellationToken cancellationToken)
         {
-            var query = _context.Users.AsQueryable();
+            var query = Context.Users.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchTerm))
                 query = query.Where(u => u.Username.Contains(searchTerm) || u.Email.Contains(searchTerm));
@@ -353,13 +373,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         }
 
         public async Task<User?> GetByEmailWithPermissionsAndGroupsAsync(string email, CancellationToken cancellationToken)
-            => await _context.Users
+            => await Context.Users
                 .Include(u => u.UserPermissions)
                 .Include(u => u.UserGroups)
                 .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
         public async Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
-            => await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken, cancellationToken);
+            => await Context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken, cancellationToken);
 
         public async Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiry, CancellationToken cancellationToken)
         {
@@ -367,7 +387,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             if (user == null) throw new InvalidOperationException("Usuário não encontrado.");
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiry = expiry;
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task RevokeRefreshTokenAsync(Guid userId, CancellationToken cancellationToken)
@@ -376,12 +396,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             if (user == null) throw new InvalidOperationException("Usuário não encontrado.");
             user.RefreshToken = null;
             user.RefreshTokenExpiry = null;
-            await _context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateAllUsersPermissionStatusAsync(Guid id, bool isActive, CancellationToken cancellationToken)
         {
-            var usersPermissions = await _context.UsersGroupsPermissions.Where(up => up.PermissionId == id).ToListAsync(cancellationToken);
+            var usersPermissions = await Context.UsersGroupsPermissions.Where(up => up.PermissionId == id).ToListAsync(cancellationToken);
             foreach (var userPermission in usersPermissions)
             {
                 userPermission.IsActive = isActive;
