@@ -130,6 +130,9 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -155,6 +158,7 @@ public class Program
             // =============================
             builder.AddDefaultLogging();
             builder.AddBasicHealthChecks();
+           
 
             //sb.AppendLine("namespace SJInovacao.Acesso.Common.Security.Authentication");
 
@@ -282,6 +286,7 @@ public class Program
             // 🌐 MIDDLEWARES
             // =============================
             app.UseMiddleware<ValidationExceptionMiddleware>();
+            app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseMiddleware<UserContextMiddleware>();
 
             if (app.Environment.IsDevelopment())

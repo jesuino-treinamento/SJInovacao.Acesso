@@ -33,6 +33,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
             if (groupAccess == null)
                 throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
 
+            if (groupAccess.Name == command.Name)
+                throw new InvalidOperationException($"Grupo {command.Name} já existe!");
+
             // 1️⃣ Atualizar dados básicos
             groupAccess.Name = command.Name;
             groupAccess.Description = command.Description;
@@ -69,8 +72,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
                     .Where(g => !command.PermissionIds.Contains(gp.PermissionId))
                     .ToList();
 
-                //groupsPermissionsrepository.DeleteAsync(command.GroupId, gp.PermissionId, ct);
-
                 await _groupsPermissionsrepository.CreateAsync(gp, ct);
             }
 
@@ -89,6 +90,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
             {
                 GroupId = command.GroupId,
                 Name = command.Name,
+                Description = command.Description,
                 PermissionIds = command.PermissionIds,
                 IsActive = command.IsActive
             };

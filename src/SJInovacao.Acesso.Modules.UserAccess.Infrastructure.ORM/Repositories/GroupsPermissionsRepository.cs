@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using System.Text.RegularExpressions;
+using System.Threading;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
@@ -75,15 +78,19 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
     //    }
     //}
 
-    public class GroupsPermissionsRepository : IGroupsPermissionsRepository
+    public class GroupsPermissionsRepository : BaseRepository<GroupsPermissions>, IGroupsPermissionsRepository
     {
         private readonly DefaultContext _context;
+        private readonly ILogger<GroupsPermissionsRepository> _logger;
 
-        public GroupsPermissionsRepository(DefaultContext context)
+        public GroupsPermissionsRepository(DefaultContext context, ILogger<GroupsPermissionsRepository> logger)
+        : base(context, logger)
         {
-            _context = context;
+            _context = context; _logger = logger;
         }
 
+
+        //Analise está com icoerente ???
         public async Task<GroupsPermissions?> GetByIdAsync(Guid groupId, Guid permissionId, CancellationToken ct)
             => await _context.GroupsPermissions.FirstOrDefaultAsync(gp => gp.GroupId == groupId && gp.PermissionId == permissionId, ct);
 
@@ -157,7 +164,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             return true;
         }
 
-
         public async Task<IEnumerable<GroupsPermissions>> GetByGroupIdAsync(Guid groupId, CancellationToken ct)
             => await _context.GroupsPermissions.Where(gp => gp.GroupId == groupId).ToListAsync(ct);
 
@@ -166,13 +172,91 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
         public async Task UpdateStatusAsync(Guid groupId, Guid permissionId, bool isActive, CancellationToken ct)
         {
-            var entity = await GetByIdAsync(groupId, permissionId, ct);
-            if (entity != null)
-            {
-                entity.IsActive = isActive;
-                entity.UpdatedAt = DateTime.UtcNow;
-                await _context.SaveChangesAsync(ct);
-            }
+            await ExecuteWithLoggingAsync(
+                "UpdateStatus",
+                async () =>
+                {
+                    using var transaction = await _context.Database.BeginTransactionAsync(ct);
+                    try
+                    {
+                        var groupPermissions = await _context.GroupsPermissions
+                        .Where(gp => gp.GroupId == groupId && gp.PermissionId == permissionId)
+                        .ToListAsync(ct) ;
+
+                        if (!groupPermissions.Any())
+                        {
+                            _logger.LogError("Permissão {PermissionId} não encontrada para o grupo {GroupId}", permissionId, groupId);
+                            throw new KeyNotFoundException($"Permissão {permissionId} não encontrada para o grupo {groupId}");
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Atualizando de grupo para GroupId {GroupId} as {GroupPermissions}", groupId, groupPermissions.Count());
+
+                            await _context.GroupsPermissions
+                                .Where(gp => gp.GroupId == groupId && gp.PermissionId == permissionId)
+                                .ForEachAsync(gp =>
+                                {
+                                    gp.IsActive = isActive;
+                                    gp.UpdatedAt = DateTime.UtcNow;
+                                }, ct);
+                        }
+
+
+                            //// Remove UsersGroupsPermissions
+                            await _context.UsersGroupsPermissions
+                                .Where(ugp => ugp.GroupId == groupId && ugp.PermissionId == permissionId)
+                                .ForEachAsync(gp =>
+                                {
+                                    gp.IsActive = isActive;
+                                    gp.UpdatedAt = DateTime.UtcNow;
+                                }, ct);
+
+                            //_context.UsersGroupsPermissions.UpdateRange(groupPermissions);
+
+                            //_logger.LogInformation("Removendo {Count} permissões de usuários em grupo para GroupId {GroupId}", usersGroupsPermissions.Count, command.GroupId);
+                            //_context.RemoveRange(usersGroupsPermissions);
+
+                            ////// tualizar UserPermissions
+                            await _context.UserPermissions
+                                .Where(ugp => ugp.PermissionId == permissionId)
+                                .ForEachAsync(gp =>
+                                {
+                                    gp.IsActive = isActive;
+                                    gp.UpdatedAt = DateTime.UtcNow;
+                                }, ct);
+
+                            _logger.LogInformation("Atualizando vínculos de usuários com permissião {PermissionId}", permissionId);
+                            //_context.RemoveRange(userPermissions);
+
+                            // Remove o próprio GroupPermission
+                            //_context.Remove(groupAccess);
+
+                            await _context.SaveChangesAsync(ct);
+                            await transaction.CommitAsync(ct);
+
+                            _logger.LogInformation("Permissão {PermissionId} atualizada com sucesso do grupo {GroupId}", permissionId, groupId);
+
+                            //return new RemoveGroupPermissionResult
+                            //{
+                            //    GroupId = command.GroupId,
+                            //    PermissionId = command.PermissionId,
+                            //    IsActive = false,
+                            //    UpdatedAt = DateTime.UtcNow
+                            //};
+                        }
+                    catch (KeyNotFoundException ex)
+                    {
+                        _logger.LogWarning(ex, "Tentativa de atualizar permissão inexistente {PermissionId} do grupo {GroupId}", permissionId, groupId);
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogCritical(ex, "Erro inesperado ao atualizar permissão {PermissionId} do grupo {GroupId}", permissionId, groupId);
+                        await transaction.RollbackAsync(ct);
+                        throw;
+                    }
+                });
         }
 
         public async Task UpdateAllGroupsPermissionStatusAsync(Guid permissionId, bool isActive, CancellationToken cancellationToken)

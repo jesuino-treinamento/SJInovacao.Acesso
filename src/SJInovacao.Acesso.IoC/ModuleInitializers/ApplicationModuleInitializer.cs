@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
 using SJInovacao.Acesso.Common.Security.Context;
 using SJInovacao.Acesso.Common.Validation;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
-using FluentValidation;
+using System.Reflection;
 
 namespace SJInovacao.Acesso.IoC.ModuleInitializers
 {
@@ -27,11 +28,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IUserContext, UserContext>();
 
-            ////builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();//PermissionRequirement : IAuthorizationRequirement
-            //builder.Services.AddScoped<IAuthorizationRequirement, PermissionRequirement>();                                                                             //services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
-            ////builder.Services.AddSingleton<IAuthorizationPolicyProvider, GroupPolicyProvider>();
-            //builder.Services.AddScoped<IAuthorizationRequirement, GroupRequirement>();
-
             builder.Services.AddAuthorization();
 
             // ===== DATABASE =====
@@ -42,11 +38,18 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
                 )
             );
 
-            // ===== AUTOMAPPER =====
-            builder.Services.AddAutoMapper(typeof(ApplicationModuleInitializer).Assembly);
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
+                .ToArray());
+
+
 
             // ===== MEDIATR HANDLERS =====
             RegisterMediatRHandlers(builder.Services);
+
+            
+
 
             // ===== VALIDATORS =====
             RegisterValidators(builder.Services);
@@ -67,13 +70,17 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
         {
             try
             {
-                // Obter assembly de Application que contém os handlers
-                var applicationAssembly = typeof(SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions.GetAllGroupsWithPermissionsQuery).Assembly;
+                services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()
+               .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
+               .ToArray());
 
-                // Usar MediatR para registrar automaticamente todos os handlers deste assembly
-                services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
-
-                System.Diagnostics.Debug.WriteLine($"✅ MediatR handlers registrados do assembly: {applicationAssembly.GetName().Name}");
+                services.AddMediatR(cfg =>
+                {
+                    cfg.RegisterServicesFromAssemblies(
+                        AppDomain.CurrentDomain.GetAssemblies()
+                            .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
+                            .ToArray());
+                });
             }
             catch (Exception ex)
             {

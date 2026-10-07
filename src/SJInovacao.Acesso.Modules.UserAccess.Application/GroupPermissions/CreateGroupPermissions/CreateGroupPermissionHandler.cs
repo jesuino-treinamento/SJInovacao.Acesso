@@ -119,6 +119,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Crea
 
             try
             {
+                //var result  = await _userRepository..CreateAsync(group, cancellationToken);
+
+
                 _logger.LogInformation("Iniciando criação do grupo {GroupName}", request.Name);
 
                 if (await _userRepository.GetGroupNameAsync(request.Name, cancellationToken))

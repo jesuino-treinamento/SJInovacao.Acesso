@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
@@ -24,6 +25,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
         public async Task<Permission> CreateAsync(Permission permission, CancellationToken cancellationToken)
         {
+            var exist = await GetNameAsync(permission.Name, cancellationToken);
+            if (exist)
+                throw new DomainException("A permission with the same name already exists");
+
             _context.Permissions.Add(permission);
             await _context.SaveChangesAsync(cancellationToken);
             return permission;

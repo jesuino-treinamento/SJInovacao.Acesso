@@ -34,8 +34,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission
@@ -71,44 +73,48 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
                 if (groupAccess == null)
                 {
                     _logger.LogError("Permissão {PermissionId} não encontrada para o grupo {GroupId}", command.PermissionId, command.GroupId);
-                    throw new KeyNotFoundException($"GroupPermission with GroupId {command.GroupId} not found.");
+                    throw new KeyNotFoundException($"Permissão {command.PermissionId} não encontrada para o grupo {command.GroupId}");
                 }
 
-                // Remove GroupPermissions
                 var groupPermissions = await _context.GroupsPermissions
-                    .Where(gp => gp.GroupId == command.GroupId && gp.PermissionId == command.PermissionId)
-                    .ToListAsync(cancellationToken);
+                   .Where(gp => gp.GroupId == command.GroupId && gp.PermissionId == command.PermissionId)
+                   .ToListAsync(cancellationToken) ?? null;
 
-                _logger.LogInformation("Removendo de grupo para GroupId {GroupId}", command.GroupId);
-                _context.RemoveRange(groupPermissions);
+                if(groupPermissions.Count() == 0)
+                {
+                    _logger.LogError("Permissão {PermissionId} não encontrada para o grupo {GroupId}", command.PermissionId, command.GroupId);
+                    throw new KeyNotFoundException($"Permissão {command.PermissionId} não encontrada para o grupo {command.GroupId}");
+                }
+                else
+                {
+                    _logger.LogInformation("Removendo de grupo para GroupId {GroupId}", command.GroupId);
+                    _context.RemoveRange(groupPermissions);
+                }
+                
 
                 //// Remove UsersGroupsPermissions
-                //var usersGroupsPermissions = await _context.UsersGroupsPermissions
-                //    .Where(ugp => ugp.GroupId == command.GroupId)
-                //    .ToListAsync(cancellationToken);
+                var usersGroupsPermissions = await _context.UsersGroupsPermissions
+                    .Where(ugp => ugp.GroupId == command.GroupId && ugp.PermissionId == command.PermissionId)
+                    .ToListAsync(cancellationToken);
 
-                //_logger.LogInformation("Removendo {Count} permissões de usuários em grupo para GroupId {GroupId}", usersGroupsPermissions.Count, command.GroupId);
-                //_context.RemoveRange(usersGroupsPermissions);
+                _logger.LogInformation("Removendo {Count} permissões de usuários em grupo para GroupId {GroupId}", usersGroupsPermissions.Count, command.GroupId);
+                _context.RemoveRange(usersGroupsPermissions);
 
-                //// Remove UserGroup
-                //var userGroups = await _context.UserGroup
-                //    .Where(ugp => ugp.GroupId == command.GroupId)
-                //    .ToListAsync(cancellationToken);
+                //// Remove UserPermissions
+                var userPermissions = await _context.UserPermissions
+                    .Where(ugp => ugp.PermissionId == command.PermissionId)
+                    .ToListAsync(cancellationToken);
 
-                //_logger.LogInformation("Removendo {Count} vínculos de usuários ao grupo {GroupId}", userGroups.Count, command.GroupId);
-                //_context.RemoveRange(userGroups);
+                _logger.LogInformation("Removendo {Count} vínculos de usuários com permissião {PermissionId}", userPermissions.Count, command.PermissionId);
+                _context.RemoveRange(userPermissions);
 
                 // Remove o próprio GroupPermission
-                //_context.Remove(groupAccess);
-
-
+                _context.Remove(groupAccess);
 
                 await _context.SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
 
-                _logger.LogInformation("Permissão {PermissionId} removida com sucesso do grupo {GroupId}", command.PermissionId, command.GroupId);
-
-                //await _repository.RemoveAsync(command.GroupId, cancellationToken);
+                _logger.LogInformation("Permissão {PermissionId} removida com sucesso do grupo {GroupId}", command.PermissionId, command.GroupId);               
 
                 return new RemoveGroupPermissionResult
                 {

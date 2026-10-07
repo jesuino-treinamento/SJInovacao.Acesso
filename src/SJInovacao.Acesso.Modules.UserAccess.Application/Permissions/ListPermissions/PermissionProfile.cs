@@ -9,9 +9,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermi
     {
         public PermissionProfile()
         {
-            CreateMap<Permission, PermissionDto>();
-            CreateMap<CreatePermissionCommand, Permission>();
-           // CreateMap<Permission, CreatePermissionResult>();
+            CreateMap<Permission, PermissionDto>().ReverseMap();
+            CreateMap<CreatePermissionCommand, Permission>();     
         }
     }
 }

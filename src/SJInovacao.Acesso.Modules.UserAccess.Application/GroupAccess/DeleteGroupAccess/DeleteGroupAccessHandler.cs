@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePermission;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
 using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.DeleteGroupAccess
@@ -46,6 +47,14 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.DeleteGro
 
             try
             {
+                // Verifica se o grupo existe
+                var groupAccess = await _repository.GetByIdAsync(command.GroupId, ct);
+                if (groupAccess == null)
+                {
+                    _logger.LogError("Grupo {GroupId} não encontrado para exclusão", command.GroupId);
+                    throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
+                }
+
                 _logger.LogInformation("Iniciando exclusão em cascata para grupo {GroupId}", command.GroupId);
 
                 // Remove GroupPermissions
@@ -80,13 +89,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.DeleteGro
                 _logger.LogInformation("Removendo {Count} permissões de grupo para GroupId {GroupId}", groupsPermissions.Count, command.GroupId);
                 _context.RemoveRange(groupPermissions);
 
-                // Verifica se o grupo existe
-                var groupAccess = await _repository.GetByIdAsync(command.GroupId, ct);
-                if (groupAccess == null)
-                {
-                    _logger.LogError("Grupo {GroupId} não encontrado para exclusão", command.GroupId);
-                    throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
-                }
+                //// Verifica se o grupo existe
+                //var groupAccess = await _repository.GetByIdAsync(command.GroupId, ct);
+                //if (groupAccess == null)
+                //{
+                //    _logger.LogError("Grupo {GroupId} não encontrado para exclusão", command.GroupId);
+                //    throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
+                //}
 
                 _logger.LogInformation("Excluindo grupo {GroupId} - {GroupName}", command.GroupId, groupAccess.Name);
 

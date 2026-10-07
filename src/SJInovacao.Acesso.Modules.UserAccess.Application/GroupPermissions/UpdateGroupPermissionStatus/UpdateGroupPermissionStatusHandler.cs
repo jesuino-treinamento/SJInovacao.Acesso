@@ -4,7 +4,7 @@ using MediatR;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.UpdateGroupPermissionStatus;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 
-namespace SJInovacao.Acesso.Modules.UserAccess.GroupPermissions.RemoveGroupPermission.UpdateGroupPermissionStatus
+namespace SJInovacao.Acesso.Modules.UserAccess.GroupPermissions.UpdateGroupPermissionStatus
 {
     public class UpdateGroupPermissionStatusHandler : IRequestHandler<UpdateGroupPermissionStatusCommand, UpdateGroupPermissionStatusResult>
     {
