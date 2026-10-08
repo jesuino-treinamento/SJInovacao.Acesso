@@ -11,6 +11,4 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
         Task<IEnumerable<Phone>> GetByPersonIdAsync(Guid personId, CancellationToken cancellationToken);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
-
-   
 }

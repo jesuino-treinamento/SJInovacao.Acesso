@@ -15,9 +15,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetG
 
         public async Task<IEnumerable<PermissionDto>> Handle(GetGroupPermissionsQuery query, CancellationToken ct)
         {
-
             var permissions = await _repository.GetByGroupIdAsync(query.GroupId, ct);
-            return permissions.Select(p => new PermissionDto { Id = p.Id, Name = p.Name, Description = p.Description });
+            return permissions.Select(p => new PermissionDto 
+            { 
+                Id = p.Id, Name = p.Name, Description = p.Description, IsActive = p.IsActive, 
+                CreatedAt = p.CreatedAt, UpdatedAt = p.UpdatedAt 
+            });
         }
     }
 }

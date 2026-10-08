@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -15,16 +14,10 @@ namespace SJInovacao.Acesso.Common.Logging
 {
     public static class LoggingExtension
     {
-        /// <summary>
-        /// The destructuring options builder configured with default destructurers and a custom DbUpdateExceptionDestructurer.
-        /// </summary>
         static readonly DestructuringOptionsBuilder _destructuringOptionsBuilder = new DestructuringOptionsBuilder()
             .WithDefaultDestructurers()
             .WithDestructurers([new DbUpdateExceptionDestructurer()]);
 
-        /// <summary>
-        /// A filter predicate to exclude log events with specific criteria.
-        /// </summary>
         static readonly Func<LogEvent, bool> _filterPredicate = exclusionPredicate =>
         {
 
@@ -39,14 +32,6 @@ namespace SJInovacao.Acesso.Common.Logging
             return excludeByStatusCode && excludeByPath;
         };
 
-        /// <summary>
-        /// This method configures the logging with commonly used features for DataDog integration.
-        /// </summary>
-        /// <param name="builder">The <see cref="WebApplicationBuilder" /> to add services to.</param>
-        /// <returns>A <see cref="WebApplicationBuilder"/> that can be used to further configure the API services.</returns>
-        /// <remarks>
-        /// <para>Logging output are diferents on Debug and Release modes.</para>
-        /// </remarks> 
         public static WebApplicationBuilder AddDefaultLogging(this WebApplicationBuilder builder)
         {
             Log.Logger = new LoggerConfiguration().CreateLogger();
@@ -86,9 +71,6 @@ namespace SJInovacao.Acesso.Common.Logging
             return builder;
         }
 
-        /// <summary>Adds middleware for Swagger documetation generation.</summary>
-        /// <param name="app">The <see cref="WebApplication"/> instance this method extends.</param>
-        /// <returns>The <see cref="WebApplication"/> for Swagger documentation.</returns>
         public static WebApplication UseDefaultLogging(this WebApplication app)
         {
             var logger = app.Services.GetRequiredService<ILogger<Logger>>();

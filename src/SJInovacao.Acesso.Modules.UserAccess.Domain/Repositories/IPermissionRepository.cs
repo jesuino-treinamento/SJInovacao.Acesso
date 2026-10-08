@@ -10,7 +10,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
         Task<Permission> UpdateAsync(Permission permission, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
         Task<bool> DesativarAsync(Guid id, CancellationToken cancellationToken = default);
-
         Task<bool> GetNameAsync(string name, CancellationToken cancellationToken = default);
     }
 }

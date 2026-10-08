@@ -7,9 +7,6 @@ using System.Diagnostics;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
-    /// <summary>
-    /// Repositório para gerenciar permissões de usuário com logging e resiliência.
-    /// </summary>
     public class UserPermissionRepository : IUserPermissionRepository
     {
         private readonly DefaultContext _context;
@@ -26,9 +23,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             _resiliencePolicy = resiliencePolicy ?? Policy.NoOpAsync();
         }
 
-        /// <summary>
-        /// Adiciona um vínculo entre usuário e permissão
-        /// </summary>
         public async Task AddAsync(Guid userId, Guid permissionId, CancellationToken ct)
         {
             using (_logger.BeginScope("AddUserPermission {UserId} {PermissionId}", userId, permissionId))
@@ -39,7 +33,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     {
                         _logger.LogInformation("➕ Adicionando permissão para usuário {UserId}", userId);
 
-                        // Validar se ambos existem
                         var userExists = await _context.Users
                             .AnyAsync(u => u.Id == userId, ct);
 
@@ -58,7 +51,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                             throw new InvalidOperationException($"Permissão com ID {permissionId} não existe.");
                         }
 
-                        // Verificar se o vínculo já existe
                         var alreadyExists = await _context.UserPermissions
                             .AnyAsync(up => up.UserId == userId && up.PermissionId == permissionId, ct);
 
@@ -90,9 +82,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Remove o vínculo entre usuário e permissão
-        /// </summary>
         public async Task RemoveAsync(Guid userId, Guid permissionId, CancellationToken ct)
         {
             using (_logger.BeginScope("RemoveUserPermission {UserId} {PermissionId}", userId, permissionId))
@@ -126,9 +115,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Retorna todas as permissões de um usuário
-        /// </summary>
         public async Task<IEnumerable<Permission>> GetByUserIdAsync(Guid userId, CancellationToken ct)
         {
             using (_logger.BeginScope("GetPermissionsByUserId {UserId}", userId))
@@ -162,9 +148,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Retorna todos os usuários que possuem uma permissão específica
-        /// </summary>
         public async Task<IEnumerable<User>> GetByPermissionIdAsync(Guid permissionId, CancellationToken ct)
         {
             using (_logger.BeginScope("GetUsersByPermissionId {PermissionId}", permissionId))
@@ -199,9 +182,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Altera o status (ativo/inativo) de uma permissão de usuário
-        /// </summary>
         public async Task UpdateStatusAsync(Guid userId, Guid permissionId, bool status, CancellationToken ct)
         {
             using (_logger.BeginScope("UpdateUserPermissionStatus {UserId} {PermissionId} {Status}", userId, permissionId, status))
@@ -238,9 +218,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Retorna todos os usuários com suas permissões carregadas
-        /// </summary>
         public async Task<IEnumerable<User>> GetAllWithPermissionsAsync(CancellationToken ct)
         {
             using (_logger.BeginScope("GetAllUsersWithPermissions"))
@@ -275,9 +252,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Retorna um usuário específico com suas permissões carregadas
-        /// </summary>
         public async Task<User?> GetUserWithPermissionsAsync(Guid userId, CancellationToken ct)
         {
             using (_logger.BeginScope("GetUserWithPermissions {UserId}", userId))
@@ -318,9 +292,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             }
         }
 
-        /// <summary>
-        /// Verifica se um usuário possui uma permissão específica
-        /// </summary>
         public async Task<bool> GetExistUserWithUsersPermissionsAsync(Guid userId, Guid permissionId, CancellationToken ct)
         {
             using (_logger.BeginScope("CheckUserPermission {UserId} {PermissionId}", userId, permissionId))

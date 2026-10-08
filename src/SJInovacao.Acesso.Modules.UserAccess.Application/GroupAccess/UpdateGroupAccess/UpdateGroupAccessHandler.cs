@@ -26,23 +26,58 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
             _mapper = mapper;
         }
 
-       public async Task<UpdateGroupAccessResult> Handle(UpdateGroupAccessCommand command, CancellationToken ct)
+        //public async Task<UpdateGroupAccessResult> Handle(UpdateGroupAccessCommand command, CancellationToken ct)
+        // {
+        //     var groupAccess = await _groupAccessrepository.GetByIdAsync(command.GroupId, ct);
+
+        //     if (groupAccess == null)
+        //         throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
+
+        //     groupAccess.Name = command.Name;
+        //     groupAccess.Description = command.Description;
+        //     groupAccess.IsActive = command.IsActive;
+        //     groupAccess.UpdatedAt = DateTime.UtcNow;
+
+        //     var permissoesFiltradas = (await _permissionRepository.GetAllAsync(ct))
+        //         .Where(p => command.PermissionIds.Contains(p.Id) && p.IsActive)
+        //         .ToList();
+
+        //     if (!permissoesFiltradas.Any())
+        //         throw new InvalidOperationException("Nenhuma permissão válida encontrada!");
+
+        //     var existingLinks = (await _groupsPermissionsrepository.GetByGroupIdAsync(command.GroupId, ct)).ToList();
+
+        //     foreach (var gp in existingLinks.Where(gp => command.PermissionIds.Contains(gp.PermissionId)))
+        //     {
+        //         groupAccess.Permissions = permissoesFiltradas;// gp.Permission.GroupsPermissions;
+        //         groupAccess.GroupsPermissions.Add(groupAccess.Permissions);
+        //     }
+        //     await _groupAccessrepository.UpdateAsync(groupAccess, ct);
+
+        //     return new UpdateGroupAccessResult
+        //     {
+        //         GroupId = command.GroupId,
+        //         Name = command.Name,
+        //         Description = command.Description,
+        //         PermissionIds = command.PermissionIds,
+        //         IsActive = command.IsActive
+        //     };
+        // }
+
+        public async Task<UpdateGroupAccessResult> Handle(UpdateGroupAccessCommand command, CancellationToken ct)
         {
             var groupAccess = await _groupAccessrepository.GetByIdAsync(command.GroupId, ct);
 
             if (groupAccess == null)
                 throw new KeyNotFoundException($"Group with ID {command.GroupId} not found.");
 
-            if (groupAccess.Name == command.Name)
-                throw new InvalidOperationException($"Grupo {command.Name} já existe!");
-
-            // 1️⃣ Atualizar dados básicos
+            // Atualiza dados básicos
             groupAccess.Name = command.Name;
             groupAccess.Description = command.Description;
             groupAccess.IsActive = command.IsActive;
             groupAccess.UpdatedAt = DateTime.UtcNow;
 
-            // 2️⃣ Buscar permissões válidas
+            // Filtra permissões válidas
             var permissoesFiltradas = (await _permissionRepository.GetAllAsync(ct))
                 .Where(p => command.PermissionIds.Contains(p.Id) && p.IsActive)
                 .ToList();
@@ -50,40 +85,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
             if (!permissoesFiltradas.Any())
                 throw new InvalidOperationException("Nenhuma permissão válida encontrada!");
 
-            // 3️⃣ Buscar vínculos existentes
             var existingLinks = (await _groupsPermissionsrepository.GetByGroupIdAsync(command.GroupId, ct)).ToList();
 
-            // 4️⃣ Remover vínculos que não estão mais na lista
             foreach (var gp in existingLinks.Where(gp => !command.PermissionIds.Contains(gp.PermissionId)))
-                await _groupsPermissionsrepository.DeleteAsync(command.GroupId, gp.PermissionId, ct);
-
-            // 5️⃣ Adicionar vínculos novos
-            foreach (var permission in permissoesFiltradas.Where(p => !existingLinks.Any(gp => gp.PermissionId == p.Id)))
             {
-                var gp = new GroupsPermissions
-                {
-                    GroupId = command.GroupId,
-                    PermissionId = permission.Id,
-                    IsActive = command.IsActive,
-                    CreatedAt = DateTime.UtcNow
-                };
-
-                var existingLinks1 = (await _groupsPermissionsrepository.GetAllAsync(ct))
-                    .Where(g => !command.PermissionIds.Contains(gp.PermissionId))
-                    .ToList();
-
-                await _groupsPermissionsrepository.CreateAsync(gp, ct);
+                groupAccess.GroupsPermissions.Remove(gp);
             }
-
-            // 6️⃣ Atualizar status dos vínculos existentes
-            foreach (var gp in existingLinks.Where(gp => command.PermissionIds.Contains(gp.PermissionId)))
-            {
-                gp.IsActive = command.IsActive;
-                gp.UpdatedAt = DateTime.UtcNow;
-                await _groupsPermissionsrepository.UpdateAsync(gp, ct);
-            }
-
-            // 7️⃣ Atualizar grupo
             await _groupAccessrepository.UpdateAsync(groupAccess, ct);
 
             return new UpdateGroupAccessResult
@@ -95,5 +102,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupAccess.UpdateGroupAccess
                 IsActive = command.IsActive
             };
         }
+
     }
 }

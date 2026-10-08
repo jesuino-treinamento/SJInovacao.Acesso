@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
@@ -45,53 +44,69 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     throw new ValidationException(validationResult.Errors);
                 }
 
-                var permission1 = await _permissionRepository.GetByIdAsync(request.Id, cancellationToken);
-                if (permission1 == null)
+                // Verifica duplicidade de nome
+                var allPermissions = await _permissionRepository.GetAllAsync(cancellationToken);
+                if (allPermissions.Any(p => p.Id != request.Id && p.Name == request.Name))
+                    throw new DomainException($"Já existe uma permissão com o nome '{request.Name}'.");
+
+                // Busca a permissão existente
+                var permission = allPermissions.FirstOrDefault(p => p.Id == request.Id);
+                if (permission == null)
                 {
                     _logger.LogError("Permissão {PermissionId} não encontrada", request.Id);
                     throw new DomainException($"Permission with ID {request.Id} not found for update");
                 }
 
-                permission1.Name = request.Name;
-                permission1.Description = request.Description;
-                permission1.IsActive = request.IsActive;
-                permission1.UpdatedAt = DateTime.UtcNow;
+                // Atualiza dados básicos
+                permission.Name = request.Name;
+                permission.Description = request.Description;
+                permission.IsActive = request.IsActive;
+                permission.UpdatedAt = DateTime.UtcNow;
 
                 _logger.LogInformation("Atualizando status em cascata para permissão {PermissionId}", request.Id);
 
-                var groupsPermissions = _context.GroupsPermissions.Where(gp => gp.PermissionId == permission1.Id);
-                await groupsPermissions.ForEachAsync(gp =>
-                {
-                    gp.IsActive = permission1.IsActive;
-                    gp.UpdatedAt = DateTime.UtcNow;
-                }, cancellationToken);
+                // Atualiza vínculos em GroupsPermissions
+                var groupsPermissions = await _context.GroupsPermissions
+                    .Where(gp => gp.PermissionId == permission.Id)
+                    .ToListAsync(cancellationToken);
 
+                foreach (var gp in groupsPermissions)
+                {
+                    gp.IsActive = permission.IsActive;
+                    gp.UpdatedAt = DateTime.UtcNow;
+                }
+
+                // Atualiza vínculos em UsersGroupsPermissions
                 var entities = await _context.UsersGroupsPermissions
-                .Where(ugp => ugp.PermissionId == permission1.Id)
-                .ToListAsync(cancellationToken);
+                    .Where(ugp => ugp.PermissionId == permission.Id)
+                    .ToListAsync(cancellationToken);
+
                 foreach (var entity in entities)
                 {
-                    entity.IsActive = permission1.IsActive;
+                    entity.IsActive = permission.IsActive;
                     entity.UpdatedAt = DateTime.UtcNow;
                 }
 
-                var usersPermissions = await _context.UserPermissions.Where(up => up.PermissionId == permission1.Id).ToListAsync(cancellationToken);
+                // Atualiza vínculos em UserPermissions
+                var usersPermissions = await _context.UserPermissions
+                    .Where(up => up.PermissionId == permission.Id)
+                    .ToListAsync(cancellationToken);
+
                 foreach (var userPermission in usersPermissions)
                 {
-                    userPermission.IsActive = permission1.IsActive;
+                    userPermission.IsActive = permission.IsActive;
                     userPermission.UpdatedAt = DateTime.UtcNow;
                 }
 
-                var permission = _mapper.Map<Permission>(permission1);
-                var createdPermission =  _context.Permissions.Update(permission);
+                // Atualiza a própria permissão
+                var updatedPermission = _context.Permissions.Update(permission);
 
                 await _context.SaveChangesAsync(cancellationToken);
-
                 await transaction.CommitAsync(cancellationToken);
 
                 _logger.LogInformation("Permissão {PermissionId} atualizada com sucesso", request.Id);
 
-                return _mapper.Map<PermissionDto>(createdPermission.Entity);
+                return _mapper.Map<PermissionDto>(updatedPermission.Entity);
             }
             catch (Exception ex)
             {
@@ -100,6 +115,5 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                 throw;
             }
         }
-
     }
 }

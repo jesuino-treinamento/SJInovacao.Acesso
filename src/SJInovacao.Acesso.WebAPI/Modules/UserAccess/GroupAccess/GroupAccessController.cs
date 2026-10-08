@@ -36,9 +36,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
         [ProducesResponseType(typeof(ApiResponseWithData<GroupAccessResponse>), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateGroupAccess([FromBody] CreateGroupAccessRequest request, CancellationToken cancellationToken)
         {
-            //var command = _mapper.Map<CreateGroupUserCommand>(request);
-            //var result = await _sender.Send(command, cancellationToken);
-            //return Created(string.Empty, new ApiResponseWithData<GroupUserResponse>(_mapper.Map<GroupUserResponse>(result)));
             try
             {
                 var validator = new CreateGroupAccessRequestValidator();

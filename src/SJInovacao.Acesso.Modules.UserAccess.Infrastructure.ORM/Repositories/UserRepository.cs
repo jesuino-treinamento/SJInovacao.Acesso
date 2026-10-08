@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Polly;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
@@ -22,7 +21,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             return await ExecuteWithLoggingAsync(
-                "GetById",
+                "GetByIdUser",
                 async () =>
                 {
                     return await Context.Users
@@ -47,7 +46,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
         {
             return await ExecuteWithLoggingAsync(
-            "Create",
+            "CreateUser",
             async () =>
             {
                 Context.Users.Add(user);
@@ -59,7 +58,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
             return await ExecuteWithLoggingAsync(
-           "Update",
+           "UpdateUser",
            async () =>
            {
                Context.Users.Update(user);
@@ -80,7 +79,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             return await ExecuteWithLoggingAsync(
-            "Delete",
+            "DeleteUser",
             async () =>
             {
                 var user = await GetByIdAsync(id, cancellationToken);
@@ -94,7 +93,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<bool> DesativarAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await ExecuteWithLoggingAsync(
-            "Desativar",
+            "DesativarUser",
             async () =>
             {
                 var user = await GetByIdAsync(id, cancellationToken);
@@ -115,23 +114,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             var users = await query.Skip((page - 1) * size).Take(size).ToListAsync();
             return (users, totalCount);
         }
-
-        //public async Task<PaginatedList<User>> GetAllPaginatedAsync(int page, int size, string orderBy)
-        //{           
-        //    return await ExecuteWithLoggingAsync(
-        //    "GetAllPaginated",
-        //    async () =>
-        //    {
-        //        var query = Context.Users
-        //        .Include(u => u.Addresses)
-        //        .Include(u => u.Phones)
-        //        .AsQueryable();
-
-        //        var totalCount = await query.CountAsync();
-        //        var items = await query.Skip((page - 1) * size).Take(size).ToListAsync();
-        //        return new PaginatedList<User>(items, totalCount, page, size);
-        //    });
-        //}
 
         #region PaginatedList
         //public async Task<PaginatedList<User>> GetAllPaginatedAsync(int page, int size, string orderBy)
@@ -458,12 +440,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 var group = user.UserGroups.FirstOrDefault(g => g.GroupId == groupId);
                 if (group == null) throw new InvalidOperationException("Grupo não encontrado.");
 
-                // Atualiza status do grupo
                 group.IsActive = userIsActive;
 
                 var updatedPermissions = new List<Permission>();
 
-                // Se não foram passados IDs de permissões, atualiza todas
                 if (permissionIds == null || !permissionIds.Any())
                 {
                     foreach (var ugp in group.User.UsersGroupsPermissions
@@ -491,23 +471,22 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
                 await Context.SaveChangesAsync(cancellationToken);
 
-                // Retorna lista de permissões atualizadas
                 return updatedPermissions;
             });
         }
 
         public async Task<User> AddGroupToUserAsync(Guid userId, Guid groupId, CancellationToken cancellationToken)
         {
-            try
+            return await ExecuteWithLoggingAsync(
+            "AddGroupToUser",
+            async () =>
             {
-                return await ExecuteWithLoggingAsync(
-                "AddGroupToUser",
-                async () =>
+                try
                 {
                     var user = await Context.Users
-                        .Include(u => u.UserGroups)
-                        .Include(u => u.UsersGroupsPermissions)
-                        .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+                    .Include(u => u.UserGroups)
+                    .Include(u => u.UsersGroupsPermissions)
+                    .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
                     if (user == null)
                     {
@@ -580,28 +559,29 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         .Include(u => u.UsersGroupsPermissions)
                             .ThenInclude(ugp => ugp.Permission)
                         .FirstAsync(u => u.Id == userId, cancellationToken);
-                }); 
-            }
-            catch (DbUpdateException ex)
-            {
-                Logger.LogError(ex, "Erro ao salvar alterações no banco. UserId={UserId}, GroupId={GroupId}", userId, groupId);
-                throw new InvalidOperationException($"Erro ao salvar alterações: {ex.InnerException?.Message ?? ex.Message}", ex);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Erro inesperado ao adicionar grupo ao usuário. UserId={UserId}, GroupId={GroupId}", userId, groupId);
-                throw;
-            }
+                }
+                catch (DbUpdateException ex)
+                {
+                    Logger.LogError(ex, "Erro ao salvar alterações no banco. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                    throw new InvalidOperationException($"Erro ao salvar alterações: {ex.InnerException?.Message ?? ex.Message}", ex);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "Erro inesperado ao adicionar grupo ao usuário. UserId={UserId}, GroupId={GroupId}", userId, groupId);
+                    throw;
+                }
+
+            });            
         }
 
         public async Task<User> UpdateUserGroupsPermissions(User user, CancellationToken cancellationToken)
         {
-            using var transaction = await Context.Database.BeginTransactionAsync(cancellationToken);
-            try
+            using var transaction = await Context.Database.BeginTransactionAsync(cancellationToken);           
+            return await ExecuteWithLoggingAsync(
+            "UpdateUserGroupsPermissions",
+            async () =>
             {
-                return await ExecuteWithLoggingAsync(
-                "UpdateUserGroupsPermissions",
-                async () =>
+                try
                 {
                     Logger.LogInformation("Iniciando atualização do usuário {UserId}", user.Id);
                     var entities = await Context.UsersGroupsPermissions
@@ -623,7 +603,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     {
                         userPermission.IsActive = user.Status == StatusTypes.Active;
                         userPermission.UpdatedAt = DateTime.UtcNow;
-                    }                    
+                    }
                     var usersGroups = await Context.UserGroup
                         .Where(up => up.UserId == user.Id)
                         .ToListAsync(cancellationToken);
@@ -642,20 +622,22 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
                     Logger.LogInformation("Usuário {UserId} atualizado com sucesso", user.Id);
                     return updatedUser.Entity;
-                });
-            }
-            catch (DomainException ex)
-            {
-                Logger.LogError(ex, "Erro de domínio ao atualizar usuário {UserId}", user.Id);
-                await transaction.RollbackAsync(cancellationToken);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogCritical(ex, "Erro inesperado ao atualizar usuário {UserId}", user.Id);
-                await transaction.RollbackAsync(cancellationToken);
-                throw;
-            }
+                }
+                catch (DomainException ex)
+                {
+                    Logger.LogError(ex, "Erro de domínio ao atualizar usuário {UserId}", user.Id);
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogCritical(ex, "Erro inesperado ao atualizar usuário {UserId}", user.Id);
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+
+            });
+           
         }
 
         public async Task<bool> GetGroupNameAsync(string name, CancellationToken cancellationToken)
