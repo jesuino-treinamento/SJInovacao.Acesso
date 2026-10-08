@@ -1,0 +1,32 @@
+name: Testes Automatizados e Dashboard
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Instalar .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restaurar dependências
+      run: dotnet restore
+
+    - name: Executar script PowerShell (Update-History.ps1)
+      run: pwsh -File .\TestResults\Update-History.ps1
+
+    - name: Publicar Dashboard no GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./TestResults
+        # opcional: manter histórico de relatórios
+        keep_files: true
