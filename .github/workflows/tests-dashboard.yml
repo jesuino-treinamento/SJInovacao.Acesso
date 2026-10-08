@@ -20,6 +20,10 @@ jobs:
     - name: Restaurar dependências
       run: dotnet restore ./SJInovacao.Acesso.slnx
 
+    # ESTA ETAPA É CRUCIAL! Ela gera os arquivos .trx que o Dashboard precisa
+    - name: Executar Testes (dotnet test)
+      run: dotnet test ./SJInovacao.Acesso.slnx --no-restore --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
+
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\scripts\Update-History.ps1
 
