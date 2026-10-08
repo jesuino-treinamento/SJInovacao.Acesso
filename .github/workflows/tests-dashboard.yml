@@ -26,7 +26,7 @@ jobs:
     - name: Verificar se Dashboard foi gerado
       run: |
         if (-not (Test-Path "./TestResults/Dashboard.html")) {
-          Write-Error "Dashboard.html não encontrado. Verifique o script de geração."
+          Write-Error "Dashboard.html não encontrado."
           exit 1
         }
 
@@ -38,6 +38,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./TestResults
-        force_orphan: true
-        enable_jekyll: false # Cria o arquivo .nojekyll automaticamente
+        publish_dir: ./TestResults  # <--- Envia APENAS a pasta TestResults
+        force_orphan: true          # <--- Cria a branch do zero, sem histórico
+        enable_jekyll: false

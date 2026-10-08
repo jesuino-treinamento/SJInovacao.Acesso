@@ -337,7 +337,7 @@ public class Program
 
 
             // 🔐 PROTEÇÃO DO SWAGGER EM PRODUÇÃO
-            if (app.Environment.IsProduction())                      
+            if (app.Environment.IsProduction())                       
             {
                 app.UseMiddleware<SwaggerBasicAuthMiddleware>();
             }
