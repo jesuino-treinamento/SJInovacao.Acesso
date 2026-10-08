@@ -1,43 +1,41 @@
-name: .NET Tests Dashboard
+name: Testes Automatizados e Dashboard
 
 on:
-  pull_request:
-    branches: [ "main", "develop" ]
-  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
+    - name: Checkout código
+      uses: actions/checkout@v4
 
-      - name: Configurar .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Instalar .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Restaurar pacotes
-        run: dotnet restore
+    - name: Restaurar dependências
+      run: dotnet restore ./src/SJInovacao.Acesso.sln
 
-      - name: Compilar solução
-        run: dotnet build --configuration Release --no-restore
+    - name: Executar script PowerShell (Update-History.ps1)
+      run: pwsh -File .\TestResults\Update-History.ps1
 
-      - name: Rodar InfraTests
-        run: dotnet test SJInovacao.Acesso.InfraTests/SJInovacao.Acesso.InfraTests.csproj --configuration Release --no-build --logger "trx;LogFileName=InfraTests.trx"
+    - name: Verificar se Dashboard foi gerado
+      run: |
+        if (-not (Test-Path "./TestResults/Dashboard.html")) {
+          Write-Error "Dashboard.html não encontrado. Verifique o script de geração."
+          exit 1
+        }
 
-      - name: Rodar ApplicationTests
-        run: dotnet test SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --configuration Release --no-build --logger "trx;LogFileName=ApplicationTests.trx"
+    - name: Copiar Dashboard para index.html
+      run: |
+        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
 
-      - name: Gerar histórico de testes
-        run: pwsh ./Update-History.ps1 -TrxFolder ./ -HistoryFile ./TestResults/history.json
-
-      - name: Gerar relatório HTML com gráficos
-        run: pwsh ./Generate-TestReport.ps1 -TrxFolder ./TestResults -OutputHtml ./TestResults/Dashboard.html
-
-      - name: Publicar relatório e histórico
-        uses: actions/upload-artifact@v4
-        with:
-          name: TestReport
-          path: TestResults
+    - name: Publicar Dashboard no GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./TestResults
