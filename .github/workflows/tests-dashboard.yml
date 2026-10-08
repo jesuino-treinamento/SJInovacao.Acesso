@@ -42,10 +42,11 @@ jobs:
           git push origin gh-pages
           git checkout main
         }
-        
-    - name: Criar index.html para redirecionar
+
+    # ALTERAÇÃO AQUI: Copia o Dashboard para o index.html
+    - name: Copiar Dashboard para index.html
       run: |
-        echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=Dashboard.html"></head><body>Redirecionando...</body></html>' > ./TestResults/index.html
+        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
 
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
