@@ -1,54 +1,43 @@
-name: Testes Automatizados e Dashboard
+name: .NET Tests Dashboard
 
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    branches: [ "main", "develop" ]
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
+  tests:
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v4
+      - name: Checkout código
+        uses: actions/checkout@v4
 
-    - name: Instalar .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Restaurar dependências
-      run: dotnet restore ./src/SJInovacao.Acesso.sln
+      - name: Restaurar pacotes
+        run: dotnet restore
 
-    - name: Executar script PowerShell (Update-History.ps1)
-      run: pwsh -File .\TestResults\Update-History.ps1
+      - name: Compilar solução
+        run: dotnet build --configuration Release --no-restore
 
-    - name: Verificar se Dashboard foi gerado
-      run: |
-        if (-not (Test-Path "./TestResults/Dashboard.html")) {
-          Write-Error "Dashboard.html não encontrado. Verifique o script de geração."
-          exit 1
-        }
+      - name: Rodar InfraTests
+        run: dotnet test SJInovacao.Acesso.InfraTests/SJInovacao.Acesso.InfraTests.csproj --configuration Release --no-build --logger "trx;LogFileName=InfraTests.trx"
 
-    - name: Criar branch gh-pages se não existir
-      run: |
-        git fetch origin
-        if (-not (git branch -r | Select-String "origin/gh-pages")) {
-          git checkout --orphan gh-pages
-          git rm -rf .
-          echo "Branch gh-pages criada automaticamente." > index.html
-          git add index.html
-          git commit -m "Inicialização da branch gh-pages"
-          git push origin gh-pages
-          git checkout main
-        }
+      - name: Rodar ApplicationTests
+        run: dotnet test SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --configuration Release --no-build --logger "trx;LogFileName=ApplicationTests.trx"
 
-    - name: Copiar Dashboard para index.html
-      run: |
-        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
+      - name: Gerar histórico de testes
+        run: pwsh ./Update-History.ps1 -TrxFolder ./ -HistoryFile ./TestResults/history.json
 
-    - name: Publicar Dashboard no GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./TestResults
+      - name: Gerar relatório HTML com gráficos
+        run: pwsh ./Generate-TestReport.ps1 -TrxFolder ./TestResults -OutputHtml ./TestResults/Dashboard.html
+
+      - name: Publicar relatório e histórico
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestReport
+          path: TestResults
