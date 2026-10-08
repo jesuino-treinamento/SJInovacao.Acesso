@@ -307,25 +307,7 @@ public class Program
             // =============================
             // 📦 IoC MÓDULOS (Application, Infrastructure, WebAPI)
             // =============================
-            await builder.RegisterDependenciesAsync();
-
-            // =============================
-            // 🔧 MEDIATR
-            // =============================
-            //builder.Services.AddMediatR(cfg =>
-            //{
-            //    cfg.RegisterServicesFromAssemblies(
-            //        AppDomain.CurrentDomain.GetAssemblies()
-            //            .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
-            //            .ToArray());
-            //});
-
-            // =============================
-            // 🔧 AUTOMAPPER
-            // =============================
-            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()
-            //    .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
-            //    .ToArray());
+            await builder.RegisterDependenciesAsync();            
 
             var app = builder.Build();
 
@@ -353,13 +335,25 @@ public class Program
             app.UseMiddleware<ValidationExceptionMiddleware>();
             app.UseMiddleware<UserContextMiddleware>();
 
-            if (app.Environment.IsDevelopment())
+
+            // 🔐 PROTEÇÃO DO SWAGGER EM PRODUÇÃO
+            if (app.Environment.IsProduction())
             {
-                app.UseDeveloperExceptionPage(); // mostra stacktrace amigável em dev
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseMiddleware<SwaggerBasicAuthMiddleware>();
             }
-            else if (app.Environment.EnvironmentName == "Docker")
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage(); // mostra stacktrace amigável em dev
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
+            //else if (app.Environment.EnvironmentName == "Docker")
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
+
+            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker" || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
