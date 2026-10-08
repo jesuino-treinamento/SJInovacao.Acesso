@@ -17,8 +17,8 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-     - name: Restaurar dependências
-      run: dotnet restore ./src/SJInovacao.Acesso.sln 
+    - name: Restaurar dependências
+      run: dotnet restore ./src/SJInovacao.Acesso.sln
 
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\TestResults\Update-History.ps1
@@ -46,7 +46,6 @@ jobs:
     - name: Criar index.html para redirecionar
       run: |
         echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=Dashboard.html"></head><body>Redirecionando...</body></html>' > ./TestResults/index.html
-
 
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
