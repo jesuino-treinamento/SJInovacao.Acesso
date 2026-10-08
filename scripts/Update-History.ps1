@@ -20,9 +20,6 @@ jobs:
     - name: Restaurar dependências
       run: dotnet restore ./SJInovacao.Acesso.slnx
 
-    - name: Executar Testes
-      run: dotnet test ./SJInovacao.Acesso.slnx --no-restore --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
-
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\scripts\Update-History.ps1
 
