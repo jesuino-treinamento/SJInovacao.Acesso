@@ -23,10 +23,22 @@ jobs:
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\TestResults\Update-History.ps1
 
+    - name: Criar branch gh-pages se não existir
+      run: |
+        git fetch origin
+        if (-not (git branch -r | Select-String "origin/gh-pages")) {
+          git checkout --orphan gh-pages
+          git rm -rf .
+          echo "Branch gh-pages criada automaticamente." > index.html
+          git add index.html
+          git commit -m "Inicialização da branch gh-pages"
+          git push origin gh-pages
+          git checkout main
+        }
+
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./TestResults
-        # opcional: manter histórico de relatórios
         keep_files: true
