@@ -21,11 +21,11 @@ jobs:
       run: dotnet restore ./SJInovacao.Acesso.slnx
 
     - name: Executar script PowerShell (Update-History.ps1)
-      run: pwsh -File .\TestResults\Update-History.ps1
+      run: pwsh -File .\scripts\Update-History.ps1
 
     - name: Verificar se Dashboard foi gerado
       run: |
-        if (-not (Test-Path "./TestResults/Dashboard.html")) {
+        if (-not (Test-Path "./scripts/Dashboard.html")) {
           Write-Error "Dashboard.html não encontrado."
           exit 1
         }
