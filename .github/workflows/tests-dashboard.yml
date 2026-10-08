@@ -18,7 +18,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restaurar dependências
-      run: dotnet restore ./src/SJInovacao.Acesso.sln
+      run: dotnet restore ./SJInovacao.Acesso.slnx  # <--- CORRIGIDO PARA .slnx
 
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\TestResults\Update-History.ps1
@@ -32,11 +32,11 @@ jobs:
 
     - name: Copiar Dashboard para index.html
       run: |
-        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
+        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force # <--- Sobrescreve o index.html antigo com o Dashboard real
 
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./TestResults
-        force_orphan: true # <--- A MÁGICA ACONTECE AQUI
+        force_orphan: true # <--- Cria a branch gh-pages do zero
