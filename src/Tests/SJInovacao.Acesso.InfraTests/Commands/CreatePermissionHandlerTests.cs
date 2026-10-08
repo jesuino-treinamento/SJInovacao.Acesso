@@ -15,7 +15,7 @@
     public class CreatePermissionHandlerTests
     {
         [Fact]
-        public async Task Deve_Criar_Permissao_Com_Sucesso()
+        public async Task Deve_Criar_Permissao_Com_Sucesso() 
         {
             var repoMock = new Mock<IPermissionRepository>();
             var mapperMock = new Mock<IMapper>();
