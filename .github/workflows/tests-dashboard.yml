@@ -20,7 +20,6 @@ jobs:
     - name: Restaurar dependências
       run: dotnet restore ./SJInovacao.Acesso.slnx
 
-    # ESTA ETAPA É CRUCIAL! Ela gera os arquivos .trx que o Dashboard precisa
     - name: Executar Testes (dotnet test)
       run: dotnet test ./SJInovacao.Acesso.slnx --no-restore --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
 
@@ -37,14 +36,17 @@ jobs:
           exit 1
         }
 
-    - name: Copiar Dashboard para index.html
+    # ETAPA NOVA: Cria uma pasta limpa apenas com os arquivos do site
+    - name: Preparar pasta de deploy
       run: |
-        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
+        mkdir deploy
+        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./deploy/index.html" -Force
+        Copy-Item -Path "./TestResults/history.json" -Destination "./deploy/history.json" -Force
 
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./TestResults
+        publish_dir: ./deploy # <--- Mudou de ./TestResults para ./deploy
         force_orphan: true
         enable_jekyll: false
