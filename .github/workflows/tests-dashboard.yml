@@ -42,6 +42,11 @@ jobs:
           git push origin gh-pages
           git checkout main
         }
+        
+    - name: Criar index.html para redirecionar
+      run: |
+        echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=Dashboard.html"></head><body>Redirecionando...</body></html>' > ./TestResults/index.html
+
 
     - name: Publicar Dashboard no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
