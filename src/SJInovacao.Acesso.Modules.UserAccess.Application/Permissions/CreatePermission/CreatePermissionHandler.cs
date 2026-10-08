@@ -22,13 +22,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.CreatePer
 
         public async Task<PermissionDto> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
         {
-            //var permission = new Permission { Name = request.Name,  Description = request.Description };
-            //_context.Permissions.Add(permission);
-            //await _context.SaveChangesAsync(cancellationToken);
-            //return _mapper.Map<PermissionResult>(permission);
-
             var permission = _mapper.Map<Permission>(request);
-            //permission.Activate();
             var createdPermission = await _permissionRepository.CreateAsync(permission, cancellationToken);
             var result = _mapper.Map<PermissionDto>(createdPermission);
             return result;

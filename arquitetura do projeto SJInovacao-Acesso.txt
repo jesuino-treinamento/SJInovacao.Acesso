@@ -1,0 +1,509 @@
+📦SJInovacao.Acesso
+ ┣ 📂.git
+ ┣ 📂.github
+ ┃ ┗ 📂SJInovacao.Acesso.slnx
+ ┣ 📂src
+ ┃ ┣ 📂SJInovacao.Acesso.Common
+ ┃ ┃ ┣ 📂bin
+ ┃ ┃ ┃ ┗ 📂Debug
+ ┃ ┃ ┃ ┃ ┗ 📂net9.0
+ ┃ ┃ ┣ 📂HealthChecks
+ ┃ ┃ ┃ ┗ 📜HealthChecksExtension.cs
+ ┃ ┃ ┣ 📂Logging
+ ┃ ┃ ┃ ┗ 📜LoggingExtension.cs
+ ┃ ┃ ┣ 📂Middleware
+ ┃ ┃ ┃ ┗ 📜UserContextMiddleware.cs
+ ┃ ┃ ┣ 📂Security
+ ┃ ┃ ┃ ┣ 📂Authentication
+ ┃ ┃ ┃ ┃ ┣ 📂GroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜GroupAttribute.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜GroupAuthorizationHandler.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜GroupPolicyProvider.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupRequirement.cs
+ ┃ ┃ ┃ ┃ ┣ 📂PermissionAccess
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionAttribute.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionAuthorizationHandler.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionPolicyProvider.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionRequirement.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Permissions.g.cs
+ ┃ ┃ ┃ ┃ ┗ 📜HybridPolicyProvider.cs
+ ┃ ┃ ┃ ┣ 📂Context
+ ┃ ┃ ┃ ┃ ┣ 📜IUserContext.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UserContext.cs
+ ┃ ┃ ┃ ┣ 📜AuthenticationExtension.cs
+ ┃ ┃ ┃ ┣ 📜BCryptPasswordHasher.cs
+ ┃ ┃ ┃ ┣ 📜IJwtTokenGenerator.cs
+ ┃ ┃ ┃ ┣ 📜IPasswordHasher.cs
+ ┃ ┃ ┃ ┣ 📜IUser.cs
+ ┃ ┃ ┃ ┗ 📜JwtTokenGenerator.cs
+ ┃ ┃ ┣ 📂Validation
+ ┃ ┃ ┃ ┣ 📜ValidationBehavior.cs
+ ┃ ┃ ┃ ┣ 📜ValidationErrorDetail.cs
+ ┃ ┃ ┃ ┣ 📜ValidationResultDetail.cs
+ ┃ ┃ ┃ ┗ 📜Validator.cs
+ ┃ ┃ ┗ 📜SJInovacao.Acesso.Common.csproj
+ ┃ ┣ 📂SJInovacao.Acesso.Database
+ ┃ ┃ ┣ 📂Migrations
+ ┃ ┃ ┃ ┣ 📜20261003230106_InicioMigration.cs
+ ┃ ┃ ┃ ┣ 📜20261003230106_InicioMigration.Designer.cs
+ ┃ ┃ ┃ ┗ 📜DefaultContextModelSnapshot.cs
+ ┃ ┃ ┣ 📜appsettings.Development.json
+ ┃ ┃ ┣ 📜appsettings.Docker.json
+ ┃ ┃ ┣ 📜appsettings.json
+ ┃ ┃ ┣ 📜migartionBase.bat
+ ┃ ┃ ┣ 📜migration.bat
+ ┃ ┃ ┣ 📜Program.cs
+ ┃ ┃ ┗ 📜SJInovacao.Acesso.Database.csproj
+ ┃ ┣ 📂SJInovacao.Acesso.IoC
+ ┃ ┃ ┣ 📂ModuleInitializers
+ ┃ ┃ ┃ ┣ 📜ApplicationModuleInitializer.cs
+ ┃ ┃ ┃ ┣ 📜InfrastructureModuleInitializer.cs
+ ┃ ┃ ┃ ┗ 📜WebApiModuleInitializer.cs
+ ┃ ┃ ┣ 📜DependencyResolver.cs
+ ┃ ┃ ┣ 📜IModuleInitializer.cs
+ ┃ ┃ ┗ 📜SJInovacao.Acesso.IoC.csproj
+ ┃ ┣ 📂SJInovacao.Acesso.Modules.UserAccess.Application
+ ┃ ┃ ┣ 📂Authentication
+ ┃ ┃ ┃ ┗ 📂Authenticate
+ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserProfile.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserResult.cs
+ ┃ ┃ ┃ ┃ ┗ 📜AuthenticateUserValidator.cs
+ ┃ ┃ ┣ 📂Authorization
+ ┃ ┃ ┃ ┣ 📂GroupAccess
+ ┃ ┃ ┃ ┃ ┣ 📜GroupPolicyProvider.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GrroupRequirement.cs
+ ┃ ┃ ┃ ┗ 📂PermissionAccess
+ ┃ ┃ ┃ ┃ ┣ 📜PermissionPolicyProvider.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PermissionRequirement.cs
+ ┃ ┃ ┣ 📂bin
+ ┃ ┃ ┃ ┗ 📂Debug
+ ┃ ┃ ┃ ┃ ┗ 📂net9.0
+ ┃ ┃ ┣ 📂Configuration
+ ┃ ┃ ┃ ┣ 📂Commands
+ ┃ ┃ ┃ ┃ ┗ 📜ICommandHandler.cs
+ ┃ ┃ ┃ ┣ 📂Paged
+ ┃ ┃ ┃ ┃ ┗ 📜PagedResult.cs
+ ┃ ┃ ┃ ┗ 📂Queries
+ ┃ ┃ ┃ ┃ ┗ 📜IQueryHandler.cs
+ ┃ ┃ ┣ 📂Contracts
+ ┃ ┃ ┃ ┣ 📜CommandBase.cs
+ ┃ ┃ ┃ ┣ 📜ICommand.cs
+ ┃ ┃ ┃ ┣ 📜ICommandHandler.cs
+ ┃ ┃ ┃ ┣ 📜IQuery.cs
+ ┃ ┃ ┃ ┣ 📜IUserAccessModule.cs
+ ┃ ┃ ┃ ┗ 📜QueryBase.cs
+ ┃ ┃ ┣ 📂DTOs
+ ┃ ┃ ┃ ┣ 📜AuthenticateDto.cs
+ ┃ ┃ ┃ ┣ 📜GroupPermissionsDto.cs
+ ┃ ┃ ┃ ┣ 📜GroupUsersPermissionDto.cs
+ ┃ ┃ ┃ ┣ 📜PermissionDto.cs
+ ┃ ┃ ┃ ┣ 📜UserGroupDTO.cs
+ ┃ ┃ ┃ ┗ 📜UserPermissionsDto.cs
+ ┃ ┃ ┣ 📂GroupAccess
+ ┃ ┃ ┃ ┣ 📂CreateGroupAccess
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessResult.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessrProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreateGroupAccessValidator.cs
+ ┃ ┃ ┃ ┣ 📂DeleteGroupAccess
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupAccessCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupAccessHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜DeleteGroupAccessResult.cs
+ ┃ ┃ ┃ ┣ 📂RemoveGroupAccess
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupAccessCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupAccessHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜RemoveGroupAccessResult.cs
+ ┃ ┃ ┃ ┗ 📂UpdateGroupAccess
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupAccessCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupAccessHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdateGroupAccessResult.cs
+ ┃ ┃ ┣ 📂GroupPermissions
+ ┃ ┃ ┃ ┣ 📂CreateGroupPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupPermissionResult.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupPermissionrProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreateGroupPermissionValidator.cs
+ ┃ ┃ ┃ ┣ 📂CreaterPermissionGroup
+ ┃ ┃ ┃ ┃ ┣ 📜CreaterPermissionGroupCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreaterPermissionGroupHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreaterPermissionGroupResult.cs
+ ┃ ┃ ┃ ┣ 📂GetAllGroupsWithPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllGroupsWithPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetAllGroupsWithPermissionsQuery.cs
+ ┃ ┃ ┃ ┣ 📂GetGroupPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetGroupPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetGroupPermissionsQuery.cs
+ ┃ ┃ ┃ ┣ 📂RemoveGroupPermission
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜RemoveGroupPermissionResult.cs
+ ┃ ┃ ┃ ┗ 📂UpdateGroupPermissionStatus
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupPermissionStatusCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupPermissionStatusHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupPermissionStatusResult.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdateGroupPermissionValidator.cs
+ ┃ ┃ ┣ 📂GroupUsersPermissions
+ ┃ ┃ ┃ ┣ 📂CreateGroupUsersPermission
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupUsersPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupUsersPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreateGroupUsersPermissionValidator.cs
+ ┃ ┃ ┃ ┣ 📂DeleteGroupUsersPermisson
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜DeleteGroupUsersPermissionValidator.cs
+ ┃ ┃ ┃ ┣ 📂GetAllUserGroupsWithPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUGWithPermissionsPaginatedHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUGWithPermissionsPaginatedQuery.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUserGroupsWithPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUserGroupsWithPermissionsProfile.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUserGroupsWithPermissionsQuery.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GroupUsersPermissionResult.cs
+ ┃ ┃ ┃ ┗ 📂UpdateGroupUsersPermisson
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdateGroupUsersPermissionValidator.cs
+ ┃ ┃ ┣ 📂Permissions
+ ┃ ┃ ┃ ┣ 📂CreatePermission
+ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreatePermissionValidator.cs
+ ┃ ┃ ┃ ┣ 📂GetIdPermission
+ ┃ ┃ ┃ ┃ ┣ 📜GetIdPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetIdPermissionsQuery.cs
+ ┃ ┃ ┃ ┣ 📂ListPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserPermissionsQuery.cs
+ ┃ ┃ ┃ ┃ ┣ 📜ListPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜ListPermissionsQuery.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PermissionProfile.cs
+ ┃ ┃ ┃ ┗ 📂UpdatePermission
+ ┃ ┃ ┃ ┃ ┣ 📜UpdatePermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdatePermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdatePermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdatePermissionValidator.cs
+ ┃ ┃ ┣ 📂UserPermissios
+ ┃ ┃ ┃ ┣ 📂CreateUserPermission
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserPermissionResult.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreateUserPermissionValidator.cs
+ ┃ ┃ ┃ ┣ 📂GetAllUsersWithPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUsersWithPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetAllUsersWithPermissionsQuery.cs
+ ┃ ┃ ┃ ┣ 📂GetUserPermissions
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserPermissionsHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetUserPermissionsQuery.cs
+ ┃ ┃ ┃ ┣ 📂RemoveUserPermission
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveUserPermissionCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveUserPermissionHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜RemoveUserPermissionResult.cs
+ ┃ ┃ ┃ ┗ 📂UpdateUserPermissionStatus
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserPermissionStatusCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserPermissionStatusHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserPermissionStatusResult.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdateUserPermissionValidator.cs
+ ┃ ┃ ┣ 📂Users
+ ┃ ┃ ┃ ┣ 📂CreateUser
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserProfile.cs
+ ┃ ┃ ┃ ┃ ┣ 📜CreateUserResult.cs
+ ┃ ┃ ┃ ┃ ┗ 📜CreateUserValidator.cs
+ ┃ ┃ ┃ ┣ 📂DeleteUser
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DeleteUserResponse.cs
+ ┃ ┃ ┃ ┃ ┗ 📜DeleteUserValidator.cs
+ ┃ ┃ ┃ ┣ 📂DTOs
+ ┃ ┃ ┃ ┃ ┣ 📜DocumentCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜NameCommand.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UserOrderProjection.cs
+ ┃ ┃ ┃ ┣ 📂GetUser
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetUserProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜GetUserValidator.cs
+ ┃ ┃ ┃ ┣ 📂GroupUsers
+ ┃ ┃ ┃ ┃ ┣ 📜AddGroupUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AddGroupUserCommandValidator.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AddGroupUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AddGroupUserProfile.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupUserCommandValidator.cs
+ ┃ ┃ ┃ ┃ ┗ 📜RemoveGroupUserHandler.cs
+ ┃ ┃ ┃ ┣ 📂ListUser
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUserHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUserQuery.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GetAllUsersQueryValidator.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PageUserResult.cs
+ ┃ ┃ ┃ ┣ 📂RefreshToken
+ ┃ ┃ ┃ ┃ ┣ 📜RefreshTokenCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RefreshTokenHandler.cs
+ ┃ ┃ ┃ ┃ ┣ 📜RevokeRefreshTokenCommand.cs
+ ┃ ┃ ┃ ┃ ┗ 📜RevokeRefreshTokenHandler.cs
+ ┃ ┃ ┃ ┣ 📂UpdateUser
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserCommandValidator.cs
+ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserHandler.cs
+ ┃ ┃ ┃ ┃ ┗ 📜UpdateUserProfile.cs
+ ┃ ┃ ┃ ┣ 📜FakeDataHelper.cs
+ ┃ ┃ ┃ ┣ 📜UserAccessModule.cs
+ ┃ ┃ ┃ ┗ 📜UserResult.cs
+ ┃ ┃ ┣ 📂Util
+ ┃ ┃ ┃ ┣ 📂Addresses
+ ┃ ┃ ┃ ┃ ┣ 📜AddressCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AddressDto.cs
+ ┃ ┃ ┃ ┃ ┣ 📜AddressProfile.cs
+ ┃ ┃ ┃ ┃ ┗ 📜AddressValidator.cs
+ ┃ ┃ ┃ ┣ 📂Persons
+ ┃ ┃ ┃ ┃ ┣ 📜PersonCommand.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PersonDto.cs
+ ┃ ┃ ┃ ┗ 📂Phones
+ ┃ ┃ ┃ ┃ ┣ 📜PhoneCommand.cs
+ ┃ ┃ ┃ ┃ ┣ 📜PhoneDto.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PhoneValidator.cs
+ ┃ ┃ ┣ 📜ApplicationLayer.cs
+ ┃ ┃ ┣ 📜IExecutionContextAccessor.cs
+ ┃ ┃ ┣ 📜SJInovacao.Acesso.Modules.UserAccess.Application.csproj
+ ┃ ┃ ┗ 📜UserAccessModule.cs
+ ┃ ┣ 📂SJInovacao.Acesso.Modules.UserAccess.Domain
+ ┃ ┃ ┣ 📂Common
+ ┃ ┃ ┃ ┣ 📂Enumeradors
+ ┃ ┃ ┃ ┃ ┗ 📜Enumerador.cs
+ ┃ ┃ ┃ ┣ 📂Pagination
+ ┃ ┃ ┃ ┃ ┗ 📜PaginatedList.cs
+ ┃ ┃ ┃ ┗ 📜BaseEntity.cs
+ ┃ ┃ ┣ 📂Entities
+ ┃ ┃ ┃ ┣ 📜Address.cs
+ ┃ ┃ ┃ ┣ 📜GroupPermission.cs
+ ┃ ┃ ┃ ┣ 📜GroupsPermissions.cs
+ ┃ ┃ ┃ ┣ 📜Permission.cs
+ ┃ ┃ ┃ ┣ 📜Person.cs
+ ┃ ┃ ┃ ┣ 📜Phone.cs
+ ┃ ┃ ┃ ┣ 📜User.cs
+ ┃ ┃ ┃ ┣ 📜UserGroup.cs
+ ┃ ┃ ┃ ┣ 📜UserPermission.cs
+ ┃ ┃ ┃ ┗ 📜UsersGroupsPermissions.cs
+ ┃ ┃ ┣ 📂Enums
+ ┃ ┃ ┃ ┣ 📜PersonType.cs
+ ┃ ┃ ┃ ┣ 📜PhoneType.cs
+ ┃ ┃ ┃ ┣ 📜StatusTypes.cs
+ ┃ ┃ ┃ ┗ 📜UserRole.cs
+ ┃ ┃ ┣ 📂Exceptions
+ ┃ ┃ ┃ ┗ 📜DomainException.cs
+ ┃ ┃ ┣ 📂Repositories
+ ┃ ┃ ┃ ┣ 📜IAddressRepository.cs
+ ┃ ┃ ┃ ┣ 📜IGroupPermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜IGroupPermissionUserRepository.cs
+ ┃ ┃ ┃ ┣ 📜IGroupsPermissionsRepository.cs
+ ┃ ┃ ┃ ┣ 📜IGroupUserRepository.cs
+ ┃ ┃ ┃ ┣ 📜IPermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜IPersonRepository.cs
+ ┃ ┃ ┃ ┣ 📜IPhoneRepository.cs
+ ┃ ┃ ┃ ┣ 📜IUserPermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜IUserRepository.cs
+ ┃ ┃ ┃ ┗ 📜IUsersGroupsPermissionsRepository.cs
+ ┃ ┃ ┣ 📂Specifications
+ ┃ ┃ ┃ ┣ 📜ActiveUserSpecification.cs
+ ┃ ┃ ┃ ┣ 📜IDeactivatable.cs
+ ┃ ┃ ┃ ┗ 📜ISpecification.cs
+ ┃ ┃ ┣ 📂Validation
+ ┃ ┃ ┃ ┣ 📜AddressValidator.cs
+ ┃ ┃ ┃ ┣ 📜DocumentValidator.cs
+ ┃ ┃ ┃ ┣ 📜EmailValidator.cs
+ ┃ ┃ ┃ ┣ 📜GeolocationValidator.cs
+ ┃ ┃ ┃ ┣ 📜NameValidator.cs
+ ┃ ┃ ┃ ┣ 📜PasswordValidator.cs
+ ┃ ┃ ┃ ┣ 📜PhoneValidator.cs
+ ┃ ┃ ┃ ┗ 📜UserValidator.cs
+ ┃ ┃ ┣ 📂ValueObjects
+ ┃ ┃ ┃ ┣ 📜Document.cs
+ ┃ ┃ ┃ ┣ 📜Geolocation.cs
+ ┃ ┃ ┃ ┣ 📜Name.cs
+ ┃ ┃ ┃ ┗ 📜Rating.cs
+ ┃ ┃ ┗ 📜SJInovacao.Acesso.Modules.UserAccess.Domain.csproj
+ ┃ ┣ 📂SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
+ ┃ ┃ ┣ 📂Common
+ ┃ ┃ ┃ ┗ 📂DependencyInjection
+ ┃ ┃ ┃ ┃ ┗ 📜RepositoriesModule.cs
+ ┃ ┃ ┣ 📂Mapping
+ ┃ ┃ ┃ ┣ 📜AddressEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜GroupPermissionEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜GroupsPermissionsEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜PermissionEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜PersonEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜PhoneEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜UserEntityConfiguration.cs
+ ┃ ┃ ┃ ┣ 📜UserGroupEntityConfiguration .cs
+ ┃ ┃ ┃ ┣ 📜UserPermissionEntityConfiguration.cs
+ ┃ ┃ ┃ ┗ 📜UsersGroupsPermissionsEntityConfiguration.cs
+ ┃ ┃ ┣ 📂Repositories
+ ┃ ┃ ┃ ┣ 📜AddressRepository.cs
+ ┃ ┃ ┃ ┣ 📜BaseRepository.cs
+ ┃ ┃ ┃ ┣ 📜GroupPermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜GroupPermissionUserRepository.cs
+ ┃ ┃ ┃ ┣ 📜GroupsPermissionsRepository.cs
+ ┃ ┃ ┃ ┣ 📜PermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜PersonRepository.cs
+ ┃ ┃ ┃ ┣ 📜PhoneRepository.cs
+ ┃ ┃ ┃ ┣ 📜UserPermissionRepository.cs
+ ┃ ┃ ┃ ┣ 📜UserRepository.cs
+ ┃ ┃ ┃ ┗ 📜UsersGroupsPermissionsRepository.cs
+ ┃ ┃ ┣ 📜DefaultContext.cs
+ ┃ ┃ ┗ 📜SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj
+ ┃ ┣ 📂SJInovacao.Acesso.WebAPI
+ ┃ ┃ ┣ 📂Common
+ ┃ ┃ ┃ ┣ 📂Filters
+ ┃ ┃ ┃ ┃ ┗ 📜ApiResponseWrapperAttribute.cs
+ ┃ ┃ ┃ ┣ 📂Request
+ ┃ ┃ ┃ ┃ ┣ 📜AddressRequest.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DocumentRequest.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GeolocationRequest.cs
+ ┃ ┃ ┃ ┃ ┣ 📜NameRequest.cs
+ ┃ ┃ ┃ ┃ ┣ 📜PersonRequest.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PhoneRequest.cs
+ ┃ ┃ ┃ ┣ 📂Response
+ ┃ ┃ ┃ ┃ ┣ 📜AddressResponse.cs
+ ┃ ┃ ┃ ┃ ┣ 📜DocumentResponse.cs
+ ┃ ┃ ┃ ┃ ┣ 📜GeolocationtResponse.cs
+ ┃ ┃ ┃ ┃ ┣ 📜NameResponse.cs
+ ┃ ┃ ┃ ┃ ┣ 📜PersonResponse.cs
+ ┃ ┃ ┃ ┃ ┗ 📜PhoneResponse.cs
+ ┃ ┃ ┃ ┣ 📜ApiResponse.cs
+ ┃ ┃ ┃ ┣ 📜ApiResponseWithData.cs
+ ┃ ┃ ┃ ┣ 📜BaseController.cs
+ ┃ ┃ ┃ ┗ 📜PaginatedResponse.cs
+ ┃ ┃ ┣ 📂logs
+ ┃ ┃ ┃ ┣ 📜log-20261008.txt
+ ┃ ┃ ┃ ┗ 📜logs.txt
+ ┃ ┃ ┣ 📂Middleware
+ ┃ ┃ ┃ ┣ 📜CorrelationIdMiddleware.cs
+ ┃ ┃ ┃ ┗ 📜ValidationExceptionMiddleware.cs
+ ┃ ┃ ┣ 📂Modules
+ ┃ ┃ ┃ ┗ 📂UserAccess
+ ┃ ┃ ┃ ┃ ┣ 📂Auth
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂AuthenticateUserFeature
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AuthenticateUserResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LoginRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜RefreshTokenRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜AuthController.cs
+ ┃ ┃ ┃ ┃ ┣ 📂GroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂CreateGroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupAccessRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupAccessResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂DeleteGroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupAccessProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupAccessRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupAccessRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DeleteGroupAccessResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂GetIdGroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GetGroupAccessRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂UpdateGroupAccess
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜RemoveGroupAccessRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UpdateGroupAccessRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupAccessController.cs
+ ┃ ┃ ┃ ┃ ┣ 📂GroupPermission
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupPermissionController.cs
+ ┃ ┃ ┃ ┃ ┣ 📂GroupUsersPermissions
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂CreateGroupUsersPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupPermissionRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupUsersPermissionsRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateGroupUsersPermissionsResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂DeleteGroupUsersPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteGroupUsersPermissionsRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DeleteGroupUsersPermissionsResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂GetAllGroupUsersPermissions
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂UpdateGroupUsersPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdateGroupUsersPermissionsRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UpdateGroupUsersPermissionsResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜GroupUsersPermissionsController.cs
+ ┃ ┃ ┃ ┃ ┣ 📂Permissions
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂CreatePermission
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreatePermissionRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜PermissionResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂GetIdPermission
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GetIdPermissionsRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂ListPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜ListPermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂UpdatePermission
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdatePermissionProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdatePermissionRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UpdatePermissionRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜PermissionController.cs
+ ┃ ┃ ┃ ┃ ┣ 📂UserPermissions
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂CreateUserPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateUserPermissionRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserPermissionResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserPermissionsProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂GetIdUserPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GetUserPermissionsRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂UpdateUserPermissions
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UpdateUserPermissionStatusRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserPermissionsController.cs
+ ┃ ┃ ┃ ┃ ┗ 📂Users
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂CreateUser
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateUserProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CreateUserRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserResponse.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂DeleteUser
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteUserProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DeleteUserRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DeleteUserRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂GetUser
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜GetUserProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜GetUserRequest.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜GetUserRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂UpdateUser
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdateUserProfile.cs
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UpdateUserRequestValidator.cs
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserController.cs
+ ┃ ┃ ┃ ┣ 📂Docker
+ ┃ ┃ ┃ ┃ ┗ 📂empty
+ ┃ ┃ ┣ 📂Properties
+ ┃ ┃ ┃ ┗ 📜launchSettings.json
+ ┃ ┃ ┣ 📜appsettings.Development.json
+ ┃ ┃ ┣ 📜appsettings.Docker.json
+ ┃ ┃ ┣ 📜appsettings.json
+ ┃ ┃ ┣ 📜Dockerfile
+ ┃ ┃ ┣ 📜Program.cs
+ ┃ ┃ ┣ 📜SJInovacao.Acesso.WebAPI.csproj
+ ┃ ┃ ┣ 📜SJInovacao.Acesso.WebAPI.csproj.user
+ ┃ ┃ ┣ 📜SJInovacao.Acesso.WebAPI.http
+ ┃ ┃ ┗ 📜WeatherForecast.cs
+ ┃ ┗ 📂Tests
+ ┃ ┃ ┣ 📂SJInovacao.Acesso.IntegrationTests
+ ┃ ┃ ┃ ┣ 📜SJInovacao.Acesso.IntegrationTests.csproj
+ ┃ ┃ ┃ ┗ 📜UnitTest1.cs
+ ┃ ┃ ┗ 📂SJInovacao.Acesso.UnitTests
+ ┃ ┃ ┃ ┣ 📜SJInovacao.Acesso.UnitTests.csproj
+ ┃ ┃ ┃ ┗ 📜UnitTest1.cs
+ ┣ 📜.dockerignore
+ ┣ 📜.gitattributes
+ ┣ 📜.gitignore
+ ┣ 📜docker-compose.dcproj
+ ┣ 📜docker-compose.override.yml
+ ┣ 📜docker-compose.yml
+ ┣ 📜launchSettings.json
+ ┣ 📜README.md
+ ┗ 📜SJInovacao.Acesso.slnx
