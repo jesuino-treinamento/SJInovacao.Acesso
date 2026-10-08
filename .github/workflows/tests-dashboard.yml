@@ -23,9 +23,14 @@ jobs:
     - name: Executar script PowerShell (Update-History.ps1)
       run: pwsh -File .\scripts\Update-History.ps1
 
+    # ESTA É A ETAPA QUE ESTAVA FALTANDO! Ela gera o Dashboard.html
+    - name: Gerar Dashboard (Generate-TestReport.ps1)
+      run: pwsh -File .\scripts\Generate-TestReport.ps1
+
     - name: Verificar se Dashboard foi gerado
       run: |
-        if (-not (Test-Path "./scripts/Dashboard.html")) {
+        # CAMINHO CORRIGIDO ABAIXO: TestResults em vez de scripts
+        if (-not (Test-Path "./TestResults/Dashboard.html")) {
           Write-Error "Dashboard.html não encontrado."
           exit 1
         }
@@ -38,6 +43,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./TestResults  # <--- Envia APENAS a pasta TestResults
-        force_orphan: true          # <--- Cria a branch do zero, sem histórico
+        publish_dir: ./TestResults
+        force_orphan: true
         enable_jekyll: false
