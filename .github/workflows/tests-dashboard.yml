@@ -1,48 +1,46 @@
-param(
-    [string]$TrxFolder = ".\src\Tests",
-    [string]$HistoryFile = ".\TestResults\history.json"
-)
+name: Testes Automatizados e Dashboard
 
-function Get-TestSummary($trxFile) {
-    [xml]$xml = Get-Content $trxFile
-    $counters = $xml.TestRun.ResultSummary.Counters
-    return @{
-        File = (Split-Path $trxFile -Leaf)
-        Total = $counters.total
-        Passed = $counters.passed
-        Failed = $counters.failed
-    }
-}
+on:
+  push:
+    branches: [ master ]
 
-# Busca todos os arquivos .trx nas subpastas
-$trxFiles = Get-ChildItem -Path $TrxFolder -Recurse -Filter *.trx
+jobs:
+  build:
+    runs-on: windows-latest
 
-# Cria lista de resultados
-$results = @()
-foreach ($file in $trxFiles) {
-    $results += Get-TestSummary $file.FullName
-}
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
 
-# Cria objeto da execução atual
-$currentRun = @{
-    Date = (Get-Date).ToString("yyyy-MM-dd HH:mm")
-    Results = $results
-}
+    - name: Instalar .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
 
-# Carrega histórico existente ou cria lista nova
-if (Test-Path $HistoryFile) {
-    $history = Get-Content $HistoryFile | ConvertFrom-Json
-    if (-not ($history -is [System.Collections.IList])) {
-        $history = @($history)
-    }
-} else {
-    $history = @()
-}
+    - name: Restaurar dependências
+      run: dotnet restore ./SJInovacao.Acesso.slnx
 
-# Adiciona execução atual ao histórico
-$history += $currentRun
+    - name: Executar script PowerShell (Update-History.ps1)
+      run: pwsh -File .\scripts\Update-History.ps1
 
-# Salva de volta em JSON
-$history | ConvertTo-Json -Depth 5 | Out-File $HistoryFile -Encoding utf8
+    - name: Gerar Dashboard (Generate-TestReport.ps1)
+      run: pwsh -File .\scripts\Generate-TestReport.ps1
 
-Write-Host "Histórico atualizado em $HistoryFile"
+    - name: Verificar se Dashboard foi gerado
+      run: |
+        if (-not (Test-Path "./TestResults/Dashboard.html")) {
+          Write-Error "Dashboard.html não encontrado."
+          exit 1
+        }
+
+    - name: Copiar Dashboard para index.html
+      run: |
+        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./TestResults/index.html" -Force
+
+    - name: Publicar Dashboard no GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./TestResults
+        force_orphan: true
+        enable_jekyll: false
