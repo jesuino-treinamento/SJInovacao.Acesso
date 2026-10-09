@@ -108,9 +108,9 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions
             return Ok(result);
         }
 
-        //[Authorize]
-        //[Group("group.all")]
-        //[Permission("user.view", "user.update")] // 🔒 exige permissão
+        [Authorize]
+        [Group("group.all")]
+        [Permission("user.view", "user.update")] // 🔒 exige permissão
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithData<List<PermissionResponse>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> List(CancellationToken cancellationToken)

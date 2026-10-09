@@ -8,14 +8,16 @@ namespace SJInovacao.Acesso.Common.Security
 {
     public static class AuthenticationExtension
     {
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddJwtAuthentication(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
-            var secretKey = configuration["Jwt:SecretKey"]?.ToString();
+            var secretKey = configuration["Jwt:SecretKey"];
             ArgumentException.ThrowIfNullOrWhiteSpace(secretKey);
 
-            var key = Encoding.ASCII.GetBytes(secretKey);
+            var key = Encoding.UTF8.GetBytes(secretKey);
 
             services.AddAuthentication(x =>
             {
@@ -35,8 +37,6 @@ namespace SJInovacao.Acesso.Common.Security
                     ClockSkew = TimeSpan.Zero
                 };
             });
-
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
             return services;
         }

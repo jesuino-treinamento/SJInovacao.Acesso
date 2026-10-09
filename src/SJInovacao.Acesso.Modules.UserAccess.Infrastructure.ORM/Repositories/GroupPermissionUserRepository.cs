@@ -25,7 +25,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             return _context.Set<UserGroup>()
                 .Include(g => g.Group.UsersGroupsPermissions)
                     .ThenInclude(ugp => ugp.Permission)
-                .AsNoTracking(); // leitura, sem rastrear
+                .AsNoTracking(); 
         }
 
         public async Task<PaginatedList<UserGroup>> GetAllPaginatedAsync(int page, int size, string orderBy, CancellationToken cancellationToken)

@@ -8,19 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.14" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SJInovacao.Acesso.IoC\SJInovacao.Acesso.IoC.csproj" />
     <ProjectReference Include="..\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM\SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.csproj" />
-    <ProjectReference Include="..\SJInovacao.Acesso.WebAPI\SJInovacao.Acesso.WebAPI.csproj" />
   </ItemGroup>
 
 
