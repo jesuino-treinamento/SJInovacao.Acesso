@@ -337,10 +337,10 @@ public class Program
 
 
             // 🔐 PROTEÇÃO DO SWAGGER EM PRODUÇÃO
-            if (app.Environment.IsProduction())                       
-            {
-                app.UseMiddleware<SwaggerBasicAuthMiddleware>();
-            }
+            //if (app.Environment.IsProduction())                       
+            //{
+            //    app.UseMiddleware<SwaggerBasicAuthMiddleware>();
+            //}
             //if (app.Environment.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage(); // mostra stacktrace amigável em dev
