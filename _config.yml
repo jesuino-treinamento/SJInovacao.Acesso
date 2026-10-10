@@ -1,0 +1,34 @@
+title: SJInovacao.Acesso
+description: Documentação técnica do módulo Acesso
+theme: jekyll-theme-cayman
+
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+
+relative_links:
+  enabled: true
+  collections: false
+
+optional_front_matter:
+  remove_originals: true
+
+defaults:
+  - scope:
+      path: "docs"
+    values:
+      layout: default
+
+include:
+  - docs
+
+exclude:
+  - "*.trx"
+  - "TestResults/"
+  - "deploy/"
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
