@@ -22,6 +22,78 @@ namespace SJInovacao.Acesso.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("SJInovacao.Acesso.Common.Auditing.AuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("AffectedColumns")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CorrelationId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EntityId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EntityName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("IpAddress")
+                        .HasMaxLength(45)
+                        .HasColumnType("character varying(45)");
+
+                    b.Property<string>("NewValues")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("OldValues")
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTime>("Timestamp")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CorrelationId")
+                        .HasDatabaseName("IX_AuditLogs_CorrelationId");
+
+                    b.HasIndex("Timestamp")
+                        .IsDescending()
+                        .HasDatabaseName("IX_AuditLogs_Timestamp");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_AuditLogs_UserId");
+
+                    b.HasIndex("EntityName", "EntityId")
+                        .HasDatabaseName("IX_AuditLogs_EntityName_EntityId");
+
+                    b.ToTable("AuditLogs", (string)null);
+                });
+
             modelBuilder.Entity("SJInovacao.Acesso.Modules.UserAccess.Domain.Entities.Address", b =>
                 {
                     b.Property<Guid>("Id")
@@ -98,6 +170,9 @@ namespace SJInovacao.Acesso.Database.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .HasDatabaseName("IX_GroupPermissions_Name");
 
                     b.ToTable("GroupPermissions", (string)null);
                 });
@@ -230,7 +305,8 @@ namespace SJInovacao.Acesso.Database.Migrations
 
                     b.HasKey("UserId", "GroupId");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("GroupId")
+                        .HasDatabaseName("IX_UserGroups_GroupId");
 
                     b.ToTable("UserGroups", (string)null);
                 });
@@ -289,7 +365,11 @@ namespace SJInovacao.Acesso.Database.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("IX_UGP_PermissionId");
+
+                    b.HasIndex("UserId", "GroupId")
+                        .HasDatabaseName("IX_UGP_UserId_GroupId");
 
                     b.ToTable("UsersGroupsPermissions", (string)null);
                 });

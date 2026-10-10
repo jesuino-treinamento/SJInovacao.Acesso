@@ -5,15 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.DeleteGroupAccess;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupAccess.UpdateGroupAccess;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreaterPermissionGroup;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetGroupPermissions;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.UpdateGroupPermissionStatus;
 using SJInovacao.Acesso.WebAPI.Common;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.CreateGroupAccess;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.UpdateGroupAccess;
-using SJInovacao.Acesso.WebAPI.Modules.UserAccess.Users.CreateUser;
 
 namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
 {
@@ -69,7 +65,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateGroupStatus(Guid groupId, [FromBody] UpdateGroupAccessRequest request, CancellationToken ct)
         {
-            //if (request == null) return BadRequest();
             try
             {
                 var command = new UpdateGroupAccessCommand
@@ -95,8 +90,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
 
         }
 
-
-        // DELETE: api/groupAccess/groupPermissions/{groupId}/{permissionId}
         [HttpDelete("{groupId:guid}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Remove(Guid groupId, CancellationToken ct)
@@ -121,7 +114,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
             }
         }
 
-        // GET: api/groupAccess/groupPermissions/{groupId}
         [HttpGet("{groupId:guid}")]
         public async Task<IActionResult> GetByUserId(Guid groupId, CancellationToken ct)
         {
@@ -141,7 +133,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupsAccess
             }           
         }
 
-        // GET: api/groupAccess/groupPermissions
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken ct)
         {

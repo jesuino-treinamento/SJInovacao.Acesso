@@ -2,20 +2,15 @@
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Specifications;
 
-// Namespace que contém as entidades do domínio
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
-    /// <summary>
-    /// Classe que representa um Telefone no sistema
-    /// Implementa IDesativavel para permitir desativação/ativação
-    /// </summary>
     public class Phone : BaseEntity, IDeactivatable
     {
-        public string Number { get; private set; } = null!;      // Número do telefone
-        public PhoneType Type { get; private set; }               // Tipo do telefone (enum)
+        public string Number { get; private set; } = string.Empty;      
+        public PhoneType Type { get; private set; }               
         public Guid PersonId { get; set; }
-        public Person Person { get; set; }
-        public bool IsActive { get; private set; }
+        public Person Person { get; set; } = null!; 
+        public bool IsActive { get; private set; } = true;         
 
         // Construtor privado para EF Core
         public Phone() { }

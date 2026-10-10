@@ -26,6 +26,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.HasMany(g => g.GroupsPermissions)
                .WithOne(ug => ug.Group)
                .HasForeignKey(ug => ug.GroupId);
+
+            builder.HasIndex(g => g.Name)
+                .HasDatabaseName("IX_GroupPermissions_Name");
         }
 
     }

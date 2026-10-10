@@ -1,67 +1,59 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Pagination;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.GetAllUserGroupsWithPermissions
 {
     public class GetAllUGWithPermissionsPaginatedHandler
-    : IRequestHandler<GetAllUGWithPermissionsPaginatedQuery, PaginatedList<GroupUsersPermissionResult>>
+        : IRequestHandler<GetAllUGWithPermissionsPaginatedQuery, PaginatedList<GroupUsersPermissionResult>>
     {
         private readonly IGroupPermissionUserRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetAllUGWithPermissionsPaginatedHandler(IGroupPermissionUserRepository repository, IMapper mapper)
-            => (_repository, _mapper) = (repository, mapper);
+        public GetAllUGWithPermissionsPaginatedHandler(
+            IGroupPermissionUserRepository repository,
+            IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
 
         public async Task<PaginatedList<GroupUsersPermissionResult>> Handle(
             GetAllUGWithPermissionsPaginatedQuery request,
             CancellationToken cancellationToken)
         {
-            var queryable = _repository.Query();
+            var page = await _repository.GetAllPaginatedAsync(
+                request.Page, request.Size, request.Order, cancellationToken);
 
-            if (request.OnlyActiveUsers)
-                queryable = queryable.Where(g => !g.Group.UsersGroupsPermissions.Any(ugp => !ugp.IsActive));
+            if (page.Items.Count == 0)
+            {
+                return new PaginatedList<GroupUsersPermissionResult>(
+                    new List<GroupUsersPermissionResult>(),
+                    page.TotalCount, page.PageNumber, page.PageSize);
+            }
 
-            if (!string.IsNullOrWhiteSpace(request.PermissionNameFilter))
-                queryable = queryable.Where(g => g.Group.UsersGroupsPermissions
-                    .Any(p => EF.Functions.ILike(p.Permission.Name, $"%{request.PermissionNameFilter}%")));
+            var userIds = page.Items.Select(p => p.UserId).Distinct().ToList();
+            var groupIds = page.Items.Select(p => p.GroupId).Distinct().ToList();
 
-            var users = await _repository.GetAllPaginatedAsync(request.Page, request.Size, request.Order, cancellationToken);
+            var permissions = await _repository.GetPermissionsForPageAsync(
+                userIds, groupIds, cancellationToken);
 
-            var items = await queryable
-                .Skip((request.Page - 1) * request.Size)
-                .Take(request.Size)
-                .Select(g => new GroupUsersPermissionResult
-                {
-                    UserId = g.UserId,
-                    UserName = g.User.Name.ToString(),
-                    GroupId = g.Group.Id,
-                    GroupName = g.Group.Name,
-                    Permissions = g.Group.UsersGroupsPermissions
-                        .Select(p => new PermissionDto
-                        {
-                            Id = p.Permission.Id,
-                            Name = p.Permission.Name,
-                            Description = p.Permission.Description,
-                            IsActive = p.IsActive,
-                            CreatedAt = p.CreatedAt,
-                            UpdatedAt = p.UpdatedAt
-                        }).ToList()
-                })
-                .ToListAsync(cancellationToken);
-
-            //var _itens = _mapper.Map<List<UserGroupDTO>>(users.Items.Select(x => x.Group));
+            var results = page.Items.Select(ug => new GroupUsersPermissionResult
+            {
+                UserId = ug.UserId,
+                UserName = ug.UserName,
+                GroupId = ug.GroupId,
+                GroupName = ug.GroupName,
+                UserIsActive = ug.UserIsActive,
+                Permissions = permissions.TryGetValue((ug.UserId, ug.GroupId), out var list)
+                    ? _mapper.Map<List<PermissionDto>>(list)
+                    : new List<PermissionDto>()
+            }).ToList();
 
             return new PaginatedList<GroupUsersPermissionResult>(
-                items,
-                users.TotalCount,
-                users.PageNumber,
-                users.PageSize);
+                results, page.TotalCount, page.PageNumber, page.PageSize);
         }
     }
-
 }

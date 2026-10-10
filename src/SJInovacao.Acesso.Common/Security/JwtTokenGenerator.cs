@@ -11,33 +11,16 @@ namespace SJInovacao.Acesso.Common.Security
     {
         private readonly IConfiguration _configuration;
 
-        /// <summary>
-        /// Initializes a new instance of the JWT token generator.
-        /// </summary>
-        /// <param name="configuration">Application configuration containing the necessary keys for token generation.</param>
         public JwtTokenGenerator(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Generates a JWT token for a specific user.
-        /// </summary>
-        /// <param name="user">User for whom the token will be generated.</param>
-        /// <returns>Valid JWT token as string.</returns>
-        /// <remarks>
-        /// The generated token includes the following claims:
-        /// - NameIdentifier (User ID)
-        /// - Name (Username)
-        /// - Role (User role)
-        /// 
-        /// The token is valid for 8 hours from the moment of generation.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Thrown when user or secret key is not provided.</exception>
         public string GenerateToken(IUser user, IEnumerable<string> permissions, IEnumerable<string> groups)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
+            var key = _configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey não configurado.");
+            var keyBytes = Encoding.UTF8.GetBytes(key);
 
             var claims = new List<Claim>
             {
@@ -45,30 +28,20 @@ namespace SJInovacao.Acesso.Common.Security
                new Claim(ClaimTypes.NameIdentifier, user.Id),
                new Claim(ClaimTypes.Name, user.Username),
                new Claim(ClaimTypes.Role, user.Role)
-               //new Claim("permissions", string.Join(",", user.Permissions))
             };
 
-            // ✅ Corrigir aqui: criar uma claim por permissão
-            //claims.AddRange(user.Permissions.Select(p => new Claim("permissions", p)));
-            // Adiciona todas as permissions como claims
             claims.AddRange(permissions.Select(permission =>
                 new Claim("permissions", permission)));
 
             claims.AddRange(groups.Select(group =>
-               new Claim("groups", group)));
-
-            //// Adiciona as permissões como claims individuais
-            //foreach (var permission in user.Permissions)
-            //{
-            //    claims.Add(new Claim("permissions", permission));
-            //}
+               new Claim("groups", group)));            
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
+                    new SymmetricSecurityKey(keyBytes),
                     SecurityAlgorithms.HmacSha256Signature)
             };
 

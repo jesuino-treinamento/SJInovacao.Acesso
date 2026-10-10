@@ -3,9 +3,6 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using SJInovacao.Acesso.Common.Security.Authentication.GroupAccess;
 using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SJInovacao.Acesso.Common.Security.Authentication
 {
@@ -42,7 +39,7 @@ namespace SJInovacao.Acesso.Common.Security.Authentication
 
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new PermissionRequirement(string.Join(",", permissions)));
-                return Task.FromResult(policy.Build());
+                return Task.FromResult<AuthorizationPolicy?>(policy.Build());
             }
 
             if (policyName.StartsWith($"{GROUP_PREFIX}:", StringComparison.OrdinalIgnoreCase))
@@ -57,7 +54,7 @@ namespace SJInovacao.Acesso.Common.Security.Authentication
 
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new GroupRequirement(string.Join(",", groups)));
-                return Task.FromResult(policy.Build());
+                return Task.FromResult<AuthorizationPolicy?>(policy.Build());
             }
 
             Log.Warning("⚠️ [HybridPolicyProvider] Política não reconhecida, delegando para fallback: {PolicyName}", policyName);

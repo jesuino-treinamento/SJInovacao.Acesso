@@ -1,66 +1,115 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
-    public class PermissionRepository : IPermissionRepository
+    public class PermissionRepository : BaseRepository<Permission>, IPermissionRepository
     {
-        private readonly DefaultContext _context;
-
-        public PermissionRepository(DefaultContext context)
+        public PermissionRepository(
+            DefaultContext context,
+            ILogger<PermissionRepository> logger)
+            : base(context, logger)
         {
-            _context = context;
         }
 
-        public async Task<Permission?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => await _context.Permissions.FindAsync(new object[] { id }, cancellationToken);
+        // =========================
+        // LEITURA
+        // =========================
 
-        public async Task<List<Permission>> GetAllAsync(CancellationToken cancellationToken)
-            => await _context.Permissions
-            .Include(p => p.UsersGroupsPermissions)
-                .ThenInclude(g => g.User)
-            .ToListAsync(cancellationToken);
+        public Task<Permission?> GetByIdAsync(Guid id, CancellationToken ct)
+            => ExecuteWithLoggingAsync(
+                $"GetById:{id}",
+                async () => await _context.Permissions
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == id, ct));
 
-        public async Task<Permission> CreateAsync(Permission permission, CancellationToken cancellationToken)
-        {
-            var exist = await GetNameAsync(permission.Name, cancellationToken);
-            if (exist)
-                throw new DomainException("A permission with the same name already exists");
+        public Task<List<Permission>> GetAllAsync(CancellationToken ct)
+            => ExecuteWithLoggingAsync(
+                "GetAll",
+                async () => await _context.Permissions
+                    .AsNoTracking()
+                    .Include(p => p.UsersGroupsPermissions)
+                        .ThenInclude(g => g.User)
+                    .ToListAsync(ct));
 
-            _context.Permissions.Add(permission);
-            await _context.SaveChangesAsync(cancellationToken);
-            return permission;
-        }
+        public Task<bool> GetNameAsync(string name, CancellationToken ct = default)
+            => ExecuteWithLoggingAsync(
+                $"GetName:{name}",
+                async () => await _context.Permissions
+                    .AsNoTracking()
+                    .AnyAsync(p => p.Name == name, ct));
 
-        public async Task<Permission> UpdateAsync(Permission permission, CancellationToken cancellationToken = default)
-        {
-            _context.Permissions.Update(permission);
-            await _context.SaveChangesAsync(cancellationToken);
-            return permission;
-        }
+        // =========================
+        // ESCRITA
+        // =========================
 
-        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var entity = await GetByIdAsync(id, cancellationToken);
-            if (entity == null) return false;
-            _context.Permissions.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
-        }
+        public Task<Permission> CreateAsync(Permission permission, CancellationToken ct)
+            => ExecuteWithLoggingAsync(
+                $"Create:{permission.Name}",
+                async () =>
+                {
+                    var exists = await _context.Permissions
+                        .AnyAsync(p => p.Name == permission.Name, ct);
 
-        public async Task<bool> DesativarAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var entity = await GetByIdAsync(id, cancellationToken);
-            if (entity == null) return false;
-            entity.IsActive = false;
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
-        }
+                    if (exists)
+                        throw new DomainException("A permission with the same name already exists");
 
-        public async Task<bool> GetNameAsync(string name, CancellationToken cancellationToken = default)
-            => await _context.Permissions.AnyAsync(p => p.Name == name, cancellationToken);
+                    _context.Permissions.Add(permission);
+                    await _context.SaveChangesAsync(ct);
+
+                    return permission;
+                });
+
+        public Task<Permission> UpdateAsync(Permission permission, CancellationToken ct = default)
+            => ExecuteWithLoggingAsync(
+                $"Update:{permission.Id}",
+                async () =>
+                {
+                    var exists = await _context.Permissions
+                        .AnyAsync(p => p.Name == permission.Name && p.Id != permission.Id, ct);
+
+                    if (exists)
+                        throw new DomainException($"Já existe uma permissão com o nome '{permission.Name}'.");
+
+                    _context.Permissions.Update(permission);
+                    await _context.SaveChangesAsync(ct);
+
+                    return permission;
+                });
+
+        public Task<bool> DeleteAsync(Guid id, CancellationToken ct = default)
+            => ExecuteWithLoggingAsync(
+                $"Delete:{id}",
+                async () =>
+                {
+                    var entity = await _context.Permissions
+                        .FirstOrDefaultAsync(p => p.Id == id, ct);
+
+                    if (entity is null)
+                        return false;
+
+                    _context.Permissions.Remove(entity);
+                    await _context.SaveChangesAsync(ct);
+                    return true;
+                });
+
+        public Task<bool> DesativarAsync(Guid id, CancellationToken ct = default)
+            => ExecuteWithLoggingAsync(
+                $"Desativar:{id}",
+                async () =>
+                {
+                    var entity = await _context.Permissions
+                        .FirstOrDefaultAsync(p => p.Id == id, ct);
+
+                    if (entity is null)
+                        return false;
+
+                    entity.IsActive = false;
+                    await _context.SaveChangesAsync(ct);
+                    return true;
+                });
     }
 }
-

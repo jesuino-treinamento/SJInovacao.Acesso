@@ -1,8 +1,8 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Http;
 using SJInovacao.Acesso.Common.Security.Context;
-using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
-namespace SJInovacao.Acesso.Common.Middleware
+namespace SJInovacao.Acesso.WebAPI.Middleware 
 {
     public class UserContextMiddleware
     {
@@ -24,26 +24,6 @@ namespace SJInovacao.Acesso.Common.Middleware
                 var groups = user.FindAll("groups").Select(p => p.Value).ToList();
 
                 concreteUserContext.SetUserData(userId, userName, userRole, permissions, groups);
-            }
-
-            if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
-            {
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
-                {
-                    success = false,
-                    message = "Você não tem permissão para acessar este recurso."
-                }));
-            }
-
-            if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
-            {
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
-                {
-                    success = false,
-                    message = "Você não tem autorização para acessar este recurso."
-                }));
             }
 
             await _next(context);

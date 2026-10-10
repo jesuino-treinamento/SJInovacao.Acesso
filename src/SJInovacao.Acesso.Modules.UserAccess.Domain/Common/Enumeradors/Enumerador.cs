@@ -9,7 +9,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Common.Enumeradors
             if (e is Enum)
             {
                 var type = e.GetType();
-                var name = type.GetEnumName(e);
+                //var name = type.GetEnumName(e);
+                var name = type.GetEnumName(e)?.FirstOrDefault().ToString() ?? string.Empty;
                 var membro = type.GetMember(name);
 
                 var descriptionAttribute = membro[0]

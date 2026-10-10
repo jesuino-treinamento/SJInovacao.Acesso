@@ -7,9 +7,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
     {
         public Guid UserId { get; set; }
         public Guid GroupAccessId { get; set; }
-        public bool UserIsActive { get; set; } 
-        public List<Guid>? PermissionIds { get; set; }
-        //public string? PermissionName { get; set; } = null; // Novo campo
+        public bool UserIsActive { get; set; }
+        public List<Guid> PermissionIds { get; set; } = null!;
         public bool? PermissionIsActive { get; set; } 
     }
 }

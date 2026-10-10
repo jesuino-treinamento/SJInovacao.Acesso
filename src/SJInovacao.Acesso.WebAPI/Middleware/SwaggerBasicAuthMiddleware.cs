@@ -19,7 +19,7 @@ namespace SJInovacao.Acesso.WebAPI.Middleware // Ajuste o namespace conforme sua
             // Verifica se a requisição é para a rota do Swagger
             if (context.Request.Path.StartsWithSegments("/swagger"))
             {
-                string authHeader = context.Request.Headers["Authorization"];
+                string authHeader = context.Request.Headers["Authorization"].ToString();
                 if (authHeader != null && authHeader.StartsWith("Basic "))
                 {
                     // Obtém as credenciais codificadas em Base64

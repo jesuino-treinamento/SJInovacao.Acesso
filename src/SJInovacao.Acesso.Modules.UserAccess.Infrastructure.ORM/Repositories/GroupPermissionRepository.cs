@@ -7,15 +7,9 @@ using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
     public class GroupPermissionRepository : BaseRepository<GroupPermission>, IGroupPermissionRepository
-    {
-        private readonly DefaultContext _context;
-        private readonly ILogger<GroupPermissionRepository> _logger;
-
+    {  
         public GroupPermissionRepository(DefaultContext context, ILogger<GroupPermissionRepository> logger)
-        : base(context, logger)
-        {
-            _context = context; _logger = logger;
-        }
+        : base(context, logger) { }
 
         public async Task<GroupPermission?> GetByIdAsync(Guid id, CancellationToken ct)
         {
@@ -79,34 +73,34 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         }
 
         public async Task<GroupPermission> UpdateAsync(GroupPermission groupPermission, CancellationToken ct)
-        {
-            using var transaction = await Context.Database.BeginTransactionAsync(ct);           
+        {                      
             return await ExecuteWithLoggingAsync(
             "UpdateGroupPermissions",
             async () =>
             {
+                using var transaction = await _context.Database.BeginTransactionAsync(ct);
                 try
                 {
-                    var exists = await Context.GroupPermissions
+                    var exists = await _context.GroupPermissions
                     .AnyAsync(gp => gp.Name == groupPermission.Name && gp.Id != groupPermission.Id, ct);
 
                     if (exists)
                         throw new DomainException($"Já existe um grupo com o nome '{groupPermission.Name}'.");
 
-                    var existingLinks = await Context.GroupsPermissions
+                    var existingLinks = await _context.GroupsPermissions
                         .Where(gp => gp.GroupId == groupPermission.Id)
                         .ToListAsync(ct);
 
                     foreach (var gp in existingLinks.Where(gp => !groupPermission.GroupsPermissions.Any(gp2 => gp2.PermissionId == gp.PermissionId)))
                     {
-                        Context.GroupsPermissions.Remove(gp);
+                        _context.GroupsPermissions.Remove(gp);
 
-                        Context.UsersGroupsPermissions.RemoveRange(
-                            Context.UsersGroupsPermissions.Where(x => x.GroupId == groupPermission.Id && x.PermissionId == gp.PermissionId)
+                        _context.UsersGroupsPermissions.RemoveRange(
+                            _context.UsersGroupsPermissions.Where(x => x.GroupId == groupPermission.Id && x.PermissionId == gp.PermissionId)
                         );
 
-                        Context.UserPermissions.RemoveRange(
-                            Context.UserPermissions.Where(x => x.UserId == groupPermission.Id && x.PermissionId == gp.PermissionId)
+                        _context.UserPermissions.RemoveRange(
+                            _context.UserPermissions.Where(x => x.UserId == groupPermission.Id && x.PermissionId == gp.PermissionId)
                         );
                     }
 
@@ -114,7 +108,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         .Select(gp => gp.PermissionId)
                         .ToList();
 
-                    var groupPermissionsToUpdate = await Context.GroupsPermissions
+                    var groupPermissionsToUpdate = await _context.GroupsPermissions
                         .Where(gp => gp.GroupId == groupPermission.Id && permissionIds.Contains(gp.PermissionId))
                         .ToListAsync(ct);
 
@@ -123,9 +117,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         gp.IsActive = groupPermission.IsActive;
                         gp.UpdatedAt = DateTime.UtcNow;
                     }
-                    Context.GroupsPermissions.UpdateRange(groupPermissionsToUpdate);
+                    _context.GroupsPermissions.UpdateRange(groupPermissionsToUpdate);
 
-                    var entities = await Context.UsersGroupsPermissions
+                    var entities = await _context.UsersGroupsPermissions
                         .Where(ugp => ugp.GroupId == groupPermission.Id)
                         .ToListAsync(ct);
 
@@ -135,7 +129,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         entity.UpdatedAt = DateTime.UtcNow;
                     }
 
-                    var usersPermissions = await Context.UserPermissions
+                    var usersPermissions = await _context.UserPermissions
                         .Where(up => up.UserId == groupPermission.Id)
                         .ToListAsync(ct);
 
@@ -147,25 +141,25 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 
                     groupPermission.UpdatedAt = DateTime.UtcNow;
 
-                    var updatedGroup = Context.GroupPermissions.Update(groupPermission);
+                    var updatedGroup = _context.GroupPermissions.Update(groupPermission);
 
-                    await Context.SaveChangesAsync(ct);
+                    await _context.SaveChangesAsync(ct);
                     await transaction.CommitAsync(ct);
 
-                    Logger.LogInformation("Grupo {GroupId} atualizado com sucesso. Status: {Status}",
+                    _logger.LogInformation("Grupo {GroupId} atualizado com sucesso. Status: {Status}",
                         groupPermission.Id, groupPermission.IsActive ? "Ativo" : "Inativo");
 
                     return updatedGroup.Entity;
                 }                    
                 catch (DomainException ex)
                 {
-                    Logger.LogError(ex, "Erro de domínio ao atualizar grupo {GroupId}", groupPermission.Id);
+                    _logger.LogError(ex, "Erro de domínio ao atualizar grupo {GroupId}", groupPermission.Id);
                     await transaction.RollbackAsync(ct);
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogCritical(ex, "Erro inesperado ao atualizar grupo {GroupId}", groupPermission.Id);
+                    _logger.LogCritical(ex, "Erro inesperado ao atualizar grupo {GroupId}", groupPermission.Id);
                     await transaction.RollbackAsync(ct);
                     throw;
                 }
@@ -173,12 +167,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             });
         }
         public async Task<bool> DeleteAsync(Guid id, CancellationToken ct = default)
-        {
-            using var transaction = await Context.Database.BeginTransactionAsync(ct);           
+        {                      
             return await ExecuteWithLoggingAsync(
             "DeleteGroupPermissions",
             async () =>
             {
+                using var transaction = await _context.Database.BeginTransactionAsync(ct);
                 try
                 {
                     var group = await GetByIdAsync(id, ct);
@@ -210,7 +204,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync(ct);
-                    Logger.LogError(ex, "Erro ao excluir grupo {GroupId}", id);
+                    _logger.LogError(ex, "Erro ao excluir grupo {GroupId}", id);
                     throw;
                 }
             });
@@ -229,7 +223,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         public async Task<IEnumerable<Permission>> GetByGroupIdAsync(Guid groupId, CancellationToken ct)
             => await _context.GroupsPermissions
                 .Where(gp => gp.GroupId == groupId)
-                .Select(gp => gp.Permission)
+                .Select(gp => gp.Permission ?? null!)
                 .ToListAsync(ct);
 
         public async Task RemoveAsync(Guid groupId, CancellationToken ct)

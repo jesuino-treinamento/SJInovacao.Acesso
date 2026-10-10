@@ -37,13 +37,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Crea
                 throw new InvalidOperationException("O permissão não existe!");
             }
 
-            //group.Permissions.Add(permission);
+            var existgroups = await _groupsPermissionsRepository.GetByIdAsync(command.GroupId, command.PermissionId, ct);
 
-            var existgroups = _groupsPermissionsRepository.GetByIdAsync(command.GroupId, command.PermissionId, ct);
-
-            if (existgroups.Result != null)
+            if (existgroups != null)
             {
-                throw new InvalidOperationException("Já existe vinculo de grupo para permissão!");
+                throw new InvalidOperationException("Já existe vínculo de grupo para permissão!");
             }
 
             var groupspermissions = new GroupsPermissions

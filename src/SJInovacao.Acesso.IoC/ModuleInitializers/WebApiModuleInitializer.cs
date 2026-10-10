@@ -9,7 +9,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
         {
 
             builder.Services.AddControllers();
-            builder.Services.AddHealthChecks();
         }
 
         public Task InitializeAsync(WebApplicationBuilder builder)

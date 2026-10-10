@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging.Abstractions;
     using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
     using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
     using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
@@ -25,7 +26,7 @@
         public async Task Deve_Salvar_E_Buscar_Permissao()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             var permission = new Permission
             {
