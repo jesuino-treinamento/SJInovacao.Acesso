@@ -33,6 +33,7 @@ jobs:
         dotnet test src/Tests/SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --logger "trx;LogFileName=ApplicationTests.trx" --results-directory ./TestResults || true
         dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests/SJInovacao.Acesso.IntegrationTests.csproj --logger "trx;LogFileName=IntegrationTests.trx" --results-directory ./TestResults || true
         dotnet test src/Tests/SJInovacao.Acesso.UnitTests/SJInovacao.Acesso.UnitTests.csproj --logger "trx;LogFileName=UnitTests.trx" --results-directory ./TestResults || true
+
     - name: Listar TestResults (debug)
       run: ls -la ./TestResults/
 
@@ -54,8 +55,9 @@ jobs:
           exit 1
         fi
         echo "✅ Dashboard.html OK"
+
     # =========================
-    # 3. MKDOCS
+    # 3. CONVERTER TABELAS
     # =========================
     - name: Instalar Python
       uses: actions/setup-python@v5
@@ -65,11 +67,17 @@ jobs:
     - name: Instalar MkDocs
       run: pip install -r requirements.txt
 
+    - name: Converter tabelas markdown para HTML
+      run: python scripts/convert_tables.py
+
+    # =========================
+    # 4. MKDOCS
+    # =========================
     - name: Gerar site de documentação
       run: mkdocs build --site-dir ./deploy/docs
 
     # =========================
-    # 4. PREPARAR DEPLOY
+    # 5. PREPARAR DEPLOY
     # =========================
     - name: Preparar pasta de deploy
       run: |
@@ -79,8 +87,9 @@ jobs:
         cp ./TestResults/history.json ./deploy/history.json
         echo "--- Conteúdo de deploy: ---"
         ls -la ./deploy/
+
     # =========================
-    # 5. PUBLICAR
+    # 6. PUBLICAR
     # =========================
     - name: Publicar no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
