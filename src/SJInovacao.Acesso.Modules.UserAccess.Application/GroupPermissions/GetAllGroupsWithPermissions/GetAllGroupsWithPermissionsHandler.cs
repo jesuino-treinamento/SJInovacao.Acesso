@@ -25,8 +25,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetA
 
             // Filtro: por nome de permissão
             if (!string.IsNullOrWhiteSpace(query.PermissionNameFilter))
-                groups = groups.Where(g => g.Permissions
-                    .Any(p => p.Name.Contains(query.PermissionNameFilter)));
+            {
+                var filter = query.PermissionNameFilter;
+                groups = groups.Where(g => g.Permissions != null
+                                        && g.Permissions.Any(p => p.Name.Contains(filter)));
+            }
 
             // Limite de resultados
             if (query.MaxResults.HasValue)

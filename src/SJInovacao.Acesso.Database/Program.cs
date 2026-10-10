@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using SJInovacao.Acesso.Common.HealthChecks;
@@ -10,6 +12,7 @@ using SJInovacao.Acesso.Common.Logging;
 using SJInovacao.Acesso.Common.Security;
 using SJInovacao.Acesso.IoC;
 using SJInovacao.Acesso.WebAPI.Middleware;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using System.Text.Json;
 
 public class Program
@@ -97,22 +100,57 @@ public class Program
 
             //app.UseMiddleware<CorrelationIdMiddleware>();
 
+            // =============================
+            // 2. Tratamento global de exceções
+            // =============================
             app.UseExceptionHandler(errorApp =>
             {
                 errorApp.Run(async context =>
                 {
-                    var feature = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+                    var feature = context.Features.Get<IExceptionHandlerFeature>();
                     var exception = feature?.Error;
 
                     var (status, message) = exception switch
                     {
-                        UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Você não tem autorização para acessar este recurso."),
-                        _ => (StatusCodes.Status500InternalServerError, "Erro interno do servidor.")
+                        // FluentValidation → 400 (caso não seja capturado pelo middleware específico)
+                        FluentValidation.ValidationException => (
+                            StatusCodes.Status400BadRequest,
+                            "Erro de validação nos dados enviados."),
+
+                        // DomainException → 400 (regra de negócio violada)
+                        SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions.DomainException domainEx => (
+                            StatusCodes.Status400BadRequest,
+                            domainEx.Message),
+
+                        // Not found → 404 (adicione se você tiver essa exception)
+                        // NotFoundException => (404, "Recurso não encontrado."),
+
+                        // Auth → 401
+                        UnauthorizedAccessException => (
+                            StatusCodes.Status401Unauthorized,
+                            "Você não tem autorização para acessar este recurso."),
+
+                        // Qualquer outra exceção → 500 (não vaza detalhes internos)
+                        _ => (
+                            StatusCodes.Status500InternalServerError,
+                            "Erro interno do servidor. Contate o suporte.")
                     };
+
+                    // Loga o erro real (o cliente não vê os detalhes)
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(exception,
+                        "Erro não tratado em {Method} {Path}",
+                        context.Request.Method,
+                        context.Request.Path);
 
                     context.Response.StatusCode = status;
                     context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(new { success = false, message }));
+
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(new
+                    {
+                        success = false,
+                        message
+                    }));
                 });
             });
 

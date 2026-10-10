@@ -33,7 +33,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Authorization.GroupAc
 
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new GroupRequirement(string.Join(",", groups)));
-                return Task.FromResult(policy.Build());
+                return Task.FromResult<AuthorizationPolicy?>(policy.Build());
             }
 
             return _fallbackProvider.GetPolicyAsync(policyName);

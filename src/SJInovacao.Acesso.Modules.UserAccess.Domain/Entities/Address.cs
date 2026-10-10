@@ -14,7 +14,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public string City { get; private set; } = string.Empty;         
         public string State { get; private set; } = string.Empty;        
         public string ZipCode { get; private set; } = string.Empty;      
-        public Geolocation Geolocation { get; set; }
+        public Geolocation Geolocation { get; set; } = null!;
 
         public bool IsActive { get; private set; } = true;         
 

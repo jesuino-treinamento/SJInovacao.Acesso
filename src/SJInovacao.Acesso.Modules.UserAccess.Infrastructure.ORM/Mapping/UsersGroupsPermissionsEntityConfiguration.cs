@@ -11,6 +11,14 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.ToTable("UsersGroupsPermissions");
 
             builder.HasKey(ugp => new { ugp.UserId, ugp.GroupId, ugp.PermissionId });
+            
+            // Índice composto para a query principal do GetPermissionsForPageAsync
+            builder.HasIndex(ugp => new { ugp.UserId, ugp.GroupId })
+                   .HasDatabaseName("IX_UGP_UserId_GroupId");
+
+            // Índice simples por PermissionId
+            builder.HasIndex(ugp => ugp.PermissionId)
+                   .HasDatabaseName("IX_UGP_PermissionId");
 
             builder.HasOne(ugp => ugp.User)
                    .WithMany(u => u.UsersGroupsPermissions)

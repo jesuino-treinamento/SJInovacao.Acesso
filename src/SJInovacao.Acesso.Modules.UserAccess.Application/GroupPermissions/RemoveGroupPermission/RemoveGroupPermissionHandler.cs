@@ -45,7 +45,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
                    .Where(gp => gp.GroupId == command.GroupId && gp.PermissionId == command.PermissionId)
                    .ToListAsync(cancellationToken);
 
-                if(groupPermissions.Count() == 0)
+                if(groupPermissions.Count == 0)
                 {
                     _logger.LogError("Permissão {PermissionId} não encontrada para o grupo {GroupId}", command.PermissionId, command.GroupId);
                     throw new KeyNotFoundException($"Permissão {command.PermissionId} não encontrada para o grupo {command.GroupId}");

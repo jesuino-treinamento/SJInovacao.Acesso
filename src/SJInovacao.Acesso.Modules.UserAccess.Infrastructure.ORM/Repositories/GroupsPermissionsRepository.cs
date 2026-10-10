@@ -37,8 +37,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 if (!permissionExists)
                     throw new InvalidOperationException($"Permissão {entity.PermissionId} não encontrada.");
 
-                entity.Group = null;
-                entity.Permission = null;
+                entity.Group = null!;
+                entity.Permission = null!;
 
                 // 3️⃣ Adiciona o vínculo
                 await _context.GroupsPermissions.AddAsync(entity, ct);
@@ -111,7 +111,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         }
                         else
                         {
-                            _logger.LogInformation("Atualizando de grupo para GroupId {GroupId} as {GroupPermissions}", groupId, groupPermissions.Count());
+                            _logger.LogInformation("Atualizando de grupo para GroupId {GroupId} as {GroupPermissions}", groupId, groupPermissions.Count);
 
                             await _context.GroupsPermissions
                                 .Where(gp => gp.GroupId == groupId && gp.PermissionId == permissionId)

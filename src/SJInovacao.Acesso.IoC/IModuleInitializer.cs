@@ -4,10 +4,8 @@ namespace SJInovacao.Acesso.IoC
 {
     public interface IModuleInitializer
     {
-        // Inicialização síncrona
         void Initialize(WebApplicationBuilder builder);
 
-        // Inicialização assíncrona (opcional)
-        Task InitializeAsync(WebApplicationBuilder builder) => Task.CompletedTask;  // implementação padrão
+        Task InitializeAsync(WebApplicationBuilder builder) => Task.CompletedTask;  
     }
 }

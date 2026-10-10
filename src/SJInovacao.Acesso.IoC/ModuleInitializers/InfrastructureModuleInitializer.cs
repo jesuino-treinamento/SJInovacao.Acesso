@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SJInovacao.Acesso.Common.Security.Authentication.GroupAccess;
-using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Contracts;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
-using System.Threading.Tasks;
 
 namespace SJInovacao.Acesso.IoC.ModuleInitializers
 {

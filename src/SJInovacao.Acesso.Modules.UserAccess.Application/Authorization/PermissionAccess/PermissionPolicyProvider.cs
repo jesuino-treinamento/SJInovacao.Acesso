@@ -33,7 +33,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Authorization.Permiss
 
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new PermissionRequirement(string.Join(",", permissions)));
-                return Task.FromResult(policy.Build());
+                return Task.FromResult<AuthorizationPolicy?>(policy.Build());
             }
 
             return _fallbackPolicyProvider.GetPolicyAsync(policyName);
