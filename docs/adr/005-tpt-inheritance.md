@@ -1,16 +1,16 @@
-\# ADR-005 — Estratégia de Herança: TPT
+# ADR-005 — Estratégia de Herança: TPT
 
 
 
-\- \*\*Status:\*\* Em revisão (aguardando ADR-002)
+- **Status:** Em revisão (aguardando ADR-002)
 
-\- \*\*Data:\*\* 10/10/2026
+- **Data:** 10/10/2026
 
-\- \*\*Decisores:\*\* Tech Lead, Arquiteto
+- **Decisores:** Tech Lead, Arquiteto
 
 
 
-\## Contexto
+## Contexto
 
 
 
@@ -30,33 +30,33 @@ O modelo de dados tem herança entre `Person` e seus roles (`User`, `Customer`, 
 
 
 
-\## Decisão Atual
+## Decisão Atual
 
 
 
-\*\*TPT\*\* — `User` herda de `Person` com `User.Id = Person.Id`.
+**TPT** — `User` herda de `Person` com `User.Id = Person.Id`.
 
 
 
-\## Problemas Identificados
+## Problemas Identificados
 
 
 
-1\. \*\*Acoplamento:\*\* `User` (Acesso) depende de `Person` (base compartilhada)
+1. **Acoplamento:** `User` (Acesso) depende de `Person` (base compartilhada)
 
-2\. \*\*Duplicação:\*\* se a mesma pessoa é cliente E usuário, precisa ser 2 `Persons`
+2. **Duplicação:** se a mesma pessoa é cliente E usuário, precisa ser 2 `Persons`
 
-3\. \*\*JOIN pesado:\*\* toda query em `User` faz `INNER JOIN Persons`
+3. **JOIN pesado:** toda query em `User` faz `INNER JOIN Persons`
 
-4\. \*\*Escala ruim:\*\* cada novo role adiciona herança na hierarquia
-
-
-
-\## Decisão Proposta
+4. **Escala ruim:** cada novo role adiciona herança na hierarquia
 
 
 
-Migrar para \*\*referência\*\* (não herança) — ver \*\*ADR-002\*\*.
+## Decisão Proposta
+
+
+
+Migrar para **referência** (não herança) — ver **ADR-002**.
 
 
 
@@ -76,53 +76,53 @@ Person (raiz isolada)
 
 
 
-Cada role \*\*referencia\*\* `Person` por FK, sem herança.
+Cada role **referencia** `Person` por FK, sem herança.
 
 
 
-\## Consequências
+## Consequências
 
 
 
-\### Se mantiver TPT
+### Se mantiver TPT
 
 
 
-\- ⚠️ Acoplamento crescente entre módulos
+- ⚠️ Acoplamento crescente entre módulos
 
-\- ⚠️ Bug do "cliente que também é usuário" continua
+- ⚠️ Bug do "cliente que também é usuário" continua
 
-\- ✅ Menor refactor agora
-
-
-
-\### Se migrar para referência (ADR-002)
+- ✅ Menor refactor agora
 
 
 
-\- ✅ Isolamento correto entre módulos
-
-\- ✅ Pessoa com múltiplos papéis sem duplicação
-
-\- ✅ Preparado para extração de microsserviço
-
-\- ⚠️ Refactor + migration necessários
+### Se migrar para referência (ADR-002)
 
 
 
-\## Recomendação
+- ✅ Isolamento correto entre módulos
+
+- ✅ Pessoa com múltiplos papéis sem duplicação
+
+- ✅ Preparado para extração de microsserviço
+
+- ⚠️ Refactor + migration necessários
 
 
 
-\*\*Migrar para referência\*\* — o custo se paga rapidamente na escala de 9 módulos.
+## Recomendação
 
 
 
-\## Referências
+**Migrar para referência** — o custo se paga rapidamente na escala de 9 módulos.
 
 
 
-\- \[ADR-002 — Person como Shared Kernel](002-person-shared-kernel.md)
+## Referências
 
-\- \[Inheritance — EF Core Docs](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
+
+
+- [ADR-002 — Person como Shared Kernel](002-person-shared-kernel.md)
+
+- [Inheritance — EF Core Docs](https://learn.microsoft.com/en-us/ef/core/modeling/inheritance)
 

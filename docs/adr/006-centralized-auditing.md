@@ -1,16 +1,16 @@
-\# ADR-006 — Auditoria Centralizada
+# ADR-006 — Auditoria Centralizada
 
 
 
-\- \*\*Status:\*\* Aceito
+- **Status:** Aceito
 
-\- \*\*Data:\*\* 10/10/2026
+- **Data:** 10/10/2026
 
-\- \*\*Decisores:\*\* Tech Lead, Dev Backend, Compliance
+- **Decisores:** Tech Lead, Dev Backend, Compliance
 
 
 
-\## Contexto
+## Contexto
 
 
 
@@ -18,13 +18,13 @@ Requisitos de auditoria:
 
 
 
-\- \*\*LGPD:\*\* rastrear quem acessa/alterou dados pessoais
+- **LGPD:** rastrear quem acessa/alterou dados pessoais
 
-\- \*\*Compliance:\*\* histórico de alterações de permissões
+- **Compliance:** histórico de alterações de permissões
 
-\- \*\*Debug:\*\* entender o que mudou e quando
+- **Debug:** entender o que mudou e quando
 
-\- \*\*Rastreabilidade:\*\* correlacionar alteração com requisição HTTP
+- **Rastreabilidade:** correlacionar alteração com requisição HTTP
 
 
 
@@ -32,15 +32,15 @@ Sem padronização, cada módulo implementaria sua própria auditoria — incons
 
 
 
-\## Decisão
+## Decisão
 
 
 
-Auditoria \*\*centralizada no `Common`\*\* com interceptação automática no `SaveChangesAsync`.
+Auditoria **centralizada no `Common`** com interceptação automática no `SaveChangesAsync`.
 
 
 
-\### Componentes
+### Componentes
 
 
 
@@ -62,7 +62,7 @@ Common/Auditing/
 
 
 
-\### Fluxo
+### Fluxo
 
 
 
@@ -98,71 +98,71 @@ Commit
 
 
 
-\### Regras
+### Regras
 
 
 
-\- \*\*Auditar:\*\* entidades que implementam `IAuditable`
+- **Auditar:** entidades que implementam `IAuditable`
 
-\- \*\*Mascarar:\*\* `Password`, `RefreshToken`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`
+- **Mascarar:** `Password`, `RefreshToken`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`
 
-\- \*\*Ignorar:\*\* `RowVersion`, `xmin`
+- **Ignorar:** `RowVersion`, `xmin`
 
-\- \*\*Skip:\*\* se `OldValues == NewValues` (Modified falso)
+- **Skip:** se `OldValues == NewValues` (Modified falso)
 
-\- \*\*Formato:\*\* `OldValues`, `NewValues` em JSONB
+- **Formato:** `OldValues`, `NewValues` em JSONB
 
-\- \*\*Metadata:\*\* UserId, UserName, IpAddress, UserAgent, CorrelationId, Timestamp
-
-
-
-\## Consequências
+- **Metadata:** UserId, UserName, IpAddress, UserAgent, CorrelationId, Timestamp
 
 
 
-\### Positivas
+## Consequências
 
 
 
-\- ✅ \*\*Zero esforço por módulo\*\* — adicionar `: IAuditable` e pronto
-
-\- ✅ \*\*Consistência\*\* em todas as tabelas
-
-\- ✅ \*\*LGPD ready\*\* — dados sensíveis mascarados
-
-\- ✅ \*\*Rastreável\*\* — CorrelationId em cada registro
-
-\- ✅ \*\*Atomicidade\*\* — audit + alteração na mesma transação
-
-\- ✅ \*\*Performance\*\* — Skip de "Modified falso" evita poluição
+### Positivas
 
 
 
-\### Negativas
+- ✅ **Zero esforço por módulo** — adicionar `: IAuditable` e pronto
+
+- ✅ **Consistência** em todas as tabelas
+
+- ✅ **LGPD ready** — dados sensíveis mascarados
+
+- ✅ **Rastreável** — CorrelationId em cada registro
+
+- ✅ **Atomicidade** — audit + alteração na mesma transação
+
+- ✅ **Performance** — Skip de "Modified falso" evita poluição
 
 
 
-\- ⚠️ Overhead por `SaveChanges` (\~1-2ms em bases pequenas)
-
-\- ⚠️ Crescimento da tabela (mitigado por índices + retenção)
-
-\- ⚠️ Custo de armazenamento (JSONB)
+### Negativas
 
 
 
-\### Mitigações
+- ⚠️ Overhead por `SaveChanges` (~1-2ms em bases pequenas)
+
+- ⚠️ Crescimento da tabela (mitigado por índices + retenção)
+
+- ⚠️ Custo de armazenamento (JSONB)
 
 
 
-\- Índices otimizados: `EntityName/EntityId`, `Timestamp DESC`, `CorrelationId`
-
-\- Política de retenção: 2 anos + arquivamento
-
-\- Consultas paginadas obrigatórias
+### Mitigações
 
 
 
-\## Schema
+- Índices otimizados: `EntityName/EntityId`, `Timestamp DESC`, `CorrelationId`
+
+- Política de retenção: 2 anos + arquivamento
+
+- Consultas paginadas obrigatórias
+
+
+
+## Schema
 
 
 
@@ -170,7 +170,7 @@ Commit
 
 CREATE TABLE "AuditLogs" (
 
-&#x20;   "Id"              UUID PRIMARY KEY DEFAULT gen\_random\_uuid(),
+&#x20;   "Id"              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
 &#x20;   "EntityName"      VARCHAR(200) NOT NULL,
 
@@ -194,7 +194,7 @@ CREATE TABLE "AuditLogs" (
 
 &#x20;   "CorrelationId"   VARCHAR(100),
 
-&#x20;   "Timestamp"       TIMESTAMPTZ NOT NULL DEFAULT CURRENT\_TIMESTAMP
+&#x20;   "Timestamp"       TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 
 );
 
@@ -202,7 +202,7 @@ CREATE TABLE "AuditLogs" (
 
 
 
-\## Exemplo de Registro
+## Exemplo de Registro
 
 
 
@@ -232,11 +232,11 @@ CREATE TABLE "AuditLogs" (
 
 
 
-\## Referências
+## Referências
 
 
 
-\- \[AuditService.cs](../../src/SJInovacao.Acesso.Common/Auditing/AuditService.cs)
+- [AuditService.cs](../../src/SJInovacao.Acesso.Common/Auditing/AuditService.cs)
 
-\- \[Backlog US01](../backlog/us01-backlog.md)
+- [Backlog US01](../backlog/us01-backlog.md)
 

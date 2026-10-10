@@ -1,70 +1,70 @@
-\# Arquitetura do Projeto — SJInovacao.Acesso
+# Arquitetura do Projeto — SJInovacao.Acesso
 
 
 
-\- \*\*Versão:\*\* 1.0
+- **Versão:** 1.0
 
-\- \*\*Data:\*\* 10/10/2026
+- **Data:** 10/10/2026
 
-\- \*\*Autor:\*\* Tech Lead
+- **Autor:** Tech Lead
 
-\- \*\*Público-alvo:\*\* Devs, Arquitetos, DevOps
-
-
-
-\---
+- **Público-alvo:** Devs, Arquitetos, DevOps
 
 
 
-\## 📑 Sumário
+---
 
 
 
-\- \[Visão Geral](#-visão-geral)
-
-\- \[Princípios Arquiteturais](#-princípios-arquiteturais)
-
-\- \[Estilo Arquitetural](#-estilo-arquitetural)
-
-\- \[Diagrama de Contexto (C4 Nível 1)](#-diagrama-de-contexto-c4-nível-1)
-
-\- \[Diagrama de Containers (C4 Nível 2)](#-diagrama-de-containers-c4-nível-2)
-
-\- \[Diagrama de Componentes (C4 Nível 3)](#-diagrama-de-componentes-c4-nível-3)
-
-\- \[Camadas](#-camadas)
-
-\- \[Estrutura de Módulos](#-estrutura-de-módulos)
-
-\- \[Fluxo de Requisição](#-fluxo-de-requisição)
-
-\- \[Fluxo de Auditoria](#-fluxo-de-auditoria)
-
-\- \[Comunicação entre Módulos](#-comunicação-entre-módulos)
-
-\- \[Banco de Dados](#-banco-de-dados)
-
-\- \[Padrões de Projeto](#-padrões-de-projeto)
-
-\- \[Decisões Arquiteturais (ADRs)](#-decisões-arquiteturais-adrs)
-
-\- \[Roadmap Arquitetural](#-roadmap-arquitetural)
+## 📑 Sumário
 
 
 
-\---
+- [Visão Geral](#-visão-geral)
+
+- [Princípios Arquiteturais](#-princípios-arquiteturais)
+
+- [Estilo Arquitetural](#-estilo-arquitetural)
+
+- [Diagrama de Contexto (C4 Nível 1)](#-diagrama-de-contexto-c4-nível-1)
+
+- [Diagrama de Containers (C4 Nível 2)](#-diagrama-de-containers-c4-nível-2)
+
+- [Diagrama de Componentes (C4 Nível 3)](#-diagrama-de-componentes-c4-nível-3)
+
+- [Camadas](#-camadas)
+
+- [Estrutura de Módulos](#-estrutura-de-módulos)
+
+- [Fluxo de Requisição](#-fluxo-de-requisição)
+
+- [Fluxo de Auditoria](#-fluxo-de-auditoria)
+
+- [Comunicação entre Módulos](#-comunicação-entre-módulos)
+
+- [Banco de Dados](#-banco-de-dados)
+
+- [Padrões de Projeto](#-padrões-de-projeto)
+
+- [Decisões Arquiteturais (ADRs)](#-decisões-arquiteturais-adrs)
+
+- [Roadmap Arquitetural](#-roadmap-arquitetural)
 
 
 
-\## 🎯 Visão Geral
+---
 
 
 
-O \*\*SJInovacao.Acesso\*\* é o módulo de autenticação e autorização do ERP SJInovacao. Foi projetado como \*\*Modular Monolith\*\* — um deploy único, mas com \*\*módulos fortemente isolados logicamente\*\*, preparados para extração futura como microsserviços caso a escala exija.
+## 🎯 Visão Geral
 
 
 
-\### Objetivos Arquiteturais
+O **SJInovacao.Acesso** é o módulo de autenticação e autorização do ERP SJInovacao. Foi projetado como **Modular Monolith** — um deploy único, mas com **módulos fortemente isolados logicamente**, preparados para extração futura como microsserviços caso a escala exija.
+
+
+
+### Objetivos Arquiteturais
 
 
 
@@ -72,53 +72,53 @@ O \*\*SJInovacao.Acesso\*\* é o módulo de autenticação e autorização do ER
 
 | :--- | :--- |
 
-| \*\*Escalabilidade\*\* | Modular Monolith pronto para extração de serviços |
+| **Escalabilidade** | Modular Monolith pronto para extração de serviços |
 
-| \*\*Manutenibilidade\*\* | Clean Architecture + Feature Folders |
+| **Manutenibilidade** | Clean Architecture + Feature Folders |
 
-| \*\*Observabilidade\*\* | Serilog + Correlation ID + Health Checks |
+| **Observabilidade** | Serilog + Correlation ID + Health Checks |
 
-| \*\*Auditabilidade\*\* | AuditService interceptando `SaveChangesAsync` |
+| **Auditabilidade** | AuditService interceptando `SaveChangesAsync` |
 
-| \*\*Performance\*\* | AsNoTracking + Projections + Índices + Warmup |
+| **Performance** | AsNoTracking + Projections + Índices + Warmup |
 
-| \*\*Segurança\*\* | JWT + BCrypt + Policies + Auditoria |
+| **Segurança** | JWT + BCrypt + Policies + Auditoria |
 
-| \*\*Testabilidade\*\* | Repository Pattern + CQRS + DI |
-
-
-
-\---
+| **Testabilidade** | Repository Pattern + CQRS + DI |
 
 
 
-\## 📐 Princípios Arquiteturais
+---
 
 
 
-\### 1. Separação de Responsabilidades (SRP)
+## 📐 Princípios Arquiteturais
 
 
 
-Cada classe tem \*\*uma única razão para mudar\*\*:
+### 1. Separação de Responsabilidades (SRP)
 
 
 
-\- \*\*Domain\*\* — Regras de negócio
-
-\- \*\*Application\*\* — Orquestração de casos de uso
-
-\- \*\*Infrastructure\*\* — Persistência e integrações
-
-\- \*\*WebAPI\*\* — Exposição HTTP
+Cada classe tem **uma única razão para mudar**:
 
 
 
-\### 2. Inversão de Dependência (DIP)
+- **Domain** — Regras de negócio
+
+- **Application** — Orquestração de casos de uso
+
+- **Infrastructure** — Persistência e integrações
+
+- **WebAPI** — Exposição HTTP
 
 
 
-Camadas externas dependem de \*\*abstrações\*\* das camadas internas:
+### 2. Inversão de Dependência (DIP)
+
+
+
+Camadas externas dependem de **abstrações** das camadas internas:
 
 
 
@@ -134,15 +134,15 @@ WebAPI → Application → Domain
 
 
 
-O \*\*Domain\*\* não conhece EF Core, MediatR, AutoMapper ou qualquer biblioteca externa.
+O **Domain** não conhece EF Core, MediatR, AutoMapper ou qualquer biblioteca externa.
 
 
 
-\### 3. Isolamento entre Módulos
+### 3. Isolamento entre Módulos
 
 
 
-Módulos \*\*não se referenciam\*\* diretamente. Comunicação via \*\*contratos públicos\*\*:
+Módulos **não se referenciam** diretamente. Comunicação via **contratos públicos**:
 
 
 
@@ -162,31 +162,31 @@ public interface IUserProvider
 
 
 
-\### 4. Convenção sobre Configuração
+### 4. Convenção sobre Configuração
 
 
 
-\- Feature Folders em vez de Layered Folders
+- Feature Folders em vez de Layered Folders
 
-\- `BaseRepository<TEntity>` em vez de repositórios duplicados
+- `BaseRepository<TEntity>` em vez de repositórios duplicados
 
-\- `ExecuteWithLoggingAsync` em vez de try/catch individual
-
-
-
-\### 5. Auditoria by Default
+- `ExecuteWithLoggingAsync` em vez de try/catch individual
 
 
 
-Toda entidade que implementa `IAuditable` é auditada \*\*automaticamente\*\*, sem esforço por parte do desenvolvedor.
+### 5. Auditoria by Default
 
 
 
-\---
+Toda entidade que implementa `IAuditable` é auditada **automaticamente**, sem esforço por parte do desenvolvedor.
 
 
 
-\## 🏛 Estilo Arquitetural
+---
+
+
+
+## 🏛 Estilo Arquitetural
 
 
 
@@ -194,29 +194,29 @@ Toda entidade que implementa `IAuditable` é auditada \*\*automaticamente\*\*, s
 
 | :--- | :--- | :--- |
 
-| \*\*Estilo\*\* | Modular Monolith | Ver \[ADR-001](../adr/001-modular-monolith.md) |
+| **Estilo** | Modular Monolith | Ver [ADR-001](../adr/001-modular-monolith.md) |
 
-| \*\*Camadas\*\* | Clean Architecture (4 camadas) | Separação clara |
+| **Camadas** | Clean Architecture (4 camadas) | Separação clara |
 
-| \*\*Organização\*\* | Feature Folders | Ver \[ADR-004](../adr/004-feature-folders.md) |
+| **Organização** | Feature Folders | Ver [ADR-004](../adr/004-feature-folders.md) |
 
-| \*\*Comunicação interna\*\* | CQRS (MediatR) | Desacoplamento |
+| **Comunicação interna** | CQRS (MediatR) | Desacoplamento |
 
-| \*\*Persistência\*\* | Repository Pattern | Testabilidade |
+| **Persistência** | Repository Pattern | Testabilidade |
 
-| \*\*Autenticação\*\* | JWT Bearer | Stateless |
+| **Autenticação** | JWT Bearer | Stateless |
 
-| \*\*Auditoria\*\* | Interceptação centralizada | Ver \[ADR-006](../adr/006-centralized-auditing.md) |
+| **Auditoria** | Interceptação centralizada | Ver [ADR-006](../adr/006-centralized-auditing.md) |
 
-| \*\*Deploy\*\* | Docker + Docker Compose | Portabilidade |
-
-
-
-\---
+| **Deploy** | Docker + Docker Compose | Portabilidade |
 
 
 
-\## 🌐 Diagrama de Contexto (C4 Nível 1)
+---
+
+
+
+## 🌐 Diagrama de Contexto (C4 Nível 1)
 
 
 
@@ -290,11 +290,11 @@ Quem usa o sistema e quais são as dependências externas:
 
 
 
-\---
+---
 
 
 
-\## 📦 Diagrama de Containers (C4 Nível 2)
+## 📦 Diagrama de Containers (C4 Nível 2)
 
 
 
@@ -312,7 +312,7 @@ Como o sistema é decomposto em containers executáveis:
 
 │  ┌──────────────────────────────┐                             │
 
-│  │  sjinovacao\_acesso\_api       │                             │
+│  │  sjinovacao_acesso_api       │                             │
 
 │  │  (.NET 9 Runtime)            │                             │
 
@@ -372,7 +372,7 @@ Como o sistema é decomposto em containers executáveis:
 
 
 
-\### Containers
+### Containers
 
 
 
@@ -380,19 +380,19 @@ Como o sistema é decomposto em containers executáveis:
 
 | :--- | :--- | :--- | :--- |
 
-| `sjinovacao\_acesso\_api` | `sjinovacaoacessowebapi:latest` | 8080, 8081 | API .NET 9 |
+| `sjinovacao_acesso_api` | `sjinovacaoacessowebapi:latest` | 8080, 8081 | API .NET 9 |
 
-| `sjinovacao\_developer\_evaluation\_database` | `postgres:16` | 5434 (host) | Banco PostgreSQL |
+| `sjinovacao_developer_evaluation_database` | `postgres:16` | 5434 (host) | Banco PostgreSQL |
 
-| `silverj\_developer\_evaluation\_cache` | `redis:7-alpine` | interno | Cache Redis |
-
-
-
-\---
+| `silverj_developer_evaluation_cache` | `redis:7-alpine` | interno | Cache Redis |
 
 
 
-\## 🔩 Diagrama de Componentes (C4 Nível 3)
+---
+
+
+
+## 🔩 Diagrama de Componentes (C4 Nível 3)
 
 
 
@@ -526,23 +526,23 @@ Detalhamento interno da WebAPI:
 
 
 
-\---
+---
 
 
 
-\## 🥞 Camadas
+## 🥞 Camadas
 
 
 
-\### 1. Domain (Núcleo)
+### 1. Domain (Núcleo)
 
 
 
-\*\*Responsabilidade:\*\* Regras de negócio, entidades, value objects.
+**Responsabilidade:** Regras de negócio, entidades, value objects.
 
 
 
-\*\*Não depende de:\*\* nenhuma camada externa (só `Common`).
+**Não depende de:** nenhuma camada externa (só `Common`).
 
 
 
@@ -570,27 +570,27 @@ Domain/
 
 
 
-\*\*Princípios:\*\*
+**Princípios:**
 
 
 
-\- Zero dependências de infraestrutura
+- Zero dependências de infraestrutura
 
-\- Regras de negócio explícitas em métodos
+- Regras de negócio explícitas em métodos
 
-\- Value Objects imutáveis
-
-
-
-\### 2. Application
+- Value Objects imutáveis
 
 
 
-\*\*Responsabilidade:\*\* Orquestração de casos de uso, CQRS, validação.
+### 2. Application
 
 
 
-\*\*Depende de:\*\* Domain.
+**Responsabilidade:** Orquestração de casos de uso, CQRS, validação.
+
+
+
+**Depende de:** Domain.
 
 
 
@@ -622,29 +622,29 @@ Application/
 
 
 
-\*\*Princípios:\*\*
+**Princípios:**
 
 
 
-\- \*\*Feature Folders\*\* — cada caso de uso em sua pasta
+- **Feature Folders** — cada caso de uso em sua pasta
 
-\- Handler delega para repositório (não implementa regra)
+- Handler delega para repositório (não implementa regra)
 
-\- Validação com FluentValidation
+- Validação com FluentValidation
 
-\- Mapping com AutoMapper
-
-
-
-\### 3. Infrastructure.ORM
+- Mapping com AutoMapper
 
 
 
-\*\*Responsabilidade:\*\* Persistência, acesso a dados.
+### 3. Infrastructure.ORM
 
 
 
-\*\*Depende de:\*\* Domain.
+**Responsabilidade:** Persistência, acesso a dados.
+
+
+
+**Depende de:** Domain.
 
 
 
@@ -664,29 +664,29 @@ Infrastructure.ORM/
 
 
 
-\*\*Princípios:\*\*
+**Princípios:**
 
 
 
-\- `BaseRepository<TEntity>` como base
+- `BaseRepository<TEntity>` como base
 
-\- `ExecuteWithLoggingAsync` para observabilidade
+- `ExecuteWithLoggingAsync` para observabilidade
 
-\- `AsNoTracking` em leituras
+- `AsNoTracking` em leituras
 
-\- Load-then-update em escritas
-
-
-
-\### 4. WebAPI
+- Load-then-update em escritas
 
 
 
-\*\*Responsabilidade:\*\* Exposição HTTP, autenticação, middlewares.
+### 4. WebAPI
 
 
 
-\*\*Depende de:\*\* IoC (que referencia tudo).
+**Responsabilidade:** Exposição HTTP, autenticação, middlewares.
+
+
+
+**Depende de:** IoC (que referencia tudo).
 
 
 
@@ -702,21 +702,21 @@ WebAPI/
 
 ├── Program.cs             Bootstrap
 
-└── appsettings.\*.json     Configuração por ambiente
+└── appsettings.*.json     Configuração por ambiente
 
 ```
 
 
 
-\### 5. Common (Transversal)
+### 5. Common (Transversal)
 
 
 
-\*\*Responsabilidade:\*\* Infra compartilhada entre módulos.
+**Responsabilidade:** Infra compartilhada entre módulos.
 
 
 
-\*\*Não depende de nenhum módulo.\*\*
+**Não depende de nenhum módulo.**
 
 
 
@@ -740,11 +740,11 @@ Common/
 
 
 
-\### 6. IoC
+### 6. IoC
 
 
 
-\*\*Responsabilidade:\*\* Orquestrar DI.
+**Responsabilidade:** Orquestrar DI.
 
 
 
@@ -768,15 +768,15 @@ IoC/
 
 
 
-\---
+---
 
 
 
-\## 🧩 Estrutura de Módulos
+## 🧩 Estrutura de Módulos
 
 
 
-\### Estado atual
+### Estado atual
 
 
 
@@ -790,7 +790,7 @@ src/
 
 ├── SJInovacao.Acesso.IoC/                     → orquestração
 
-├── SJInovacao.Acesso.Modules.UserAccess.\*     → US01 (Acesso)
+├── SJInovacao.Acesso.Modules.UserAccess.*     → US01 (Acesso)
 
 └── SJInovacao.Acesso.WebAPI/                  → 1 API
 
@@ -798,7 +798,7 @@ src/
 
 
 
-\### Estado futuro (9 módulos)
+### Estado futuro (9 módulos)
 
 
 
@@ -818,11 +818,11 @@ src/
 
 │   ├── Acesso/                                → US01
 
-│   │   ├── \*.Domain/
+│   │   ├── *.Domain/
 
-│   │   ├── \*.Application/
+│   │   ├── *.Application/
 
-│   │   └── \*.Infrastructure.ORM/
+│   │   └── *.Infrastructure.ORM/
 
 │   ├── Cadastros/                             → ADR-002
 
@@ -848,11 +848,11 @@ src/
 
 
 
-\---
+---
 
 
 
-\## 🔄 Fluxo de Requisição
+## 🔄 Fluxo de Requisição
 
 
 
@@ -862,11 +862,11 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 ```
 
-1\. Cliente envia request
+1. Cliente envia request
 
 &#x20;  ↓
 
-2\. CorrelationIdMiddleware
+2. CorrelationIdMiddleware
 
 &#x20;  • Gera/extrai CorrelationId
 
@@ -878,7 +878,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;  ↓
 
-3\. UseExceptionHandler
+3. UseExceptionHandler
 
 &#x20;  • Captura exceções não tratadas
 
@@ -886,21 +886,21 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;  ↓
 
-4\. UseStatusCodePages
+4. UseStatusCodePages
 
 &#x20;  • Trata 401/403/404 do framework
 
 &#x20;  ↓
 
-5\. UseHttpsRedirection
+5. UseHttpsRedirection
 
 &#x20;  ↓
 
-6\. UseRouting
+6. UseRouting
 
 &#x20;  ↓
 
-7\. UseAuthentication
+7. UseAuthentication
 
 &#x20;  • Valida JWT
 
@@ -908,7 +908,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;  ↓
 
-8\. UseAuthorization
+8. UseAuthorization
 
 &#x20;  • Avalia policies
 
@@ -916,13 +916,13 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;  ↓
 
-9\. ValidationExceptionMiddleware
+9. ValidationExceptionMiddleware
 
 &#x20;  • Trata ValidationException do FluentValidation
 
 &#x20;  ↓
 
-10\. UserContextMiddleware
+10. UserContextMiddleware
 
 &#x20;   • Extrai claims
 
@@ -930,7 +930,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-11\. Controller
+11. Controller
 
 &#x20;   • Recebe o request
 
@@ -938,7 +938,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-12\. MediatR Pipeline
+12. MediatR Pipeline
 
 &#x20;   • ValidationBehavior valida o Command
 
@@ -946,7 +946,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-13\. Handler
+13. Handler
 
 &#x20;   • Orquestra caso de uso
 
@@ -954,7 +954,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-14\. Repository (BaseRepository)
+14. Repository (BaseRepository)
 
 &#x20;   • ExecuteWithLoggingAsync
 
@@ -962,7 +962,7 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-15\. SaveChangesAsync (override)
+15. SaveChangesAsync (override)
 
 &#x20;   • AuditService.CaptureChanges()
 
@@ -972,27 +972,27 @@ Fluxo completo de uma requisição HTTP até a resposta:
 
 &#x20;   ↓
 
-16\. Response volta pelo pipeline
+16. Response volta pelo pipeline
 
 &#x20;   ↓
 
-17\. CorrelationIdMiddleware
+17. CorrelationIdMiddleware
 
 &#x20;   • Loga duração total
 
 &#x20;   ↓
 
-18\. Resposta ao cliente
+18. Resposta ao cliente
 
 ```
 
 
 
-\---
+---
 
 
 
-\## 🔍 Fluxo de Auditoria
+## 🔍 Fluxo de Auditoria
 
 
 
@@ -1042,9 +1042,9 @@ Como a auditoria acontece automaticamente:
 
 │                                                 │
 
-│  1. if (\_auditService != null)                  │
+│  1. if (_auditService != null)                  │
 
-│  2. auditLogs = \_auditService.CaptureChanges()  │
+│  2. auditLogs = _auditService.CaptureChanges()  │
 
 │     ├─ DetectChanges()                          │
 
@@ -1054,9 +1054,9 @@ Como a auditoria acontece automaticamente:
 
 │     ├─ Filtra valores idênticos                 │
 
-│     ├─ Mascara sensíveis (\*\*\*)                  │
+│     ├─ Mascara sensíveis (***)                  │
 
-│     └─ Cria AuditLog\[]                          │
+│     └─ Cria AuditLog[]                          │
 
 │  3. AuditLogs.AddRangeAsync(auditLogs)          │
 
@@ -1082,15 +1082,15 @@ Como a auditoria acontece automaticamente:
 
 
 
-\---
+---
 
 
 
-\## 🔗 Comunicação entre Módulos
+## 🔗 Comunicação entre Módulos
 
 
 
-\### Atual (1 módulo)
+### Atual (1 módulo)
 
 
 
@@ -1098,7 +1098,7 @@ Sem comunicação cross-module.
 
 
 
-\### Futuro (9 módulos) — Padrão Provider
+### Futuro (9 módulos) — Padrão Provider
 
 
 
@@ -1134,37 +1134,37 @@ Sem comunicação cross-module.
 
 
 
-\*\*Regras:\*\*
+**Regras:**
 
 
 
-1\. \*\*Nunca\*\* referenciar o `Infrastructure.ORM` de outro módulo
+1. **Nunca** referenciar o `Infrastructure.ORM` de outro módulo
 
-2\. \*\*Sempre\*\* usar contratos públicos (`I\*Provider`)
+2. **Sempre** usar contratos públicos (`I*Provider`)
 
-3\. Retornar \*\*DTOs de resumo\*\*, não entidades
+3. Retornar **DTOs de resumo**, não entidades
 
-4\. Se a comunicação for pesada, considerar \*\*eventos\*\* (MediatR `INotification` ou message broker)
-
-
-
-\---
+4. Se a comunicação for pesada, considerar **eventos** (MediatR `INotification` ou message broker)
 
 
 
-\## 🗄 Banco de Dados
+---
 
 
 
-\### Estratégia
+## 🗄 Banco de Dados
 
 
 
-\*\*Um único banco PostgreSQL\*\* com \*\*schemas separados por módulo\*\*.
+### Estratégia
 
 
 
-\### Schemas planejados
+**Um único banco PostgreSQL** com **schemas separados por módulo**.
+
+
+
+### Schemas planejados
 
 
 
@@ -1192,7 +1192,7 @@ Sem comunicação cross-module.
 
 
 
-\### Estado atual (schema `public`)
+### Estado atual (schema `public`)
 
 
 
@@ -1200,17 +1200,17 @@ Tabelas já criadas no schema `public`:
 
 
 
-\- `Persons`, `Users`, `Addresses`, `Phones`
+- `Persons`, `Users`, `Addresses`, `Phones`
 
-\- `Permissions`, `UserPermissions`, `GroupPermissions`, `GroupsPermissions`
+- `Permissions`, `UserPermissions`, `GroupPermissions`, `GroupsPermissions`
 
-\- `UsersGroupsPermissions`, `UserGroups`
+- `UsersGroupsPermissions`, `UserGroups`
 
-\- `AuditLogs`
+- `AuditLogs`
 
 
 
-\### Índices
+### Índices
 
 
 
@@ -1218,27 +1218,27 @@ Tabelas já criadas no schema `public`:
 
 | :--- | :--- | :--- | :--- |
 
-| `IX\_UserGroups\_GroupId` | UserGroups | GroupId | Listar usuários por grupo |
+| `IX_UserGroups_GroupId` | UserGroups | GroupId | Listar usuários por grupo |
 
-| `IX\_UGP\_UserId\_GroupId` | UsersGroupsPermissions | UserId, GroupId | Query de permissões |
+| `IX_UGP_UserId_GroupId` | UsersGroupsPermissions | UserId, GroupId | Query de permissões |
 
-| `IX\_UGP\_PermissionId` | UsersGroupsPermissions | PermissionId | Busca por permissão |
+| `IX_UGP_PermissionId` | UsersGroupsPermissions | PermissionId | Busca por permissão |
 
-| `IX\_GroupPermissions\_Name` | GroupPermissions | Name | Ordenação |
+| `IX_GroupPermissions_Name` | GroupPermissions | Name | Ordenação |
 
-| `IX\_AuditLogs\_EntityName\_EntityId` | AuditLogs | EntityName, EntityId | Histórico |
+| `IX_AuditLogs_EntityName_EntityId` | AuditLogs | EntityName, EntityId | Histórico |
 
-| `IX\_AuditLogs\_Timestamp` | AuditLogs | Timestamp DESC | Últimas mudanças |
+| `IX_AuditLogs_Timestamp` | AuditLogs | Timestamp DESC | Últimas mudanças |
 
-| `IX\_AuditLogs\_CorrelationId` | AuditLogs | CorrelationId | Rastreio |
-
-
-
-\---
+| `IX_AuditLogs_CorrelationId` | AuditLogs | CorrelationId | Rastreio |
 
 
 
-\## 🎨 Padrões de Projeto
+---
+
+
+
+## 🎨 Padrões de Projeto
 
 
 
@@ -1246,37 +1246,37 @@ Tabelas já criadas no schema `public`:
 
 | :--- | :--- | :--- |
 
-| \*\*Repository\*\* | Infrastructure.ORM | Abstrai persistência |
+| **Repository** | Infrastructure.ORM | Abstrai persistência |
 
-| \*\*Unit of Work\*\* | DefaultContext | Transação implícita |
+| **Unit of Work** | DefaultContext | Transação implícita |
 
-| \*\*CQRS\*\* | Application (MediatR) | Separa leitura/escrita |
+| **CQRS** | Application (MediatR) | Separa leitura/escrita |
 
-| \*\*Mediator\*\* | MediatR | Desacopla Controller de Handler |
+| **Mediator** | MediatR | Desacopla Controller de Handler |
 
-| \*\*Pipeline Behavior\*\* | ValidationBehavior | Cross-cutting |
+| **Pipeline Behavior** | ValidationBehavior | Cross-cutting |
 
-| \*\*Specification\*\* | Domain/Specifications | Regras reutilizáveis |
+| **Specification** | Domain/Specifications | Regras reutilizáveis |
 
-| \*\*Value Object\*\* | Domain/ValueObjects | Imutabilidade |
+| **Value Object** | Domain/ValueObjects | Imutabilidade |
 
-| \*\*DTO\*\* | Application/DTOs | Transporte de dados |
+| **DTO** | Application/DTOs | Transporte de dados |
 
-| \*\*Factory\*\* | DefaultContextFactory | Design-time |
+| **Factory** | DefaultContextFactory | Design-time |
 
-| \*\*Marker Interface\*\* | IAuditable | Auditoria automática |
+| **Marker Interface** | IAuditable | Auditoria automática |
 
-| \*\*Decorator\*\* | BaseRepository | Logging transversal |
+| **Decorator** | BaseRepository | Logging transversal |
 
-| \*\*Provider\*\* | Cross-module | Contratos públicos |
-
-
-
-\---
+| **Provider** | Cross-module | Contratos públicos |
 
 
 
-\## 📋 Decisões Arquiteturais (ADRs)
+---
+
+
+
+## 📋 Decisões Arquiteturais (ADRs)
 
 
 
@@ -1284,115 +1284,115 @@ Tabelas já criadas no schema `public`:
 
 | :--- | :--- | :--- |
 
-| \[ADR-001](../adr/001-modular-monolith.md) | Adoção de Modular Monolith | Aceito |
+| [ADR-001](../adr/001-modular-monolith.md) | Adoção de Modular Monolith | Aceito |
 
-| \[ADR-002](../adr/002-person-shared-kernel.md) | Person como Shared Kernel | Aceito |
+| [ADR-002](../adr/002-person-shared-kernel.md) | Person como Shared Kernel | Aceito |
 
-| \[ADR-003](../adr/003-base-repository.md) | BaseRepository com ExecuteWithLoggingAsync | Aceito |
+| [ADR-003](../adr/003-base-repository.md) | BaseRepository com ExecuteWithLoggingAsync | Aceito |
 
-| \[ADR-004](../adr/004-feature-folders.md) | Feature Folders | Aceito |
+| [ADR-004](../adr/004-feature-folders.md) | Feature Folders | Aceito |
 
-| \[ADR-005](../adr/005-tpt-inheritance.md) | TPT Inheritance | Em revisão |
+| [ADR-005](../adr/005-tpt-inheritance.md) | TPT Inheritance | Em revisão |
 
-| \[ADR-006](../adr/006-centralized-auditing.md) | Auditoria Centralizada | Aceito |
+| [ADR-006](../adr/006-centralized-auditing.md) | Auditoria Centralizada | Aceito |
 
 
 
-\---
+---
 
 
 
-\## 🚀 Roadmap Arquitetural
+## 🚀 Roadmap Arquitetural
 
 
 
-\### Fase 1 — Consolidação (atual)
+### Fase 1 — Consolidação (atual)
 
 
 
-\- ✅ Módulo Acesso 100% funcional
+- ✅ Módulo Acesso 100% funcional
 
-\- ✅ Auditoria automática
+- ✅ Auditoria automática
 
-\- ✅ Observabilidade completa
+- ✅ Observabilidade completa
 
-\- 🔄 ADRs, testes, README
+- 🔄 ADRs, testes, README
 
 
 
-\### Fase 2 — Extração de Cadastros (US02)
+### Fase 2 — Extração de Cadastros (US02)
 
 
 
-\- Criar módulo `Cadastros`
+- Criar módulo `Cadastros`
 
-\- Migrar `Person` de `Acesso` para `Cadastros`
+- Migrar `Person` de `Acesso` para `Cadastros`
 
-\- Definir `ICadastroProvider`
+- Definir `ICadastroProvider`
 
-\- Ajustar `User` para referenciar `Person`
+- Ajustar `User` para referenciar `Person`
 
 
 
-\### Fase 3 — Novos Módulos (US02 a US09)
+### Fase 3 — Novos Módulos (US02 a US09)
 
 
 
-\- Criar estrutura padrão para cada módulo
+- Criar estrutura padrão para cada módulo
 
-\- Aplicar os padrões já estabelecidos
+- Aplicar os padrões já estabelecidos
 
-\- Definir contratos públicos conforme necessidade
+- Definir contratos públicos conforme necessidade
 
 
 
-\### Fase 4 — Otimizações Avançadas
+### Fase 4 — Otimizações Avançadas
 
 
 
-\- Cache distribuído (Redis) para consultas frequentes
+- Cache distribuído (Redis) para consultas frequentes
 
-\- CQRS com read models separados
+- CQRS com read models separados
 
-\- Eventos de domínio via message broker (RabbitMQ/Kafka)
+- Eventos de domínio via message broker (RabbitMQ/Kafka)
 
 
 
-\### Fase 5 — Extração de Microsserviços (se necessário)
+### Fase 5 — Extração de Microsserviços (se necessário)
 
 
 
-\- Extrair módulos com carga distinta
+- Extrair módulos com carga distinta
 
-\- Introduzir API Gateway
+- Introduzir API Gateway
 
-\- Service discovery
+- Service discovery
 
 
 
-\---
+---
 
 
 
-\## 📚 Referências
+## 📚 Referências
 
 
 
-\- \[Backlog US01](../backlog/us01-backlog.md)
+- [Backlog US01](../backlog/us01-backlog.md)
 
-\- \[ADRs](../adr/README.md)
+- [ADRs](../adr/README.md)
 
-\- \[API Endpoints](../api/endpoints.md)
+- [API Endpoints](../api/endpoints.md)
 
-\- \[Plano de Testes](../tests/test-plan.md)
+- [Plano de Testes](../tests/test-plan.md)
 
-\- \[README Principal](../../README.md)
+- [README Principal](../../README.md)
 
 
 
-\---
+---
 
 
 
-\*\*Arquitetura — SJInovacao.Acesso · Versão 1.0 · 10/10/2026\*\*
+**Arquitetura — SJInovacao.Acesso · Versão 1.0 · 10/10/2026**
 

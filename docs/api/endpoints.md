@@ -1,66 +1,66 @@
-\# API Endpoints — SJInovacao.Acesso
+# API Endpoints — SJInovacao.Acesso
 
 
 
-\- \*\*Versão:\*\* 1.0
+- **Versão:** 1.0
 
-\- \*\*Data:\*\* 10/10/2026
+- **Data:** 10/10/2026
 
-\- \*\*Base URL (dev):\*\* `https://localhost:44382`
+- **Base URL (dev):** `https://localhost:44382`
 
-\- \*\*Base URL (Docker):\*\* `http://localhost:8080`
+- **Base URL (Docker):** `http://localhost:8080`
 
-\- \*\*Autenticação:\*\* JWT Bearer
+- **Autenticação:** JWT Bearer
 
-\- \*\*Formato:\*\* JSON
+- **Formato:** JSON
 
-\- \*\*Swagger:\*\* `/swagger`
-
-
-
-\---
+- **Swagger:** `/swagger`
 
 
 
-\## 📑 Sumário
+---
 
 
 
-\- \[Convenções](#-convenções)
-
-\- \[Autenticação](#-autenticação)
-
-\- \[Usuários](#-usuários)
-
-\- \[Permissões](#-permissões)
-
-\- \[Grupos e Vínculos](#-grupos-e-vínculos)
-
-\- \[Vínculos Usuário-Permissão](#-vínculos-usuário-permissão)
-
-\- \[Health Checks](#-health-checks)
-
-\- \[Códigos de Status](#-códigos-de-status)
-
-\- \[Paginação](#-paginação)
-
-\- \[Ordenação](#-ordenação)
-
-\- \[Headers](#-headers)
-
-\- \[Erros](#-erros)
+## 📑 Sumário
 
 
 
-\---
+- [Convenções](#-convenções)
+
+- [Autenticação](#-autenticação)
+
+- [Usuários](#-usuários)
+
+- [Permissões](#-permissões)
+
+- [Grupos e Vínculos](#-grupos-e-vínculos)
+
+- [Vínculos Usuário-Permissão](#-vínculos-usuário-permissão)
+
+- [Health Checks](#-health-checks)
+
+- [Códigos de Status](#-códigos-de-status)
+
+- [Paginação](#-paginação)
+
+- [Ordenação](#-ordenação)
+
+- [Headers](#-headers)
+
+- [Erros](#-erros)
 
 
 
-\## 📐 Convenções
+---
 
 
 
-\### Base URL
+## 📐 Convenções
+
+
+
+### Base URL
 
 
 
@@ -76,17 +76,17 @@
 
 
 
-\### Content-Type
+### Content-Type
 
 
 
-\- \*\*Request:\*\* `application/json`
+- **Request:** `application/json`
 
-\- \*\*Response:\*\* `application/json; charset=utf-8`
+- **Response:** `application/json; charset=utf-8`
 
 
 
-\### Autenticação
+### Autenticação
 
 
 
@@ -96,13 +96,13 @@ Endpoints protegidos requerem o header:
 
 ```http
 
-Authorization: Bearer {seu\_jwt\_token}
+Authorization: Bearer {seu_jwt_token}
 
 ```
 
 
 
-\### Swagger
+### Swagger
 
 
 
@@ -110,21 +110,21 @@ Documentação interativa disponível em:
 
 
 
-\- Desenvolvimento: `https://localhost:44382/swagger/index.html`
+- Desenvolvimento: `https://localhost:44382/swagger/index.html`
 
-\- Basic Auth (produção): `admin` / senha configurada em `SwaggerAuth\_\_Password`
-
-
-
-\---
+- Basic Auth (produção): `admin` / senha configurada em `SwaggerAuth__Password`
 
 
 
-\## 🔐 Autenticação
+---
 
 
 
-\### POST `/api/Auth/Login`
+## 🔐 Autenticação
+
+
+
+### POST `/api/Auth/Login`
 
 
 
@@ -132,11 +132,11 @@ Autentica um usuário e retorna o token JWT.
 
 
 
-\*\*Autenticação:\*\* ❌ Não requerida
+**Autenticação:** ❌ Não requerida
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -154,7 +154,7 @@ Autentica um usuário e retorna o token JWT.
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -184,7 +184,7 @@ Autentica um usuário e retorna o token JWT.
 
 &#x20;     "role": "Admin",
 
-&#x20;     "permissions": \[
+&#x20;     "permissions": [
 
 &#x20;       "user.add",
 
@@ -196,7 +196,7 @@ Autentica um usuário e retorna o token JWT.
 
 &#x20;     ],
 
-&#x20;     "groups": \["group.all"]
+&#x20;     "groups": ["group.all"]
 
 &#x20;   }
 
@@ -208,7 +208,7 @@ Autentica um usuário e retorna o token JWT.
 
 
 
-\*\*Response 401 Unauthorized:\*\*
+**Response 401 Unauthorized:**
 
 
 
@@ -226,7 +226,7 @@ Autentica um usuário e retorna o token JWT.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -242,11 +242,11 @@ Autentica um usuário e retorna o token JWT.
 
 
 
-\---
+---
 
 
 
-\### POST `/api/Auth/RefreshToken`
+### POST `/api/Auth/RefreshToken`
 
 
 
@@ -254,11 +254,11 @@ Renova o token de acesso usando o refresh token.
 
 
 
-\*\*Autenticação:\*\* ❌ Não requerida
+**Autenticação:** ❌ Não requerida
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -274,7 +274,7 @@ Renova o token de acesso usando o refresh token.
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -302,7 +302,7 @@ Renova o token de acesso usando o refresh token.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -316,11 +316,11 @@ Renova o token de acesso usando o refresh token.
 
 
 
-\---
+---
 
 
 
-\### POST `/api/Auth/RevokeToken`
+### POST `/api/Auth/RevokeToken`
 
 
 
@@ -328,23 +328,23 @@ Revoga o refresh token do usuário.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida
+**Autenticação:** ✅ Requerida
 
 
 
-\*\*Response 204 No Content\*\*
+**Response 204 No Content**
 
 
 
-\---
+---
 
 
 
-\## 👥 Usuários
+## 👥 Usuários
 
 
 
-\### GET `/api/Users`
+### GET `/api/Users`
 
 
 
@@ -352,11 +352,11 @@ Lista usuários com paginação e ordenação.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.view`)
+**Autenticação:** ✅ Requerida (`user.view`)
 
 
 
-\*\*Query Parameters:\*\*
+**Query Parameters:**
 
 
 
@@ -372,7 +372,7 @@ Lista usuários com paginação e ordenação.
 
 
 
-\*\*Exemplo:\*\*
+**Exemplo:**
 
 
 
@@ -384,7 +384,7 @@ GET /api/Users?page=1\&size=10\&order=username asc, email desc
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -404,7 +404,7 @@ GET /api/Users?page=1\&size=10\&order=username asc, email desc
 
 &#x20; "hasNext": true,
 
-&#x20; "data": \[
+&#x20; "data": [
 
 &#x20;   {
 
@@ -434,7 +434,7 @@ GET /api/Users?page=1\&size=10\&order=username asc, email desc
 
 &#x20; "message": "",
 
-&#x20; "errors": \[]
+&#x20; "errors": []
 
 }
 
@@ -442,7 +442,7 @@ GET /api/Users?page=1\&size=10\&order=username asc, email desc
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -460,11 +460,11 @@ GET /api/Users?page=1\&size=10\&order=username asc, email desc
 
 
 
-\---
+---
 
 
 
-\### GET `/api/Users/{id}`
+### GET `/api/Users/{id}`
 
 
 
@@ -472,19 +472,19 @@ Busca usuário por ID.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.view`)
+**Autenticação:** ✅ Requerida (`user.view`)
 
 
 
-\*\*Path Parameters:\*\*
+**Path Parameters:**
 
 
 
-\- `id` (uuid) — ID do usuário
+- `id` (uuid) — ID do usuário
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -510,7 +510,7 @@ Busca usuário por ID.
 
 &#x20;   "status": "Active",
 
-&#x20;   "addresses": \[
+&#x20;   "addresses": [
 
 &#x20;     {
 
@@ -532,7 +532,7 @@ Busca usuário por ID.
 
 &#x20;   ],
 
-&#x20;   "phones": \[
+&#x20;   "phones": [
 
 &#x20;     {
 
@@ -554,7 +554,7 @@ Busca usuário por ID.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -568,11 +568,11 @@ Busca usuário por ID.
 
 
 
-\---
+---
 
 
 
-\### POST `/api/Users`
+### POST `/api/Users`
 
 
 
@@ -580,11 +580,11 @@ Cria um novo usuário.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.add`)
+**Autenticação:** ✅ Requerida (`user.add`)
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -616,7 +616,7 @@ Cria um novo usuário.
 
 &#x20; },
 
-&#x20; "addresses": \[
+&#x20; "addresses": [
 
 &#x20;   {
 
@@ -636,7 +636,7 @@ Cria um novo usuário.
 
 &#x20; ],
 
-&#x20; "phones": \[
+&#x20; "phones": [
 
 &#x20;   {
 
@@ -654,7 +654,7 @@ Cria um novo usuário.
 
 
 
-\*\*Response 201 Created:\*\*
+**Response 201 Created:**
 
 
 
@@ -682,7 +682,7 @@ Cria um novo usuário.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -700,11 +700,11 @@ Cria um novo usuário.
 
 
 
-\---
+---
 
 
 
-\### PUT `/api/Users/{id}`
+### PUT `/api/Users/{id}`
 
 
 
@@ -712,11 +712,11 @@ Atualiza dados de um usuário.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.update`)
+**Autenticação:** ✅ Requerida (`user.update`)
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -738,7 +738,7 @@ Atualiza dados de um usuário.
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -764,11 +764,11 @@ Atualiza dados de um usuário.
 
 
 
-\*\*Observação:\*\* Apenas campos realmente alterados aparecem em `AffectedColumns` na auditoria.
+**Observação:** Apenas campos realmente alterados aparecem em `AffectedColumns` na auditoria.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -784,11 +784,11 @@ Atualiza dados de um usuário.
 
 
 
-\---
+---
 
 
 
-\### DELETE `/api/Users/{id}`
+### DELETE `/api/Users/{id}`
 
 
 
@@ -796,15 +796,15 @@ Desativa logicamente um usuário (soft delete).
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.Deactivate`)
+**Autenticação:** ✅ Requerida (`user.Deactivate`)
 
 
 
-\*\*Response 204 No Content\*\*
+**Response 204 No Content**
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -818,15 +818,15 @@ Desativa logicamente um usuário (soft delete).
 
 
 
-\---
+---
 
 
 
-\## 🔑 Permissões
+## 🔑 Permissões
 
 
 
-\### GET `/api/Permissions`
+### GET `/api/Permissions`
 
 
 
@@ -834,11 +834,11 @@ Lista todas as permissões.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.view`)
+**Autenticação:** ✅ Requerida (`permission.view`)
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -848,7 +848,7 @@ Lista todas as permissões.
 
 &#x20; "success": true,
 
-&#x20; "data": \[
+&#x20; "data": [
 
 &#x20;   {
 
@@ -874,11 +874,11 @@ Lista todas as permissões.
 
 
 
-\---
+---
 
 
 
-\### GET `/api/Permissions/{id}`
+### GET `/api/Permissions/{id}`
 
 
 
@@ -886,11 +886,11 @@ Busca permissão por ID.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.view`)
+**Autenticação:** ✅ Requerida (`permission.view`)
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -918,11 +918,11 @@ Busca permissão por ID.
 
 
 
-\---
+---
 
 
 
-\### POST `/api/Permissions`
+### POST `/api/Permissions`
 
 
 
@@ -930,11 +930,11 @@ Cria uma nova permissão.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.add`)
+**Autenticação:** ✅ Requerida (`permission.add`)
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -952,7 +952,7 @@ Cria uma nova permissão.
 
 
 
-\*\*Response 201 Created:\*\*
+**Response 201 Created:**
 
 
 
@@ -982,7 +982,7 @@ Cria uma nova permissão.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -996,11 +996,11 @@ Cria uma nova permissão.
 
 
 
-\---
+---
 
 
 
-\### PUT `/api/Permissions/{id}`
+### PUT `/api/Permissions/{id}`
 
 
 
@@ -1008,11 +1008,11 @@ Atualiza uma permissão.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.update`)
+**Autenticação:** ✅ Requerida (`permission.update`)
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -1032,19 +1032,19 @@ Atualiza uma permissão.
 
 
 
-\*\*Response 200 OK\*\*
+**Response 200 OK**
 
 
 
-\---
+---
 
 
 
-\## 👥 Grupos e Vínculos
+## 👥 Grupos e Vínculos
 
 
 
-\### GET `/api/GroupUsersPermissions`
+### GET `/api/GroupUsersPermissions`
 
 
 
@@ -1052,11 +1052,11 @@ Lista todos os vínculos usuário-grupo-permissão.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida
+**Autenticação:** ✅ Requerida
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1066,7 +1066,7 @@ Lista todos os vínculos usuário-grupo-permissão.
 
 &#x20; "success": true,
 
-&#x20; "data": \[
+&#x20; "data": [
 
 &#x20;   {
 
@@ -1080,7 +1080,7 @@ Lista todos os vínculos usuário-grupo-permissão.
 
 &#x20;     "userIsActive": true,
 
-&#x20;     "permissions": \[
+&#x20;     "permissions": [
 
 &#x20;       {
 
@@ -1106,11 +1106,11 @@ Lista todos os vínculos usuário-grupo-permissão.
 
 
 
-\---
+---
 
 
 
-\### GET `/api/GroupUsersPermissions/paginated`
+### GET `/api/GroupUsersPermissions/paginated`
 
 
 
@@ -1118,11 +1118,11 @@ Versão paginada do endpoint anterior.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida
+**Autenticação:** ✅ Requerida
 
 
 
-\*\*Query Parameters:\*\*
+**Query Parameters:**
 
 
 
@@ -1138,21 +1138,21 @@ Versão paginada do endpoint anterior.
 
 
 
-\*\*Ordenação suportada:\*\*
+**Ordenação suportada:**
 
 
 
-\- `username` — nome do usuário
+- `username` — nome do usuário
 
-\- `groupname` / `name` — nome do grupo
+- `groupname` / `name` — nome do grupo
 
-\- `userid` — ID do usuário
+- `userid` — ID do usuário
 
-\- `groupid` — ID do grupo
+- `groupid` — ID do grupo
 
 
 
-\*\*Exemplo:\*\*
+**Exemplo:**
 
 
 
@@ -1164,7 +1164,7 @@ GET /api/GroupUsersPermissions/paginated?page=1\&size=10\&order=username asc, gr
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1184,7 +1184,7 @@ GET /api/GroupUsersPermissions/paginated?page=1\&size=10\&order=username asc, gr
 
 &#x20; "hasNext": false,
 
-&#x20; "data": \[
+&#x20; "data": [
 
 &#x20;   {
 
@@ -1198,7 +1198,7 @@ GET /api/GroupUsersPermissions/paginated?page=1\&size=10\&order=username asc, gr
 
 &#x20;     "userIsActive": true,
 
-&#x20;     "permissions": \[...]
+&#x20;     "permissions": [...]
 
 &#x20;   }
 
@@ -1210,7 +1210,7 @@ GET /api/GroupUsersPermissions/paginated?page=1\&size=10\&order=username asc, gr
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -1224,11 +1224,11 @@ GET /api/GroupUsersPermissions/paginated?page=1\&size=10\&order=username asc, gr
 
 
 
-\---
+---
 
 
 
-\### PUT `/api/UserGroups/GroupUsersPermissions/{userId}/{groupId}/{userIsActive}`
+### PUT `/api/UserGroups/GroupUsersPermissions/{userId}/{groupId}/{userIsActive}`
 
 
 
@@ -1236,23 +1236,23 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`group.update`)
+**Autenticação:** ✅ Requerida (`group.update`)
 
 
 
-\*\*Path Parameters:\*\*
+**Path Parameters:**
 
 
 
-\- `userId` (uuid) — ID do usuário
+- `userId` (uuid) — ID do usuário
 
-\- `groupId` (uuid) — ID do grupo
+- `groupId` (uuid) — ID do grupo
 
-\- `userIsActive` (bool) — Ativa/desativa usuário no grupo
+- `userIsActive` (bool) — Ativa/desativa usuário no grupo
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -1260,7 +1260,7 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 {
 
-&#x20; "permissionIds": \[
+&#x20; "permissionIds": [
 
 &#x20;   "ac4e76f2-17d4-4f21-9aa3-f2cd42cd3b40",
 
@@ -1276,21 +1276,21 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 
 
-\*\*Regras:\*\*
+**Regras:**
 
 
 
-\- Se `permissionIds` estiver vazio, apenas o status do usuário no grupo muda
+- Se `permissionIds` estiver vazio, apenas o status do usuário no grupo muda
 
-\- Se `permissionIsActive` for `null`, apenas o status do usuário muda
+- Se `permissionIsActive` for `null`, apenas o status do usuário muda
 
-\- Todas as permissões informadas devem pertencer ao grupo (senão 400)
+- Todas as permissões informadas devem pertencer ao grupo (senão 400)
 
-\- Se `userIsActive = false`, todas as permissões também ficam inativas
+- Se `userIsActive = false`, todas as permissões também ficam inativas
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1314,7 +1314,7 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 &#x20;   "permissionIsActive": true,
 
-&#x20;   "permissions": \[...]
+&#x20;   "permissions": [...]
 
 &#x20; }
 
@@ -1324,7 +1324,7 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -1340,15 +1340,15 @@ Atualiza vínculos de um usuário em um grupo, incluindo permissões específica
 
 
 
-\---
+---
 
 
 
-\## 🔗 Vínculos Usuário-Permissão
+## 🔗 Vínculos Usuário-Permissão
 
 
 
-\### POST `/api/UserPermissions`
+### POST `/api/UserPermissions`
 
 
 
@@ -1356,11 +1356,11 @@ Cria vínculo direto entre usuário e permissão.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.grant`)
+**Autenticação:** ✅ Requerida (`permission.grant`)
 
 
 
-\*\*Request Body:\*\*
+**Request Body:**
 
 
 
@@ -1378,7 +1378,7 @@ Cria vínculo direto entre usuário e permissão.
 
 
 
-\*\*Response 201 Created:\*\*
+**Response 201 Created:**
 
 
 
@@ -1406,7 +1406,7 @@ Cria vínculo direto entre usuário e permissão.
 
 
 
-\*\*Códigos:\*\*
+**Códigos:**
 
 
 
@@ -1420,11 +1420,11 @@ Cria vínculo direto entre usuário e permissão.
 
 
 
-\---
+---
 
 
 
-\### GET `/api/UserPermissions/{userId}`
+### GET `/api/UserPermissions/{userId}`
 
 
 
@@ -1432,11 +1432,11 @@ Lista permissões diretas de um usuário.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`user.view`)
+**Autenticação:** ✅ Requerida (`user.view`)
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1446,7 +1446,7 @@ Lista permissões diretas de um usuário.
 
 &#x20; "success": true,
 
-&#x20; "data": \[
+&#x20; "data": [
 
 &#x20;   {
 
@@ -1468,11 +1468,11 @@ Lista permissões diretas de um usuário.
 
 
 
-\---
+---
 
 
 
-\### DELETE `/api/UserPermissions/{userId}/{permissionId}`
+### DELETE `/api/UserPermissions/{userId}/{permissionId}`
 
 
 
@@ -1480,23 +1480,23 @@ Remove vínculo direto.
 
 
 
-\*\*Autenticação:\*\* ✅ Requerida (`permission.revoke`)
+**Autenticação:** ✅ Requerida (`permission.revoke`)
 
 
 
-\*\*Response 204 No Content\*\*
+**Response 204 No Content**
 
 
 
-\---
+---
 
 
 
-\## 🏥 Health Checks
+## 🏥 Health Checks
 
 
 
-\### GET `/health`
+### GET `/health`
 
 
 
@@ -1504,11 +1504,11 @@ Health check completo.
 
 
 
-\*\*Autenticação:\*\* ❌ Não requerida
+**Autenticação:** ❌ Não requerida
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1520,7 +1520,7 @@ Health check completo.
 
 &#x20; "timestamp": "2026-10-10T18:20:00Z",
 
-&#x20; "healthChecks": \[
+&#x20; "healthChecks": [
 
 &#x20;   {
 
@@ -1558,7 +1558,7 @@ Health check completo.
 
 
 
-\### GET `/health/live`
+### GET `/health/live`
 
 
 
@@ -1566,7 +1566,7 @@ Liveness probe — apenas verifica se a API está de pé.
 
 
 
-\*\*Response 200 OK:\*\*
+**Response 200 OK:**
 
 
 
@@ -1576,7 +1576,7 @@ Liveness probe — apenas verifica se a API está de pé.
 
 &#x20; "status": "Healthy",
 
-&#x20; "healthChecks": \[
+&#x20; "healthChecks": [
 
 &#x20;   { "name": "Liveness", "status": "Healthy" }
 
@@ -1588,7 +1588,7 @@ Liveness probe — apenas verifica se a API está de pé.
 
 
 
-\### GET `/health/ready`
+### GET `/health/ready`
 
 
 
@@ -1596,19 +1596,19 @@ Readiness probe — verifica dependências (banco, cache).
 
 
 
-\*\*Response 200 OK\*\* ou \*\*503 Service Unavailable\*\*
+**Response 200 OK** ou **503 Service Unavailable**
 
 
 
-\---
+---
 
 
 
-\## 📊 Códigos de Status
+## 📊 Códigos de Status
 
 
 
-\### Sucesso
+### Sucesso
 
 
 
@@ -1624,7 +1624,7 @@ Readiness probe — verifica dependências (banco, cache).
 
 
 
-\### Erro do Cliente
+### Erro do Cliente
 
 
 
@@ -1642,7 +1642,7 @@ Readiness probe — verifica dependências (banco, cache).
 
 
 
-\### Erro do Servidor
+### Erro do Servidor
 
 
 
@@ -1656,19 +1656,19 @@ Readiness probe — verifica dependências (banco, cache).
 
 
 
-\---
+---
 
 
 
-\## 📄 Paginação
+## 📄 Paginação
 
 
 
-Todos os endpoints paginados seguem o \*\*mesmo formato\*\*:
+Todos os endpoints paginados seguem o **mesmo formato**:
 
 
 
-\*\*Query Parameters:\*\*
+**Query Parameters:**
 
 
 
@@ -1682,7 +1682,7 @@ Todos os endpoints paginados seguem o \*\*mesmo formato\*\*:
 
 
 
-\*\*Response envelope:\*\*
+**Response envelope:**
 
 
 
@@ -1702,13 +1702,13 @@ Todos os endpoints paginados seguem o \*\*mesmo formato\*\*:
 
 &#x20; "hasNext": true,
 
-&#x20; "data": \[...],
+&#x20; "data": [...],
 
 &#x20; "success": true,
 
 &#x20; "message": "",
 
-&#x20; "errors": \[]
+&#x20; "errors": []
 
 }
 
@@ -1716,11 +1716,11 @@ Todos os endpoints paginados seguem o \*\*mesmo formato\*\*:
 
 
 
-\---
+---
 
 
 
-\## 🔤 Ordenação
+## 🔤 Ordenação
 
 
 
@@ -1730,13 +1730,13 @@ Formato:
 
 ```
 
-?order={campo} {direção}\[, {campo2} {direção2}]\[, ...]
+?order={campo} {direção}[, {campo2} {direção2}][, ...]
 
 ```
 
 
 
-\### Exemplos válidos
+### Exemplos válidos
 
 
 
@@ -1754,17 +1754,17 @@ Formato:
 
 
 
-\### Direções
+### Direções
 
 
 
-\- `asc` (padrão se omitido)
+- `asc` (padrão se omitido)
 
-\- `desc`
+- `desc`
 
 
 
-\### Campos suportados (exemplos)
+### Campos suportados (exemplos)
 
 
 
@@ -1778,11 +1778,11 @@ Formato:
 
 
 
-\### Validação
+### Validação
 
 
 
-Campos inválidos retornam \*\*400 Bad Request\*\*:
+Campos inválidos retornam **400 Bad Request**:
 
 
 
@@ -1800,15 +1800,15 @@ Campos inválidos retornam \*\*400 Bad Request\*\*:
 
 
 
-\---
+---
 
 
 
-\## 📨 Headers
+## 📨 Headers
 
 
 
-\### Request Headers
+### Request Headers
 
 
 
@@ -1824,7 +1824,7 @@ Campos inválidos retornam \*\*400 Bad Request\*\*:
 
 
 
-\### Response Headers
+### Response Headers
 
 
 
@@ -1838,7 +1838,7 @@ Campos inválidos retornam \*\*400 Bad Request\*\*:
 
 
 
-\### Exemplo de uso
+### Exemplo de uso
 
 
 
@@ -1856,11 +1856,11 @@ curl -X GET https://localhost:44382/api/Users \\
 
 
 
-\---
+---
 
 
 
-\## ⚠️ Erros
+## ⚠️ Erros
 
 
 
@@ -1868,7 +1868,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 400 — Validação
+### 400 — Validação
 
 
 
@@ -1880,7 +1880,7 @@ Todos os erros seguem o mesmo formato:
 
 &#x20; "message": "Erro de validação nos dados enviados.",
 
-&#x20; "errors": \[
+&#x20; "errors": [
 
 &#x20;   {
 
@@ -1906,7 +1906,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 400 — Regra de negócio (`DomainException`)
+### 400 — Regra de negócio (`DomainException`)
 
 
 
@@ -1924,7 +1924,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 401 — Não autenticado
+### 401 — Não autenticado
 
 
 
@@ -1942,7 +1942,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 403 — Sem permissão
+### 403 — Sem permissão
 
 
 
@@ -1960,7 +1960,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 404 — Não encontrado
+### 404 — Não encontrado
 
 
 
@@ -1978,7 +1978,7 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\### 500 — Erro interno
+### 500 — Erro interno
 
 
 
@@ -1996,19 +1996,19 @@ Todos os erros seguem o mesmo formato:
 
 
 
-\*\*Nota:\*\* o cliente \*\*nunca\*\* vê stack trace ou detalhes internos. O erro completo é logado no servidor com o `CorrelationId` para rastreamento.
+**Nota:** o cliente **nunca** vê stack trace ou detalhes internos. O erro completo é logado no servidor com o `CorrelationId` para rastreamento.
 
 
 
-\---
+---
 
 
 
-\## 🧪 Coleção Postman / cURL
+## 🧪 Coleção Postman / cURL
 
 
 
-\### Login
+### Login
 
 
 
@@ -2030,7 +2030,7 @@ curl -X POST https://localhost:44382/api/Auth/Login \\
 
 
 
-\### Listar usuários
+### Listar usuários
 
 
 
@@ -2038,7 +2038,7 @@ curl -X POST https://localhost:44382/api/Auth/Login \\
 
 curl -X GET "https://localhost:44382/api/Users?page=1\&size=10\&order=username%20asc" \\
 
-&#x20; -H "Authorization: Bearer SEU\_TOKEN" \\
+&#x20; -H "Authorization: Bearer SEU_TOKEN" \\
 
 &#x20; -H "Accept: application/json"
 
@@ -2046,7 +2046,7 @@ curl -X GET "https://localhost:44382/api/Users?page=1\&size=10\&order=username%2
 
 
 
-\### Criar permissão
+### Criar permissão
 
 
 
@@ -2054,7 +2054,7 @@ curl -X GET "https://localhost:44382/api/Users?page=1\&size=10\&order=username%2
 
 curl -X POST https://localhost:44382/api/Permissions \\
 
-&#x20; -H "Authorization: Bearer SEU\_TOKEN" \\
+&#x20; -H "Authorization: Bearer SEU_TOKEN" \\
 
 &#x20; -H "Content-Type: application/json" \\
 
@@ -2070,7 +2070,7 @@ curl -X POST https://localhost:44382/api/Permissions \\
 
 
 
-\### Atualizar vínculos
+### Atualizar vínculos
 
 
 
@@ -2078,13 +2078,13 @@ curl -X POST https://localhost:44382/api/Permissions \\
 
 curl -X PUT "https://localhost:44382/api/UserGroups/GroupUsersPermissions/BD.../15.../true" \\
 
-&#x20; -H "Authorization: Bearer SEU\_TOKEN" \\
+&#x20; -H "Authorization: Bearer SEU_TOKEN" \\
 
 &#x20; -H "Content-Type: application/json" \\
 
 &#x20; -d '{
 
-&#x20;   "permissionIds": \["ac4e76f2-17d4-4f21-9aa3-f2cd42cd3b40"],
+&#x20;   "permissionIds": ["ac4e76f2-17d4-4f21-9aa3-f2cd42cd3b40"],
 
 &#x20;   "permissionIsActive": true
 
@@ -2094,11 +2094,11 @@ curl -X PUT "https://localhost:44382/api/UserGroups/GroupUsersPermissions/BD.../
 
 
 
-\---
+---
 
 
 
-\## 📌 Rate Limiting (futuro)
+## 📌 Rate Limiting (futuro)
 
 
 
@@ -2114,29 +2114,29 @@ curl -X PUT "https://localhost:44382/api/UserGroups/GroupUsersPermissions/BD.../
 
 
 
-\---
+---
 
 
 
-\## 📚 Referências
+## 📚 Referências
 
 
 
-\- \[Backlog US01](../backlog/us01-backlog.md)
+- [Backlog US01](../backlog/us01-backlog.md)
 
-\- \[Arquitetura](../architecture/overview.md)
+- [Arquitetura](../architecture/overview.md)
 
-\- \[ADRs](../adr/README.md)
+- [ADRs](../adr/README.md)
 
-\- \[Plano de Testes](../tests/test-plan.md)
+- [Plano de Testes](../tests/test-plan.md)
 
-\- Swagger interativo: `/swagger`
-
-
-
-\---
+- Swagger interativo: `/swagger`
 
 
 
-\*\*API Endpoints — SJInovacao.Acesso · Versão 1.0 · 10/10/2026\*\*
+---
+
+
+
+**API Endpoints — SJInovacao.Acesso · Versão 1.0 · 10/10/2026**
 

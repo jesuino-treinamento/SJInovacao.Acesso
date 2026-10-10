@@ -1,64 +1,64 @@
-\# Plano de Testes — Módulo US01 (Acesso)
+# Plano de Testes — Módulo US01 (Acesso)
 
 
 
-\- \*\*Versão:\*\* 1.0
+- **Versão:** 1.0
 
-\- \*\*Data:\*\* 10/10/2026
+- **Data:** 10/10/2026
 
-\- \*\*Módulo:\*\* US01 — Acesso
+- **Módulo:** US01 — Acesso
 
-\- \*\*Responsável:\*\* Dev Backend + QA
-
-
-
-\---
+- **Responsável:** Dev Backend + QA
 
 
 
-\## 📑 Sumário
+---
 
 
 
-\- \[Estratégia de Testes](#-estratégia-de-testes)
-
-\- \[Pirâmide de Testes](#-pirâmide-de-testes)
-
-\- \[Ferramentas](#-ferramentas)
-
-\- \[Testes Unitários](#-testes-unitários)
-
-\- \[Testes de Integração](#-testes-de-integração)
-
-\- \[Testes de Auditoria](#-testes-de-auditoria)
-
-\- \[Testes de Performance](#-testes-de-performance)
-
-\- \[Testes de Segurança](#-testes-de-segurança)
-
-\- \[Matriz de Cobertura](#-matriz-de-cobertura)
-
-\- \[CI/CD](#-cicd)
+## 📑 Sumário
 
 
 
-\---
+- [Estratégia de Testes](#-estratégia-de-testes)
+
+- [Pirâmide de Testes](#-pirâmide-de-testes)
+
+- [Ferramentas](#-ferramentas)
+
+- [Testes Unitários](#-testes-unitários)
+
+- [Testes de Integração](#-testes-de-integração)
+
+- [Testes de Auditoria](#-testes-de-auditoria)
+
+- [Testes de Performance](#-testes-de-performance)
+
+- [Testes de Segurança](#-testes-de-segurança)
+
+- [Matriz de Cobertura](#-matriz-de-cobertura)
+
+- [CI/CD](#-cicd)
 
 
 
-\## 🎯 Estratégia de Testes
+---
 
 
 
-\### Objetivo
+## 🎯 Estratégia de Testes
 
 
 
-Garantir \*\*confiabilidade, performance e segurança\*\* do módulo Acesso antes da homologação, com \*\*cobertura mínima de 60%\*\* nas camadas críticas.
+### Objetivo
 
 
 
-\### Escopo
+Garantir **confiabilidade, performance e segurança** do módulo Acesso antes da homologação, com **cobertura mínima de 60%** nas camadas críticas.
+
+
+
+### Escopo
 
 
 
@@ -80,11 +80,11 @@ Garantir \*\*confiabilidade, performance e segurança\*\* do módulo Acesso ante
 
 
 
-\---
+---
 
 
 
-\## 🔺 Pirâmide de Testes
+## 🔺 Pirâmide de Testes
 
 
 
@@ -108,11 +108,11 @@ Garantir \*\*confiabilidade, performance e segurança\*\* do módulo Acesso ante
 
 
 
-\---
+---
 
 
 
-\## 🛠 Ferramentas
+## 🛠 Ferramentas
 
 
 
@@ -134,43 +134,23 @@ Garantir \*\*confiabilidade, performance e segurança\*\* do módulo Acesso ante
 
 
 
-\---
+---
 
 
 
-\## 🧪 Testes Unitários
+## 🧪 Testes Unitários
 
 
 
-\*\*Local:\*\* `src/Tests/SJInovacao.Acesso.UnitTests/`
+**Local:** `src/Tests/SJInovacao.Acesso.UnitTests/`
 
 
 
-\### 1. Domínio — Entidades
+### 1. Domínio — Entidades
 
 
 
-\#### `UserTests.cs`
-
-
-
-| Teste | Descrição |
-
-| :--- | :--- |
-
-| `Create\_ComDadosValidos\_DeveCriarUsuario` | Validar construtor |
-
-| `Create\_SemUsername\_DeveLancarArgumentNullException` | Validação de parâmetro |
-
-| `Deactivate\_DeveMudarStatusParaInactive` | Regra de negócio |
-
-| `Deactivate\_DevePreencherUpdatedAt` | Auditoria implícita |
-
-| `Permissions\_DeveRetornarPermissoesDiretasEGrupos` | Agregação de permissões |
-
-
-
-\#### `PermissionTests.cs`
+#### `UserTests.cs`
 
 
 
@@ -178,25 +158,45 @@ Garantir \*\*confiabilidade, performance e segurança\*\* do módulo Acesso ante
 
 | :--- | :--- |
 
-| `Create\_ComNomeValido\_DeveCriar` | Construtor |
+| `Create_ComDadosValidos_DeveCriarUsuario` | Validar construtor |
 
-| `Update\_DeveMudarDescricao` | Mutabilidade controlada |
+| `Create_SemUsername_DeveLancarArgumentNullException` | Validação de parâmetro |
+
+| `Deactivate_DeveMudarStatusParaInactive` | Regra de negócio |
+
+| `Deactivate_DevePreencherUpdatedAt` | Auditoria implícita |
+
+| `Permissions_DeveRetornarPermissoesDiretasEGrupos` | Agregação de permissões |
 
 
 
-\### 2. Aplicação — Handlers
+#### `PermissionTests.cs`
 
 
 
-\#### `CreateUserHandlerTests.cs`
+| Teste | Descrição |
+
+| :--- | :--- |
+
+| `Create_ComNomeValido_DeveCriar` | Construtor |
+
+| `Update_DeveMudarDescricao` | Mutabilidade controlada |
+
+
+
+### 2. Aplicação — Handlers
+
+
+
+#### `CreateUserHandlerTests.cs`
 
 
 
 ```csharp
 
-\[Fact]
+[Fact]
 
-public async Task Handle\_ComDadosValidos\_DeveCriarUsuario()
+public async Task Handle_ComDadosValidos_DeveCriarUsuario()
 
 {
 
@@ -204,19 +204,19 @@ public async Task Handle\_ComDadosValidos\_DeveCriarUsuario()
 
 &#x20;   var command = new CreateUserCommand("marcelo", "m@empresa.com", "Senha@123", UserRole.Admin);
 
-&#x20;   \_repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+&#x20;   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
 
 &#x20;            .ReturnsAsync(false);
 
-&#x20;   \_repoMock.Setup(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+&#x20;   _repoMock.Setup(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
 
-&#x20;            .ReturnsAsync((User u, CancellationToken \_) => u);
+&#x20;            .ReturnsAsync((User u, CancellationToken _) => u);
 
 
 
 &#x20;   // Act
 
-&#x20;   var result = await \_handler.Handle(command, CancellationToken.None);
+&#x20;   var result = await _handler.Handle(command, CancellationToken.None);
 
 
 
@@ -226,21 +226,21 @@ public async Task Handle\_ComDadosValidos\_DeveCriarUsuario()
 
 &#x20;   result.Username.Should().Be("marcelo");
 
-&#x20;   \_repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
+&#x20;   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
 
 }
 
 
 
-\[Fact]
+[Fact]
 
-public async Task Handle\_ComUsernameDuplicado\_DeveLancarDomainException()
+public async Task Handle_ComUsernameDuplicado_DeveLancarDomainException()
 
 {
 
 &#x20;   // Arrange
 
-&#x20;   \_repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+&#x20;   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
 
 &#x20;            .ReturnsAsync(true);
 
@@ -250,7 +250,7 @@ public async Task Handle\_ComUsernameDuplicado\_DeveLancarDomainException()
 
 &#x20;   // Act
 
-&#x20;   Func<Task> act = () => \_handler.Handle(command, CancellationToken.None);
+&#x20;   Func<Task> act = () => _handler.Handle(command, CancellationToken.None);
 
 
 
@@ -258,7 +258,7 @@ public async Task Handle\_ComUsernameDuplicado\_DeveLancarDomainException()
 
 &#x20;   await act.Should().ThrowAsync<DomainException>();
 
-&#x20;   \_repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+&#x20;   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
 
 }
 
@@ -266,27 +266,27 @@ public async Task Handle\_ComUsernameDuplicado\_DeveLancarDomainException()
 
 
 
-\### 3. Aplicação — Validators
+### 3. Aplicação — Validators
 
 
 
-\#### `CreateUserValidatorTests.cs`
+#### `CreateUserValidatorTests.cs`
 
 
 
 ```csharp
 
-\[Theory]
+[Theory]
 
-\[InlineData("", "email@valido.com", "Senha@123", false)]     // username vazio
+[InlineData("", "email@valido.com", "Senha@123", false)]     // username vazio
 
-\[InlineData("marcelo", "email-invalido", "Senha@123", false)] // email inválido
+[InlineData("marcelo", "email-invalido", "Senha@123", false)] // email inválido
 
-\[InlineData("marcelo", "email@valido.com", "123", false)]     // senha fraca
+[InlineData("marcelo", "email@valido.com", "123", false)]     // senha fraca
 
-\[InlineData("marcelo", "email@valido.com", "Senha@123", true)] // válido
+[InlineData("marcelo", "email@valido.com", "Senha@123", true)] // válido
 
-public void Validate\_CenariosVariados(string username, string email, string password, bool esperado)
+public void Validate_CenariosVariados(string username, string email, string password, bool esperado)
 
 {
 
@@ -308,7 +308,7 @@ public void Validate\_CenariosVariados(string username, string email, string pas
 
 
 
-\### 4. Domínio — Value Objects
+### 4. Domínio — Value Objects
 
 
 
@@ -328,19 +328,19 @@ public void Validate\_CenariosVariados(string username, string email, string pas
 
 
 
-\---
+---
 
 
 
-\## 🔗 Testes de Integração
+## 🔗 Testes de Integração
 
 
 
-\*\*Local:\*\* `src/Tests/SJInovacao.Acesso.IntegrationTests/`
+**Local:** `src/Tests/SJInovacao.Acesso.IntegrationTests/`
 
 
 
-\### Configuração com Testcontainers
+### Configuração com Testcontainers
 
 
 
@@ -350,11 +350,11 @@ public class PostgresFixture : IAsyncLifetime
 
 {
 
-&#x20;   private readonly PostgreSqlContainer \_postgres = new PostgreSqlBuilder()
+&#x20;   private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
 
 &#x20;       .WithImage("postgres:16")
 
-&#x20;       .WithDatabase("silverjbase\_test")
+&#x20;       .WithDatabase("silverjbase_test")
 
 &#x20;       .WithUsername("developer")
 
@@ -372,11 +372,11 @@ public class PostgresFixture : IAsyncLifetime
 
 &#x20;   {
 
-&#x20;       await \_postgres.StartAsync();
+&#x20;       await _postgres.StartAsync();
 
 &#x20;       var options = new DbContextOptionsBuilder<DefaultContext>()
 
-&#x20;           .UseNpgsql(\_postgres.GetConnectionString())
+&#x20;           .UseNpgsql(_postgres.GetConnectionString())
 
 &#x20;           .Options;
 
@@ -394,7 +394,7 @@ public class PostgresFixture : IAsyncLifetime
 
 &#x20;       await Context.DisposeAsync();
 
-&#x20;       await \_postgres.DisposeAsync();
+&#x20;       await _postgres.DisposeAsync();
 
 &#x20;   }
 
@@ -404,31 +404,11 @@ public class PostgresFixture : IAsyncLifetime
 
 
 
-\### Suites Planejadas
+### Suites Planejadas
 
 
 
-\#### `UserEndpointsTests.cs`
-
-
-
-| Teste | Endpoint |
-
-| :--- | :--- |
-
-| `Post\_CriaUsuario\_Retorna201` | `POST /api/Users` |
-
-| `Get\_ListaUsuariosPaginado\_Retorna200` | `GET /api/Users?page=1\&size=10` |
-
-| `Get\_UsuarioInexistente\_Retorna404` | `GET /api/Users/{id}` |
-
-| `Put\_AtualizaUsuario\_Retorna200` | `PUT /api/Users/{id}` |
-
-| `Delete\_DesativaUsuario\_Retorna204` | `DELETE /api/Users/{id}` |
-
-
-
-\#### `AuthEndpointsTests.cs`
+#### `UserEndpointsTests.cs`
 
 
 
@@ -436,17 +416,19 @@ public class PostgresFixture : IAsyncLifetime
 
 | :--- | :--- |
 
-| `Post\_LoginValido\_RetornaToken` | `POST /api/Auth/Login` |
+| `Post_CriaUsuario_Retorna201` | `POST /api/Users` |
 
-| `Post\_LoginInvalido\_Retorna401` | `POST /api/Auth/Login` |
+| `Get_ListaUsuariosPaginado_Retorna200` | `GET /api/Users?page=1\&size=10` |
 
-| `Post\_LoginUsuarioInativo\_Retorna401` | `POST /api/Auth/Login` |
+| `Get_UsuarioInexistente_Retorna404` | `GET /api/Users/{id}` |
 
-| `Post\_RefreshToken\_RetornaNovoToken` | `POST /api/Auth/RefreshToken` |
+| `Put_AtualizaUsuario_Retorna200` | `PUT /api/Users/{id}` |
+
+| `Delete_DesativaUsuario_Retorna204` | `DELETE /api/Users/{id}` |
 
 
 
-\#### `PermissionEndpointsTests.cs`
+#### `AuthEndpointsTests.cs`
 
 
 
@@ -454,15 +436,33 @@ public class PostgresFixture : IAsyncLifetime
 
 | :--- | :--- |
 
-| `Post\_CriaPermissao\_Retorna201` | `POST /api/Permissions` |
+| `Post_LoginValido_RetornaToken` | `POST /api/Auth/Login` |
 
-| `Post\_PermissaoDuplicada\_Retorna400` | `POST /api/Permissions` |
+| `Post_LoginInvalido_Retorna401` | `POST /api/Auth/Login` |
 
-| `Get\_PermissaoInexistente\_Retorna404` | `GET /api/Permissions/{id}` |
+| `Post_LoginUsuarioInativo_Retorna401` | `POST /api/Auth/Login` |
+
+| `Post_RefreshToken_RetornaNovoToken` | `POST /api/Auth/RefreshToken` |
 
 
 
-\#### `OrderingTests.cs`
+#### `PermissionEndpointsTests.cs`
+
+
+
+| Teste | Endpoint |
+
+| :--- | :--- |
+
+| `Post_CriaPermissao_Retorna201` | `POST /api/Permissions` |
+
+| `Post_PermissaoDuplicada_Retorna400` | `POST /api/Permissions` |
+
+| `Get_PermissaoInexistente_Retorna404` | `GET /api/Permissions/{id}` |
+
+
+
+#### `OrderingTests.cs`
 
 
 
@@ -470,23 +470,23 @@ public class PostgresFixture : IAsyncLifetime
 
 | :--- | :--- |
 
-| `Get\_OrdenacaoSimples\_RetornaOrdenado` | `?order=username asc` |
+| `Get_OrdenacaoSimples_RetornaOrdenado` | `?order=username asc` |
 
-| `Get\_OrdenacaoMultipla\_RetornaOrdenado` | `?order=username desc, groupname asc` |
+| `Get_OrdenacaoMultipla_RetornaOrdenado` | `?order=username desc, groupname asc` |
 
-| `Get\_CampoInvalido\_Retorna400` | `?order=campo\_invalido asc` |
-
-
-
-\---
+| `Get_CampoInvalido_Retorna400` | `?order=campo_invalido asc` |
 
 
 
-\## 🔍 Testes de Auditoria
+---
 
 
 
-\### `AuditServiceTests.cs`
+## 🔍 Testes de Auditoria
+
+
+
+### `AuditServiceTests.cs`
 
 
 
@@ -494,31 +494,31 @@ public class PostgresFixture : IAsyncLifetime
 
 | :--- | :--- |
 
-| `CaptureChanges\_Added\_DeveCriarRegistro` | Insert gera `Action=Added` |
+| `CaptureChanges_Added_DeveCriarRegistro` | Insert gera `Action=Added` |
 
-| `CaptureChanges\_Modified\_DeveRegistrarColunasAlteradas` | Update captura `AffectedColumns` |
+| `CaptureChanges_Modified_DeveRegistrarColunasAlteradas` | Update captura `AffectedColumns` |
 
-| `CaptureChanges\_Deleted\_DeveRegistrarOldValues` | Delete captura valores antigos |
+| `CaptureChanges_Deleted_DeveRegistrarOldValues` | Delete captura valores antigos |
 
-| `CaptureChanges\_PasswordMascarado` | `Password` virou `\*\*\*` |
+| `CaptureChanges_PasswordMascarado` | `Password` virou `***` |
 
-| `CaptureChanges\_RefreshTokenMascarado` | `RefreshToken` virou `\*\*\*` |
+| `CaptureChanges_RefreshTokenMascarado` | `RefreshToken` virou `***` |
 
-| `CaptureChanges\_SemAlteracao\_NaoGeraRegistro` | Skip de "Modified falso" |
+| `CaptureChanges_SemAlteracao_NaoGeraRegistro` | Skip de "Modified falso" |
 
-| `CaptureChanges\_MultiplasEntidades\_GeraMultiplosRegistros` | Batch |
+| `CaptureChanges_MultiplasEntidades_GeraMultiplosRegistros` | Batch |
 
 
 
-\### Exemplo
+### Exemplo
 
 
 
 ```csharp
 
-\[Fact]
+[Fact]
 
-public async Task CaptureChanges\_ComPassword\_DeveMascarar()
+public async Task CaptureChanges_ComPassword_DeveMascarar()
 
 {
 
@@ -526,15 +526,15 @@ public async Task CaptureChanges\_ComPassword\_DeveMascarar()
 
 &#x20;   var user = new User("marcelo", "m@e.com", "SenhaHash", UserRole.Admin, ...);
 
-&#x20;   \_context.Users.Add(user);
+&#x20;   _context.Users.Add(user);
 
-&#x20;   await \_context.SaveChangesAsync();
+&#x20;   await _context.SaveChangesAsync();
 
 
 
 &#x20;   // Act
 
-&#x20;   var logs = await \_context.AuditLogs
+&#x20;   var logs = await _context.AuditLogs
 
 &#x20;       .Where(a => a.EntityName == "User" \&\& a.Action == "Added")
 
@@ -546,7 +546,7 @@ public async Task CaptureChanges\_ComPassword\_DeveMascarar()
 
 &#x20;   logs.NewValues.Should().NotContain("SenhaHash");
 
-&#x20;   logs.NewValues.Should().Contain("\\"Password\\":\\"\*\*\*\\"");
+&#x20;   logs.NewValues.Should().Contain("\\"Password\\":\\"***\\"");
 
 }
 
@@ -554,15 +554,15 @@ public async Task CaptureChanges\_ComPassword\_DeveMascarar()
 
 
 
-\---
+---
 
 
 
-\## ⚡ Testes de Performance
+## ⚡ Testes de Performance
 
 
 
-\### Cenários
+### Cenários
 
 
 
@@ -582,7 +582,7 @@ public async Task CaptureChanges\_ComPassword\_DeveMascarar()
 
 
 
-\### Teste de carga (k6)
+### Teste de carga (k6)
 
 
 
@@ -596,7 +596,7 @@ import { check } from 'k6';
 
 export const options = {
 
-&#x20; stages: \[
+&#x20; stages: [
 
 &#x20;   { duration: '30s', target: 10 },
 
@@ -620,7 +620,7 @@ export default function () {
 
 &#x20;     headers: {
 
-&#x20;       Authorization: `Bearer ${\_\_ENV.TOKEN}`,
+&#x20;       Authorization: `Bearer ${__ENV.TOKEN}`,
 
 &#x20;     },
 
@@ -642,15 +642,15 @@ export default function () {
 
 
 
-\---
+---
 
 
 
-\## 🔐 Testes de Segurança
+## 🔐 Testes de Segurança
 
 
 
-\### `AuthenticationTests.cs`
+### `AuthenticationTests.cs`
 
 
 
@@ -658,35 +658,19 @@ export default function () {
 
 | :--- | :--- |
 
-| `Request\_SemToken\_Retorna401` | Endpoint protegido sem header |
+| `Request_SemToken_Retorna401` | Endpoint protegido sem header |
 
-| `Request\_TokenInvalido\_Retorna401` | JWT com assinatura errada |
+| `Request_TokenInvalido_Retorna401` | JWT com assinatura errada |
 
-| `Request\_TokenExpirado\_Retorna401` | Token expirado |
+| `Request_TokenExpirado_Retorna401` | Token expirado |
 
-| `Request\_TokenValidoComPermissao\_Retorna200` | Autorização OK |
+| `Request_TokenValidoComPermissao_Retorna200` | Autorização OK |
 
-| `Request\_TokenValidoSemPermissao\_Retorna403` | Policy bloqueou |
-
-
-
-\### `BCryptPasswordHasherTests.cs`
+| `Request_TokenValidoSemPermissao_Retorna403` | Policy bloqueou |
 
 
 
-| Teste | Descrição |
-
-| :--- | :--- |
-
-| `Hash\_DeveGerarHashDiferenteParaMesmaSenha` | Salt aleatório |
-
-| `Verify\_HashValido\_RetornaTrue` | Autenticação correta |
-
-| `Verify\_HashInvalido\_RetornaFalse` | Autenticação incorreta |
-
-
-
-\### `CorrelationIdTests.cs`
+### `BCryptPasswordHasherTests.cs`
 
 
 
@@ -694,23 +678,39 @@ export default function () {
 
 | :--- | :--- |
 
-| `Request\_SemHeader\_GeraCorrelationId` | Middleware gera |
+| `Hash_DeveGerarHashDiferenteParaMesmaSenha` | Salt aleatório |
 
-| `Request\_ComHeader\_UsaHeaderFornecido` | Middleware respeita |
+| `Verify_HashValido_RetornaTrue` | Autenticação correta |
 
-| `Response\_ContemHeaderCorrelationId` | Header na resposta |
-
-
-
-\---
+| `Verify_HashInvalido_RetornaFalse` | Autenticação incorreta |
 
 
 
-\## 📊 Matriz de Cobertura
+### `CorrelationIdTests.cs`
 
 
 
-\### Metas
+| Teste | Descrição |
+
+| :--- | :--- |
+
+| `Request_SemHeader_GeraCorrelationId` | Middleware gera |
+
+| `Request_ComHeader_UsaHeaderFornecido` | Middleware respeita |
+
+| `Response_ContemHeaderCorrelationId` | Header na resposta |
+
+
+
+---
+
+
+
+## 📊 Matriz de Cobertura
+
+
+
+### Metas
 
 
 
@@ -728,11 +728,11 @@ export default function () {
 
 | Common (Auditing, Security) | 70% | 0% | 🔴 |
 
-| \*\*Total\*\* | \*\*60%\*\* | \*\*0%\*\* | 🔴 |
+| **Total** | **60%** | **0%** | 🔴 |
 
 
 
-\### Gerar relatório
+### Gerar relatório
 
 
 
@@ -740,21 +740,21 @@ export default function () {
 
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-reportgenerator -reports:\*\*/coverage.opencover.xml -targetdir:coverage-report
+reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
 
 ```
 
 
 
-\---
+---
 
 
 
-\## 🔄 CI/CD
+## 🔄 CI/CD
 
 
 
-\### Pipeline sugerido (GitHub Actions)
+### Pipeline sugerido (GitHub Actions)
 
 
 
@@ -768,11 +768,11 @@ on:
 
 &#x20; push:
 
-&#x20;   branches: \[main, develop]
+&#x20;   branches: [main, develop]
 
-&#x20; pull\_request:
+&#x20; pull_request:
 
-&#x20;   branches: \[main]
+&#x20;   branches: [main]
 
 
 
@@ -826,7 +826,7 @@ jobs:
 
 &#x20;         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-&#x20;         reportgenerator -reports:\*\*/coverage.opencover.xml -targetdir:coverage-report
+&#x20;         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
 
 
 
@@ -842,7 +842,7 @@ jobs:
 
 
 
-\### Gates de qualidade
+### Gates de qualidade
 
 
 
@@ -862,69 +862,69 @@ jobs:
 
 
 
-\---
+---
 
 
 
-\## 🎯 Critérios de Aceite para Homologação
+## 🎯 Critérios de Aceite para Homologação
 
 
 
-\- \[ ] Cobertura total ≥ 60%
+- [ ] Cobertura total ≥ 60%
 
-\- \[ ] Todos os testes passando em CI
+- [ ] Todos os testes passando em CI
 
-\- \[ ] Zero avisos no build
+- [ ] Zero avisos no build
 
-\- \[ ] Testes de carga com resultado < 100ms (p95)
+- [ ] Testes de carga com resultado < 100ms (p95)
 
-\- \[ ] Testes de segurança validados
+- [ ] Testes de segurança validados
 
-\- \[ ] Teste de auditoria validado em todos os tipos de operação
-
-
-
-\---
+- [ ] Teste de auditoria validado em todos os tipos de operação
 
 
 
-\## 📌 Comandos Rápidos
+---
+
+
+
+## 📌 Comandos Rápidos
 
 
 
 ```bash
 
-\# Rodar todos os testes
+# Rodar todos os testes
 
 dotnet test
 
 
 
-\# Rodar apenas unit tests
+# Rodar apenas unit tests
 
 dotnet test src/Tests/SJInovacao.Acesso.UnitTests
 
 
 
-\# Rodar apenas integration tests
+# Rodar apenas integration tests
 
 dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests
 
 
 
-\# Com cobertura
+# Com cobertura
 
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 
 
-\# Um teste específico
+# Um teste específico
 
-dotnet test --filter "FullyQualifiedName\~CreateUserHandlerTests"
+dotnet test --filter "FullyQualifiedName~CreateUserHandlerTests"
 
 
 
-\# Watch mode (durante desenvolvimento)
+# Watch mode (durante desenvolvimento)
 
 dotnet watch --project src/Tests/SJInovacao.Acesso.UnitTests test
 
@@ -932,9 +932,9 @@ dotnet watch --project src/Tests/SJInovacao.Acesso.UnitTests test
 
 
 
-\---
+---
 
 
 
-\*\*Plano de Testes — US01 · Versão 1.0 · 10/10/2026\*\*
+**Plano de Testes — US01 · Versão 1.0 · 10/10/2026**
 
