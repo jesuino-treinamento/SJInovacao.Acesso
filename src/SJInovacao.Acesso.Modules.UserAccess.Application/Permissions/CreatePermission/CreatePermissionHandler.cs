@@ -2,15 +2,13 @@
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using MediatR;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.CreatePermission
 {
     public class CreatePermissionHandler : IRequestHandler<CreatePermissionCommand, PermissionDto>
     {
-       // private readonly DefaultContext _context;
-        private readonly IPermissionRepository _permissionRepository;
+       private readonly IPermissionRepository _permissionRepository;
 
         private readonly IMapper _mapper;
 

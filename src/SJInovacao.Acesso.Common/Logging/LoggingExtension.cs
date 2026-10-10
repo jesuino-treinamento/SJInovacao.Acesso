@@ -87,23 +87,23 @@ namespace SJInovacao.Acesso.Common.Logging
                     .Enrich.WithExceptionDetails(_destructuringOptionsBuilder)
                     .Filter.ByExcluding(_filterPredicate);
 
-                if (Debugger.IsAttached)
-                {
-                    loggerConfiguration.Enrich.WithProperty("DebuggerAttached", Debugger.IsAttached);
-                    loggerConfiguration.WriteTo.Console(
-                        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}",
-                        theme: SystemConsoleTheme.Colored);
-                }
-                else
-                {
-                    loggerConfiguration
-                        .WriteTo.Console(
-                            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")
-                        .WriteTo.File(
-                            "logs/log-.txt",
-                            rollingInterval: RollingInterval.Day,
-                            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}");
-                }
+                //if (Debugger.IsAttached)
+                //{
+                //    loggerConfiguration.Enrich.WithProperty("DebuggerAttached", Debugger.IsAttached);
+                //    loggerConfiguration.WriteTo.Console(
+                //        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}",
+                //        theme: SystemConsoleTheme.Colored);
+                //}
+                //else
+                //{
+                //    loggerConfiguration
+                //        .WriteTo.Console(
+                //            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")
+                //        .WriteTo.File(
+                //            "logs/log-.txt",
+                //            rollingInterval: RollingInterval.Day,
+                //            outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}");
+                //}
             });
 
             builder.Services.AddLogging();

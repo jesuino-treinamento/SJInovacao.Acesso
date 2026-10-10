@@ -3,6 +3,7 @@
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
+    using Microsoft.Extensions.Logging.Abstractions;
     using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
     using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
     using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
@@ -25,7 +26,7 @@
         public async Task Deve_Salvar_E_Buscar_Permissao()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             var permission = new Permission
             {
@@ -47,7 +48,7 @@
         public async Task Deve_Atualizar_Permissao()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             var permission = new Permission
             {
@@ -72,7 +73,7 @@
         public async Task Deve_Excluir_Permissao()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             var permission = new Permission
             {
@@ -94,7 +95,7 @@
         public async Task Deve_Listar_Todas_Permissoes()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             await repo.CreateAsync(new Permission { Id = Guid.NewGuid(), Name = $"P1_{Guid.NewGuid()}", IsActive = true, CreatedAt = DateTime.UtcNow }, CancellationToken.None);
             await repo.CreateAsync(new Permission { Id = Guid.NewGuid(), Name = $"P2_{Guid.NewGuid()}", IsActive = true, CreatedAt = DateTime.UtcNow }, CancellationToken.None);
@@ -108,7 +109,7 @@
         public async Task Deve_Lancar_Excecao_Quando_Nome_Duplicado()
         {
             using var context = CreateContext();
-            var repo = new PermissionRepository(context);
+            var repo = new PermissionRepository(context, NullLogger<PermissionRepository>.Instance);
 
             var name = $"Duplicado_{Guid.NewGuid()}";
             var p1 = new Permission { Id = Guid.NewGuid(), Name = name, IsActive = true, CreatedAt = DateTime.UtcNow };

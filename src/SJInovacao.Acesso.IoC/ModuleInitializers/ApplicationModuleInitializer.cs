@@ -23,7 +23,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
     {
         public void Initialize(WebApplicationBuilder builder)
         {
-            // ===== SECURITY & CONTEXT =====
             builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             builder.Services.AddSingleton<IAuthorizationPolicyProvider, HybridPolicyProvider>();
             builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -31,12 +30,10 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IUserContext, UserContext>();
 
-            // ✅ Registra a orquestração de casos de uso (agora vive na Application)
             builder.Services.AddScoped<IUserAccessModule, UserAccessModule>();
 
             builder.Services.AddAuthorization();
 
-            // ===== DATABASE =====
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -44,20 +41,17 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
                 )
             );
             
-            // ✅ Fallback robusto
             var webApiAssembly = Assembly.GetEntryAssembly()
                 ?? Assembly.Load("SJInovacao.Acesso.WebAPI");
 
-            // ===== AUTOMAPPER (tipos marcadores) =====
             builder.Services.AddAutoMapper(cfg =>
             {
-                cfg.AddMaps(typeof(UserAccessModule).Assembly);      // Application
-                cfg.AddMaps(typeof(Permission).Assembly);             // Domain
-                cfg.AddMaps(typeof(DefaultContext).Assembly);         // Infrastructure
-                cfg.AddMaps(webApiAssembly);                          // WebAPI
+                cfg.AddMaps(typeof(UserAccessModule).Assembly);      
+                cfg.AddMaps(typeof(Permission).Assembly);             
+                cfg.AddMaps(typeof(DefaultContext).Assembly);         
+                cfg.AddMaps(webApiAssembly);                          
             });
 
-            // ===== MEDIATR =====
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
@@ -67,7 +61,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
                 );
             });
 
-            // ===== FLUENTVALIDATION =====
             builder.Services.AddValidatorsFromAssemblies(new[]
             {
                 typeof(UserAccessModule).Assembly,
@@ -75,7 +68,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
                 webApiAssembly
             });
 
-            // ===== PIPELINE BEHAVIORS =====
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 

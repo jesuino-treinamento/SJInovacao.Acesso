@@ -11,10 +11,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
     /// </summary>
     public class Phone : BaseEntity, IDeactivatable
     {
-        public string Number { get; private set; } = null!;      // Número do telefone
+        public string Number { get; private set; } = string.Empty;      // Número do telefone
         public PhoneType Type { get; private set; }               // Tipo do telefone (enum)
         public Guid PersonId { get; set; }
-        public Person Person { get; set; }
+        public Person Person { get; set; } = null!; // Pessoa associada ao telefone
         public bool IsActive { get; private set; }
 
         // Construtor privado para EF Core

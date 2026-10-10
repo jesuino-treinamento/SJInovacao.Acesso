@@ -56,23 +56,23 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<PaginatedList<Person>> GetPagedAsync(int pageNumber, int pageSize, string? searchTerm, CancellationToken cancellationToken)
-        {
-            var query = _context.Set<Person>()
-                .Include(p => p.Phones)
-                .Include(p => p.Addresses)
-                .AsQueryable();
+        //public async Task<PaginatedList<Person>> GetPagedAsync(int pageNumber, int pageSize, string? searchTerm, CancellationToken cancellationToken)
+        //{
+        //    var query = _context.Set<Person>()
+        //        .Include(p => p.Phones)
+        //        .Include(p => p.Addresses)
+        //        .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                query = query.Where(p =>
-                    p.Name.FirstName.Contains(searchTerm) ||
-                    p.Name.LastName.Contains(searchTerm) ||
-                    p.Document.Number.Contains(searchTerm));
-            }
+        //    if (!string.IsNullOrWhiteSpace(searchTerm))
+        //    {
+        //        query = query.Where(p =>
+        //            p.Name.FirstName.Contains(searchTerm) ||
+        //            p.Name.LastName.Contains(searchTerm) ||
+        //            p.Document.Number.Contains(searchTerm));
+        //    }
 
-            return PaginatedList<Person>.Create(query, pageNumber, pageSize);
-        }
+        //    return PaginatedList<Person>.Create(query, pageNumber, pageSize);
+        //}
 
         public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {

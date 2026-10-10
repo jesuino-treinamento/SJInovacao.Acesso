@@ -62,82 +62,46 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
                     document
                 );
 
-                // 4. Criar telefone (US01: sempre terá pelo menos um telefone)
-                Phone phone;
-                //if (command.UseFakeData)
-                //{
-                //    // Telefone fake
-                //    //var fakeNumber = new Phone();// FakeDataHelper.GetFakePhoneNumber();
-                //    phone = new Phone(); //new Phone(fakeNumber, PhoneType.Celular, user);
-                //    user.AddPhone(phone);
-                //}
-                //else
-                //{
+                Phone phone;               
 
                 user.Phones.Clear();
-                // Inicializa listas
+
                 foreach (var phoneDto in command.Phones)
+                {
+                    phone = await _phoneRepository.GetByIdAsync(phoneDto.PhoneId, cancellationToken) ?? null!; 
+
+                    if (phone == null)
                     {
-                        phone = await _phoneRepository.GetByIdAsync(phoneDto.PhoneId, cancellationToken);// ?? new (); 
-
-                        if (phone == null)
-                        {
-                            var userphone = new Phone(phoneDto.Number, phoneDto.Type, person);
-                            user.AddPhone(userphone);
-                        }
+                        var userphone = new Phone(phoneDto.Number, phoneDto.Type, person);
+                        user.AddPhone(userphone);
                     }
+                }
 
-                //}
-
-
-                // 5. Criar endereço (US01: sempre terá pelo menos um endereço)
                 Address address;
 
                 user.Addresses.Clear();
-
-                //if (command.UseFakeData)
-                //{
-                //    // Endereço fake
-                //    //var fakeStreet = FakeDataHelper.GetFakeStreet();
-                //    //var fakeNumber = FakeDataHelper.GetFakeNumber();
-                //    //var fakeNeighborhood = FakeDataHelper.GetFakeNeighborhood();
-                //    //var fakeCity = FakeDataHelper.GetFakeCity();
-                //    //var fakeState = FakeDataHelper.GetFakeState();
-                //    //var fakeZipCode = FakeDataHelper.GetFakeZipCode();
-                //    //var (lat, lng) = FakeDataHelper.GetFakeGeolocation();
-                //    var geolocation = new Geolocation();// (lat, lng);
-
-                //    address = new Address();
-                //    //fakeStreet, fakeNumber, fakeNeighborhood,
-                //    //fakeCity, fakeState, fakeZipCode,
-                //    //user.Id, geolocation);
-
-                //    user.AddAddress(address);
-                //}
-                //else
-                //{
-                    foreach (var addressDto in command.Addresses)
+                
+                foreach (var addressDto in command.Addresses)
+                {
+                    address = await _addressRepository.GetByIdAsync(addressDto.Id, cancellationToken) ?? null!;
+                    if (address == null)
                     {
-                        address = await _addressRepository.GetByIdAsync(addressDto.Id, cancellationToken);// ?? new();
-                        if (address == null)
-                        {
-                            var geolocation = new Geolocation(addressDto.Geolocation.Lat, addressDto.Geolocation.Long);
+                        var geolocation = new Geolocation(addressDto.Geolocation.Lat, addressDto.Geolocation.Long);
 
-                            var userAddress = new Address(
-                                addressDto.Street,
-                                addressDto.Number,
-                                addressDto.Neighborhood,
-                                addressDto.City,
-                                addressDto.State,
-                                addressDto.ZipCode,
-                                person.Id,
-                                geolocation
-                            );
+                        var userAddress = new Address(
+                            addressDto.Street,
+                            addressDto.Number,
+                            addressDto.Neighborhood,
+                            addressDto.City,
+                            addressDto.State,
+                            addressDto.ZipCode,
+                            person.Id,
+                            geolocation
+                        );
 
-                            user.AddAddress(userAddress);
-                        }
+                        user.AddAddress(userAddress);
                     }
-                //}
+                }
 
                 var createdUser = await _userRepository.CreateAsync(user, cancellationToken);
 

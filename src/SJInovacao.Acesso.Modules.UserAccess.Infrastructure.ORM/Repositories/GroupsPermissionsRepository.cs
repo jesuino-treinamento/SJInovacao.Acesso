@@ -7,14 +7,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
     public class GroupsPermissionsRepository : BaseRepository<GroupsPermissions>, IGroupsPermissionsRepository
     {
-        private readonly DefaultContext _context;
-        private readonly ILogger<GroupsPermissionsRepository> _logger;
-
         public GroupsPermissionsRepository(DefaultContext context, ILogger<GroupsPermissionsRepository> logger)
         : base(context, logger)
-        {
-            _context = context; _logger = logger;
-        }
+        {  }
 
         //Analise está com icoerente ???
         public async Task<GroupsPermissions?> GetByIdAsync(Guid groupId, Guid permissionId, CancellationToken ct)

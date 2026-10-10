@@ -7,19 +7,16 @@ using System.Diagnostics;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
 {
-    public class UserPermissionRepository : IUserPermissionRepository
-    {
-        private readonly DefaultContext _context;
-        private readonly ILogger<UserPermissionRepository> _logger;
+    public class UserPermissionRepository : BaseRepository<UserPermission>, IUserPermissionRepository
+    {        
         private readonly IAsyncPolicy _resiliencePolicy;
 
         public UserPermissionRepository(
             DefaultContext context,
             ILogger<UserPermissionRepository> logger,
             IAsyncPolicy? resiliencePolicy = null)
+            : base(context, logger)
         {
-            _context = context;
-            _logger = logger;
             _resiliencePolicy = resiliencePolicy ?? Policy.NoOpAsync();
         }
 

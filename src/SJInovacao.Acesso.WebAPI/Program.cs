@@ -4,6 +4,7 @@ using SJInovacao.Acesso.Common.HealthChecks;
 using SJInovacao.Acesso.Common.Logging;
 using SJInovacao.Acesso.Common.Security;
 using SJInovacao.Acesso.IoC;
+using SJInovacao.Acesso.WebAPI.Common;
 using SJInovacao.Acesso.WebAPI.Middleware;
 using System.Text.Json;
 
@@ -91,6 +92,8 @@ public class Program
             // =============================
             // 📦 IoC MÓDULOS
             // =============================
+
+            builder.Services.AddHostedService<QueryWarmupService>();
             await builder.RegisterDependenciesAsync();
 
             var app = builder.Build();

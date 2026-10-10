@@ -109,7 +109,7 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.Permissions
         }
 
         [Authorize]
-        [Group("group.all")]
+        [Group("group.all", "group.adm")]
         [Permission("user.view", "user.update")] // 🔒 exige permissão
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithData<List<PermissionResponse>>), StatusCodes.Status200OK)]

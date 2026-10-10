@@ -7,15 +7,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.ListUser
         private readonly string[] _validProperties = { "username", "email", "phone", "status", "role", "createdAt",  "updatedat", "name", "name.firstname", "name.lastname",
             "address", "address.city", "address.street", "address.zipcode",  "address.neighborhood", "geolocation", "geolocation.lat", "geolocation.long" };
 
-        //private readonly string[] _validProperties = {
-        //    "username", "email", "phone", "status", "role", "createdat", "updatedat",
-        //    "name", "name.firstname", "name.lastname",
-        //    "addresses", "addresses.city", "addresses.street", "addresses.zipcode",
-        //    "addresses.neighborhood", "addresses.type",
-        //    "geolocation", "geolocation.lat", "geolocation.long"
-        //};
-
-
         public GetAllUsersQueryValidator()
         {
             RuleFor(x => x.Page).GreaterThan(0);

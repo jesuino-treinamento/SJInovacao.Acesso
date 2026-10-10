@@ -43,10 +43,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
             Addresses.Clear();
         }
 
-        /// <summary>
-        /// Adiciona um endereço à pessoa
-        /// </summary>
-        /// <param name="address">Endereço a ser adicionado</param>
         public void AddAddress(Address address)
         {
             Addresses.Add(address ?? throw new ArgumentNullException(nameof(address)));

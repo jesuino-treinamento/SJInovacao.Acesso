@@ -1,44 +1,9 @@
-﻿//using AutoMapper;
-//using MediatR;
-//using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
-
-//namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission
-//{
-//    public class RemoveGroupPermissionHandler : IRequestHandler<RemoveGroupPermissionCommand, RemoveGroupPermissionResult>
-//    {
-//        private readonly IGroupPermissionRepository _repository;
-//        private readonly IMapper _mapper;
-
-//        public RemoveGroupPermissionHandler(IGroupPermissionRepository repository, IMapper mapper)
-//        {
-//            _repository = repository;
-//            _mapper = mapper;
-//        }
-
-//        public async Task<RemoveGroupPermissionResult> Handle(RemoveGroupPermissionCommand command, CancellationToken ct)
-//        {
-//            await _repository.RemoveAsync(command.GroupId, ct);
-
-//            return new RemoveGroupPermissionResult
-//            {
-//                GroupId = command.GroupId,
-//                PermissionId = command.PermissionId,
-//                IsActive = false,
-//                UpdatedAt = DateTime.UtcNow
-//            };
-//        }
-//    }
-//}
-
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission
 {
@@ -78,7 +43,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
 
                 var groupPermissions = await _context.GroupsPermissions
                    .Where(gp => gp.GroupId == command.GroupId && gp.PermissionId == command.PermissionId)
-                   .ToListAsync(cancellationToken) ?? null;
+                   .ToListAsync(cancellationToken);
 
                 if(groupPermissions.Count() == 0)
                 {

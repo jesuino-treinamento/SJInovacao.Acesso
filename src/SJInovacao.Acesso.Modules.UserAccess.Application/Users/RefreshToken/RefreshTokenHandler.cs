@@ -18,12 +18,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
 
         public async Task<AuthenticateUserResult> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            // Busca o usuário pelo refresh token (válido e não expirado)
             var user = await _userRepository.GetByRefreshTokenAsync(request.RefreshToken, cancellationToken);
             if (user == null)
                 throw new UnauthorizedAccessException("Invalid refresh token");
 
-            // Verifica expiração do refresh token (se você armazenar data)
             if (user.RefreshTokenExpiry < DateTime.UtcNow)
                 throw new UnauthorizedAccessException("Refresh token expired");
 
@@ -31,14 +29,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
 
             List<string> permissionNames = permissions?.UserGroups?.Where(p => p.IsActive == true).Select(p => p.Group.Name).ToList() ?? new List<string>();
 
-            // 1. Permissões via entidade UserPermission
             var directPermissions = user.UserPermissions?
                 .Where(up => up.IsActive)
                 .Select(up => up.Permission.Name)
                 .ToList() ?? new List<string>();
 
 
-            // 2. Permissões dos grupos
             var groupInfos = new List<UserGroupInfo>();
             var allGroupPermissions = new List<string>();
 
@@ -46,7 +42,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
             {
                 foreach (var group in user.UserGroups.Where(p => p.IsActive == true))
                 {
-                    //var groupPerms = group.Group.Permissions?.Select(p => p.Name).ToList() ?? new List<string>();
                     var groupPerms = group.Group.UsersGroupsPermissions?.Where(x => x.IsActive == true).Select(p => p.Permission.Name).ToList() ?? new List<string>();
                     groupInfos.Add(new UserGroupInfo
                     {
@@ -57,14 +52,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
                 }
             }
 
-            // 3. Permissões totais (união)
             var allPermissions = permissionNames.Union(allGroupPermissions).Distinct().ToList();
-            var allGroupGroups = permissions?.UserGroups.Select(p => p.Group.Name).ToList() ?? new List<string?>();
+            var allGroupGroups = permissions?.UserGroups.Select(p => p.Group.Name).ToList() ?? new List<string>();
 
-            // Gera novo access token
             var newAccessToken = _jwtTokenGenerator.GenerateToken(user, allPermissions, allGroupGroups);
 
-            // Opcional: gera novo refresh token (rotacionar)
             var newRefreshToken = Guid.NewGuid().ToString();
             var newRefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
             await _userRepository.UpdateRefreshTokenAsync(user.Id, newRefreshToken, newRefreshTokenExpiry, cancellationToken);
@@ -77,8 +69,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.RefreshToken
                 Email = user.Email,
                 Name = user.Username,
                 Role = user.Role.ToString(),
-                Permissions = allPermissions,          // lista plana
-                Groups = groupInfos                    // detalhamento
+                Permissions = allPermissions,          
+                Groups = groupInfos                    
             };
         }
     }
