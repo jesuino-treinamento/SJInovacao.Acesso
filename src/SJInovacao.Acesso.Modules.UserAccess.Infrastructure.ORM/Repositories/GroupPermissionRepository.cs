@@ -73,12 +73,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         }
 
         public async Task<GroupPermission> UpdateAsync(GroupPermission groupPermission, CancellationToken ct)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync(ct);           
+        {                      
             return await ExecuteWithLoggingAsync(
             "UpdateGroupPermissions",
             async () =>
             {
+                using var transaction = await _context.Database.BeginTransactionAsync(ct);
                 try
                 {
                     var exists = await _context.GroupPermissions
@@ -167,12 +167,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             });
         }
         public async Task<bool> DeleteAsync(Guid id, CancellationToken ct = default)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync(ct);           
+        {                      
             return await ExecuteWithLoggingAsync(
             "DeleteGroupPermissions",
             async () =>
             {
+                using var transaction = await _context.Database.BeginTransactionAsync(ct);
                 try
                 {
                     var group = await GetByIdAsync(id, ct);

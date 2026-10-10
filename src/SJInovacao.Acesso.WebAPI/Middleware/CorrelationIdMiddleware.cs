@@ -1,9 +1,8 @@
 ﻿using Serilog.Context;
 using System.Diagnostics;
 
-namespace SJInovacao.Acesso.WebAPI.Middleware 
+namespace SJInovacao.Acesso.WebAPI.Middleware
 {
-
     public class CorrelationIdMiddleware
     {
         private readonly RequestDelegate _next;
@@ -22,9 +21,12 @@ namespace SJInovacao.Acesso.WebAPI.Middleware
                 ? id.ToString()
                 : Activity.Current?.Id ?? context.TraceIdentifier;
 
+            // ✅ Disponibiliza para outros middlewares/services (AuditService lê daqui)
+            context.Items["CorrelationId"] = correlationId;
+
             using (LogContext.PushProperty("CorrelationId", correlationId))
             {
-                // ✅ Mais seguro
+                // Header na resposta
                 context.Response.Headers[CorrelationIdHeader] = correlationId;
 
                 var stopwatch = Stopwatch.StartNew();

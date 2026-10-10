@@ -61,9 +61,26 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
            "UpdateUser",
            async () =>
            {
-               _context.Users.Update(user);
+               //_context.Users.Update(user);
+               //await _context.SaveChangesAsync(cancellationToken);
+               //return user;
+
+               // 1. Carrega a entidade RASTREADA do banco
+               var existing = await _context.Users
+                   .FirstOrDefaultAsync(u => u.Id == user.Id, cancellationToken)
+                   ?? throw new DomainException($"Usuário {user.Id} não encontrado.");
+
+               // 2. Aplica APENAS os campos que podem mudar
+               existing.Username = user.Username;
+               existing.Email = user.Email;
+               existing.Role = user.Role;
+               existing.Status = user.Status;
+               existing.UpdatedAt = DateTime.UtcNow;
+
+               // 3. SaveChanges detecta apenas o que MUDOU de fato
                await _context.SaveChangesAsync(cancellationToken);
-               return user;
+
+               return existing;
            });
         }
 
@@ -674,14 +691,23 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 "UpdateRefreshToken",
                 async () =>
                 {
-                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+                    //var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
-                    if (user == null) throw new InvalidOperationException("Usuário não encontrado.");
+                    //if (user == null) throw new InvalidOperationException("Usuário não encontrado.");
+
+                    //user.RefreshToken = refreshToken;
+                    //user.RefreshTokenExpiry = expiry;
+
+                    //_context.Users.Update(user); // 🔑 garante que o EF rastreie a entidade
+                    //await _context.SaveChangesAsync(cancellationToken);
+                    var user = await _context.Users
+                        .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken)
+                        ?? throw new DomainException($"Usuário {userId} não encontrado.");
 
                     user.RefreshToken = refreshToken;
                     user.RefreshTokenExpiry = expiry;
 
-                    _context.Users.Update(user); // 🔑 garante que o EF rastreie a entidade
+                    // ❌ NÃO chamar _context.Users.Update(user)
                     await _context.SaveChangesAsync(cancellationToken);
                 });
         }
@@ -695,7 +721,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
                 if (user == null) throw new InvalidOperationException("Usuário não encontrado.");
-                user.RefreshToken = null;
+                user.RefreshToken = null!;
                 user.RefreshTokenExpiry = null;
                 await _context.SaveChangesAsync(cancellationToken);
             });

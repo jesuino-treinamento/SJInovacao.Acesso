@@ -3,9 +3,6 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using SJInovacao.Acesso.Common.Security.Authentication.GroupAccess;
 using SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SJInovacao.Acesso.Common.Security.Authentication
 {
