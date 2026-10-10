@@ -1,0 +1,72 @@
+site_name: SJInovacao.Acesso
+site_description: Documentação técnica do módulo Acesso
+site_author: Marcelo Jesuino
+docs_dir: docs
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Início: index.md
+  - Backlog:
+      - US01 — Acesso: backlog/us01-backlog.md
+      - Índice de Backlogs: backlog/README.md
+  - Arquitetura: architecture/overview.md
+  - API: api/endpoints.md
+  - Testes: tests/test-plan.md
+  - ADRs:
+      - Índice: adr/README.md
+      - ADR-001 — Modular Monolith: adr/001-modular-monolith.md
+      - ADR-002 — Person Shared Kernel: adr/002-person-shared-kernel.md
+      - ADR-003 — BaseRepository: adr/003-base-repository.md
+      - ADR-004 — Feature Folders: adr/004-feature-folders.md
+      - ADR-005 — TPT Inheritance: adr/005-tpt-inheritance.md
+      - ADR-006 — Auditoria: adr/006-centralized-auditing.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jesuino-treinamento/SJInovacao.Acesso

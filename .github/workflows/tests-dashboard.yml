@@ -10,73 +10,59 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout código
       uses: actions/checkout@v4
 
+    # =========================
+    # 1. BUILD DA APLICAÇÃO + TESTES
+    # =========================
     - name: Instalar .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
 
-    # =========================
-    # 1. TESTES
-    # =========================
     - name: Restaurar dependências
       run: dotnet restore ./SJInovacao.Acesso.slnx
 
-    - name: Executar Testes de Infraestrutura
-      run: dotnet test src/Tests/SJInovacao.Acesso.InfraTests/SJInovacao.Acesso.InfraTests.csproj --logger "trx;LogFileName=InfraTests.trx" --results-directory ./TestResults
-      continue-on-error: true
-
-    - name: Executar Testes de Aplicação
-      run: dotnet test src/Tests/SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --logger "trx;LogFileName=ApplicationTests.trx" --results-directory ./TestResults
-      continue-on-error: true
-
-    - name: Executar Testes de Integração
-      run: dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests/SJInovacao.Acesso.IntegrationTests.csproj --logger "trx;LogFileName=IntegrationTests.trx" --results-directory ./TestResults
-      continue-on-error: true
-
-    - name: Executar Testes Unitários
-      run: dotnet test src/Tests/SJInovacao.Acesso.UnitTests/SJInovacao.Acesso.UnitTests.csproj --logger "trx;LogFileName=UnitTests.trx" --results-directory ./TestResults
-      continue-on-error: true
-
-    # =========================
-    # 2. DASHBOARD
-    # =========================
-    - name: Executar script PowerShell (Update-History.ps1)
-      run: pwsh -File .\scripts\Update-History.ps1
-
-    - name: Gerar Dashboard (Generate-TestReport.ps1)
-      run: pwsh -File .\scripts\Generate-TestReport.ps1
-
-    - name: Verificar se Dashboard foi gerado
+    - name: Executar Testes
       run: |
-        if (-not (Test-Path "./TestResults/Dashboard.html")) {
-          Write-Error "Dashboard.html não encontrado."
-          exit 1
-        }
+        dotnet test src/Tests/SJInovacao.Acesso.InfraTests/SJInovacao.Acesso.InfraTests.csproj --logger "trx;LogFileName=InfraTests.trx" --results-directory ./TestResults || true
+        dotnet test src/Tests/SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --logger "trx;LogFileName=ApplicationTests.trx" --results-directory ./TestResults || true
+        dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests/SJInovacao.Acesso.IntegrationTests.csproj --logger "trx;LogFileName=IntegrationTests.trx" --results-directory ./TestResults || true
+        dotnet test src/Tests/SJInovacao.Acesso.UnitTests/SJInovacao.Acesso.UnitTests.csproj --logger "trx;LogFileName=UnitTests.trx" --results-directory ./TestResults || true
+
+    - name: Gerar Dashboard (PowerShell)
+      shell: pwsh
+      run: |
+        pwsh -File .\scripts\Update-History.ps1
+        pwsh -File .\scripts\Generate-TestReport.ps1
+
+    # =========================
+    # 2. BUILD DO SITE (MKDOCS)
+    # =========================
+    - name: Instalar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Instalar MkDocs
+      run: pip install -r requirements.txt
+
+    - name: Gerar site de documentação
+      run: mkdocs build --site-dir ./deploy/docs
 
     # =========================
     # 3. PREPARAR DEPLOY
     # =========================
     - name: Preparar pasta de deploy
       run: |
-        mkdir deploy
-        mkdir deploy/docs
-
-        # Dashboard
-        Copy-Item -Path "./TestResults/Dashboard.html" -Destination "./deploy/Dashboard.html" -Force
-        Copy-Item -Path "./TestResults/history.json" -Destination "./deploy/history.json" -Force
-
-        # Landing page e config
-        Copy-Item -Path "./index.html" -Destination "./deploy/index.html" -Force
-        Copy-Item -Path "./_config.yml" -Destination "./deploy/_config.yml" -Force
-
-        # Documentação (todos os arquivos .md)
-        Copy-Item -Path "./docs/*" -Destination "./deploy/docs/" -Recurse -Force
+        mkdir -p deploy
+        cp ./index.html ./deploy/index.html
+        cp ./TestResults/Dashboard.html ./deploy/Dashboard.html
+        cp ./TestResults/history.json ./deploy/history.json
 
     # =========================
     # 4. PUBLICAR
@@ -87,5 +73,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./deploy
         force_orphan: true
-        enable_jekyll: true
-        cname: ""
+        enable_jekyll: false
