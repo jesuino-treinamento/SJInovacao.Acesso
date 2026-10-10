@@ -1,6 +1,8 @@
-﻿namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
+﻿using SJInovacao.Acesso.Common.Auditing;
+
+namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
-    public class UserPermission
+    public class UserPermission : IAuditable
     {
         public Guid UserId { get; set; }
         public User User { get; set; } = null!;

@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using SJInovacao.Acesso.Common.Auditing;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
-    public class UserGroup
+    public class UserGroup :  IAuditable
     {
         public Guid UserId { get; set; }     
         public Guid GroupId { get; set; }      

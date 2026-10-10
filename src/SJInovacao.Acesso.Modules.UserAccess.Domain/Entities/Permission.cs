@@ -1,10 +1,10 @@
-﻿using SJInovacao.Acesso.Modules.UserAccess.Domain.Common;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
+﻿using SJInovacao.Acesso.Common.Auditing;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Common;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Specifications;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
 {
-    public class Permission : BaseEntity, IDeactivatable
+    public class Permission : BaseEntity, IDeactivatable, IAuditable
     {
         public Permission() { }
 
