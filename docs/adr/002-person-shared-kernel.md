@@ -72,13 +72,42 @@ public interface ICadastroProvider
 
 ## Plano de Migração
 
-| Fase | Ação | Duração |
-| :--- | :--- | :--- |
-| 1 | Criar módulo `Cadastros` | 3 dias |
-| 2 | Migrar `Person`, `Address`, `Phone` | 2 dias |
-| 3 | Refatorar `User` para referenciar `Person` | 2 dias |
-| 4 | Refatorar futuros `Customer`, `Supplier`, `Employee` | Por módulo |
-| 5 | Remover TPT antigo | 1 dia |
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Ação</th>
+<th>Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Criar módulo `Cadastros`</td>
+<td>3 dias</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Migrar `Person`, `Address`, `Phone`</td>
+<td>2 dias</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Refatorar `User` para referenciar `Person`</td>
+<td>2 dias</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Refatorar futuros `Customer`, `Supplier`, `Employee`</td>
+<td>Por módulo</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Remover TPT antigo</td>
+<td>1 dia</td>
+</tr>
+</tbody>
+</table>
 
 ## Referências
 

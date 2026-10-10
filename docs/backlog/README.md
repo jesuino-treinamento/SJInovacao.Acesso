@@ -4,17 +4,72 @@ Este diretório centraliza o planejamento de sprints e o backlog de todos os mó
 
 ## 📚 Backlogs Disponíveis
 
-| Módulo | Documento | Status | Última Atualização |
-| :----- | :-------- | :----- | :----------------- |
-| US01 — Acesso | [us01-backlog.md](./us01-backlog.md) | ✅ 96% | 10/10/2026 |
-| US02 — Produtos | _(a criar)_ | 🔴 Planejado | — |
-| US03 — Cliente | _(a criar)_ | 🔴 Planejado | — |
-| US04 — Colaboradores | _(a criar)_ | 🔴 Planejado | — |
-| US05 — Fornecedores | _(a criar)_ | 🔴 Planejado | — |
-| US06 — Vendas | _(a criar)_ | 🔴 Planejado | — |
-| US07 — Financeiro | _(a criar)_ | 🔴 Planejado | — |
-| US08 — RH | _(a criar)_ | 🔴 Planejado | — |
-| US09 — Relatórios | _(a criar)_ | 🔴 Planejado | — |
+<table>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Documento</th>
+<th>Status</th>
+<th>Última Atualização</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01 — Acesso</td>
+<td>[us01-backlog.md](./us01-backlog.md)</td>
+<td>✅ 96%</td>
+<td>10/10/2026</td>
+</tr>
+<tr>
+<td>US02 — Produtos</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US03 — Cliente</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US04 — Colaboradores</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US05 — Fornecedores</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US06 — Vendas</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US07 — Financeiro</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US08 — RH</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+<tr>
+<td>US09 — Relatórios</td>
+<td>_(a criar)_</td>
+<td>🔴 Planejado</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 ## 🎯 Convenções
 

@@ -51,11 +51,28 @@ Adotar **Modular Monolith** com as seguintes características:
 
 ## Alternativas Consideradas
 
-| Alternativa          | Por que foi rejeitada                                |
-| :------------------- | :--------------------------------------------------- |
-| Monolith tradicional | Falta de isolamento dificulta manutenção             |
-| Microsserviços       | Complexidade operacional alta para time pequeno      |
-| Serverless           | Custo imprevisível e modelo não se aplica ao domínio |
+<table>
+<thead>
+<tr>
+<th>Alternativa</th>
+<th>Por que foi rejeitada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monolith tradicional</td>
+<td>Falta de isolamento dificulta manutenção</td>
+</tr>
+<tr>
+<td>Microsserviços</td>
+<td>Complexidade operacional alta para time pequeno</td>
+</tr>
+<tr>
+<td>Serverless</td>
+<td>Custo imprevisível e modelo não se aplica ao domínio</td>
+</tr>
+</tbody>
+</table>
 
 ## Referências
 

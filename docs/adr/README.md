@@ -4,14 +4,54 @@ Registro das decisões arquiteturais importantes do projeto **SJInovacao.Acesso*
 
 ## 📚 Índice
 
-| ID  | Título                                              | Status   | Data       |
-| :-- | :-------------------------------------------------- | :------- | :--------- |
-| 001 | [Adoção de Modular Monolith](001-modular-monolith.md) | Aceito | 03/10/2026 |
-| 002 | [Person como Shared Kernel](002-person-shared-kernel.md) | Aceito | 09/10/2026 |
-| 003 | [BaseRepository com ExecuteWithLoggingAsync](003-base-repository.md) | Aceito | 04/10/2026 |
-| 004 | [Feature Folders](004-feature-folders.md)           | Aceito   | 04/10/2026 |
-| 005 | [Estratégia de Herança: TPT](005-tpt-inheritance.md) | Em revisão | 10/10/2026 |
-| 006 | [Auditoria Centralizada](006-centralized-auditing.md) | Aceito   | 10/10/2026 |
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Título</th>
+<th>Status</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>[Adoção de Modular Monolith](001-modular-monolith.md)</td>
+<td>Aceito</td>
+<td>03/10/2026</td>
+</tr>
+<tr>
+<td>002</td>
+<td>[Person como Shared Kernel](002-person-shared-kernel.md)</td>
+<td>Aceito</td>
+<td>09/10/2026</td>
+</tr>
+<tr>
+<td>003</td>
+<td>[BaseRepository com ExecuteWithLoggingAsync](003-base-repository.md)</td>
+<td>Aceito</td>
+<td>04/10/2026</td>
+</tr>
+<tr>
+<td>004</td>
+<td>[Feature Folders](004-feature-folders.md)</td>
+<td>Aceito</td>
+<td>04/10/2026</td>
+</tr>
+<tr>
+<td>005</td>
+<td>[Estratégia de Herança: TPT](005-tpt-inheritance.md)</td>
+<td>Em revisão</td>
+<td>10/10/2026</td>
+</tr>
+<tr>
+<td>006</td>
+<td>[Auditoria Centralizada](006-centralized-auditing.md)</td>
+<td>Aceito</td>
+<td>10/10/2026</td>
+</tr>
+</tbody>
+</table>
 
 ## 🎯 O que é um ADR?
 

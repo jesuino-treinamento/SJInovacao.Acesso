@@ -46,12 +46,37 @@ Application/
 
 ## Comparação
 
-| Aspecto                | Layered Folders | Feature Folders |
-| :--------------------- | :-------------- | :-------------- |
-| Localizar "CreateUser" | 4 pastas        | 1 pasta         |
-| Adicionar caso de uso  | Editar 4 pastas | Adicionar 1 pasta |
-| Coesão                 | Baixa           | **Alta**        |
-| Navegação IDE          | Fragmentada     | **Fluida**      |
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>Layered Folders</th>
+<th>Feature Folders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Localizar "CreateUser"</td>
+<td>4 pastas</td>
+<td>1 pasta</td>
+</tr>
+<tr>
+<td>Adicionar caso de uso</td>
+<td>Editar 4 pastas</td>
+<td>Adicionar 1 pasta</td>
+</tr>
+<tr>
+<td>Coesão</td>
+<td>Baixa</td>
+<td>**Alta**</td>
+</tr>
+<tr>
+<td>Navegação IDE</td>
+<td>Fragmentada</td>
+<td>**Fluida**</td>
+</tr>
+</tbody>
+</table>
 
 ## Referências
 

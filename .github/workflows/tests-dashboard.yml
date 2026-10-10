@@ -1,4 +1,8 @@
-name: Testes Automatizados e Dashboard
+    - name: Converter tabelas markdown para HTML
+      run: python scripts/convert_tables.py
+
+    - name: Gerar site de documentação
+      run: mkdocs build --site-dir ./deploy/docs
 
 on:
   push:
