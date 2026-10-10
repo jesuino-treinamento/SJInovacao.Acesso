@@ -1,8 +1,4 @@
-    - name: Converter tabelas markdown para HTML
-      run: python scripts/convert_tables.py
-
-    - name: Gerar site de documentação
-      run: mkdocs build --site-dir ./deploy/docs
+name: Testes Automatizados e Dashboard
 
 on:
   push:
@@ -37,7 +33,6 @@ jobs:
         dotnet test src/Tests/SJInovacao.Acesso.ApplicationTests/SJInovacao.Acesso.ApplicationTests.csproj --logger "trx;LogFileName=ApplicationTests.trx" --results-directory ./TestResults || true
         dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests/SJInovacao.Acesso.IntegrationTests.csproj --logger "trx;LogFileName=IntegrationTests.trx" --results-directory ./TestResults || true
         dotnet test src/Tests/SJInovacao.Acesso.UnitTests/SJInovacao.Acesso.UnitTests.csproj --logger "trx;LogFileName=UnitTests.trx" --results-directory ./TestResults || true
-
     - name: Listar TestResults (debug)
       run: ls -la ./TestResults/
 
@@ -59,7 +54,6 @@ jobs:
           exit 1
         fi
         echo "✅ Dashboard.html OK"
-
     # =========================
     # 3. MKDOCS
     # =========================
@@ -85,7 +79,6 @@ jobs:
         cp ./TestResults/history.json ./deploy/history.json
         echo "--- Conteúdo de deploy: ---"
         ls -la ./deploy/
-
     # =========================
     # 5. PUBLICAR
     # =========================
