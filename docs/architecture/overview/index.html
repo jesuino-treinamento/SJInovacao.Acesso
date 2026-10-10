@@ -1,0 +1,2779 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação técnica do módulo Acesso">
+      
+      
+        <meta name="author" content="Marcelo Jesuino">
+      
+      
+      
+        <link rel="prev" href="../../backlog/">
+      
+      
+        <link rel="next" href="../../api/endpoints/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Arquitetura - SJInovacao.Acesso</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arquitetura-do-projeto-sjinovacaoacesso" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SJInovacao.Acesso" class="md-header__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SJInovacao.Acesso
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Arquitetura
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backlog/us01-backlog/" class="md-tabs__link">
+          
+  
+  Backlog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/endpoints/" class="md-tabs__link">
+        
+  
+    
+  
+  API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tests/test-plan/" class="md-tabs__link">
+        
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../adr/" class="md-tabs__link">
+          
+  
+  ADRs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SJInovacao.Acesso" class="md-nav__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SJInovacao.Acesso
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Backlog
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Backlog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/us01-backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    US01 — Acesso
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice de Backlogs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Arquitetura
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Arquitetura
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Visão Geral
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Visão Geral">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objetivos Arquiteturais
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Princípios Arquiteturais
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 Princípios Arquiteturais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-separacao-de-responsabilidades-srp" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Separação de Responsabilidades (SRP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inversao-de-dependencia-dip" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Inversão de Dependência (DIP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-isolamento-entre-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Isolamento entre Módulos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-convencao-sobre-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Convenção sobre Configuração
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-auditoria-by-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Auditoria by Default
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estilo-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏛 Estilo Arquitetural
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-contexto-c4-nivel-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Diagrama de Contexto (C4 Nível 1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-containers-c4-nivel-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Diagrama de Containers (C4 Nível 2)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Diagrama de Containers (C4 Nível 2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Containers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-componentes-c4-nivel-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔩 Diagrama de Componentes (C4 Nível 3)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥞 Camadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🥞 Camadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-domain-nucleo" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Domain (Núcleo)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-infrastructureorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Infrastructure.ORM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-webapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. WebAPI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-common-transversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Common (Transversal)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ioc" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. IoC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-de-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Estrutura de Módulos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧩 Estrutura de Módulos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estado-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado atual
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-futuro-9-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado futuro (9 módulos)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-requisicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Fluxo de Requisição
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Fluxo de Auditoria
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-entre-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Comunicação entre Módulos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Comunicação entre Módulos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atual-1-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atual (1 módulo)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#futuro-9-modulos-padrao-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Futuro (9 módulos) — Padrão Provider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗄 Banco de Dados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗄 Banco de Dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrategia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégia
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schemas-planejados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schemas planejados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-atual-schema-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado atual (schema public)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Padrões de Projeto
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decisoes-arquiteturais-adrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Decisões Arquiteturais (ADRs)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roadmap-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Roadmap Arquitetural
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Roadmap Arquitetural">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fase-1-consolidacao-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 1 — Consolidação (atual)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-2-extracao-de-cadastros-us02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 2 — Extração de Cadastros (US02)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-3-novos-modulos-us02-a-us09" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 3 — Novos Módulos (US02 a US09)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-4-otimizacoes-avancadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 4 — Otimizações Avançadas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-5-extracao-de-microsservicos-se-necessario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 5 — Extração de Microsserviços (se necessário)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/endpoints/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/test-plan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ADRs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            ADRs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/001-modular-monolith/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-001 — Modular Monolith
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/002-person-shared-kernel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-002 — Person Shared Kernel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/003-base-repository/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-003 — BaseRepository
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/004-feature-folders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-004 — Feature Folders
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/005-tpt-inheritance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-005 — TPT Inheritance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/006-centralized-auditing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-006 — Auditoria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Visão Geral
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Visão Geral">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objetivos Arquiteturais
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-arquiteturais" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Princípios Arquiteturais
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 Princípios Arquiteturais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-separacao-de-responsabilidades-srp" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Separação de Responsabilidades (SRP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-inversao-de-dependencia-dip" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Inversão de Dependência (DIP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-isolamento-entre-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Isolamento entre Módulos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-convencao-sobre-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Convenção sobre Configuração
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-auditoria-by-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Auditoria by Default
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estilo-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏛 Estilo Arquitetural
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-contexto-c4-nivel-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Diagrama de Contexto (C4 Nível 1)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-containers-c4-nivel-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Diagrama de Containers (C4 Nível 2)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Diagrama de Containers (C4 Nível 2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Containers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama-de-componentes-c4-nivel-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔩 Diagrama de Componentes (C4 Nível 3)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#camadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥞 Camadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🥞 Camadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-domain-nucleo" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Domain (Núcleo)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-infrastructureorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Infrastructure.ORM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-webapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. WebAPI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-common-transversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Common (Transversal)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-ioc" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. IoC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-de-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Estrutura de Módulos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧩 Estrutura de Módulos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estado-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado atual
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-futuro-9-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado futuro (9 módulos)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-requisicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Fluxo de Requisição
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fluxo-de-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Fluxo de Auditoria
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-entre-modulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Comunicação entre Módulos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Comunicação entre Módulos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atual-1-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atual (1 módulo)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#futuro-9-modulos-padrao-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Futuro (9 módulos) — Padrão Provider
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      🗄 Banco de Dados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗄 Banco de Dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrategia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estratégia
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schemas-planejados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schemas planejados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-atual-schema-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estado atual (schema public)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#padroes-de-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Padrões de Projeto
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decisoes-arquiteturais-adrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Decisões Arquiteturais (ADRs)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roadmap-arquitetural" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Roadmap Arquitetural
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Roadmap Arquitetural">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fase-1-consolidacao-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 1 — Consolidação (atual)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-2-extracao-de-cadastros-us02" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 2 — Extração de Cadastros (US02)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-3-novos-modulos-us02-a-us09" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 3 — Novos Módulos (US02 a US09)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-4-otimizacoes-avancadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 4 — Otimizações Avançadas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-5-extracao-de-microsservicos-se-necessario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fase 5 — Extração de Microsserviços (se necessário)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="arquitetura-do-projeto-sjinovacaoacesso">Arquitetura do Projeto — SJInovacao.Acesso<a class="headerlink" href="#arquitetura-do-projeto-sjinovacaoacesso" title="Permanent link">&para;</a></h1>
+<ul>
+<li>
+<p><strong>Versão:</strong> 1.0</p>
+</li>
+<li>
+<p><strong>Data:</strong> 10/10/2026</p>
+</li>
+<li>
+<p><strong>Autor:</strong> Tech Lead</p>
+</li>
+<li>
+<p><strong>Público-alvo:</strong> Devs, Arquitetos, DevOps</p>
+</li>
+</ul>
+<hr />
+<h2 id="sumario">📑 Sumário<a class="headerlink" href="#sumario" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><a href="#-visão-geral">Visão Geral</a></p>
+</li>
+<li>
+<p><a href="#-princípios-arquiteturais">Princípios Arquiteturais</a></p>
+</li>
+<li>
+<p><a href="#-estilo-arquitetural">Estilo Arquitetural</a></p>
+</li>
+<li>
+<p><a href="#-diagrama-de-contexto-c4-nível-1">Diagrama de Contexto (C4 Nível 1)</a></p>
+</li>
+<li>
+<p><a href="#-diagrama-de-containers-c4-nível-2">Diagrama de Containers (C4 Nível 2)</a></p>
+</li>
+<li>
+<p><a href="#-diagrama-de-componentes-c4-nível-3">Diagrama de Componentes (C4 Nível 3)</a></p>
+</li>
+<li>
+<p><a href="#-camadas">Camadas</a></p>
+</li>
+<li>
+<p><a href="#-estrutura-de-módulos">Estrutura de Módulos</a></p>
+</li>
+<li>
+<p><a href="#-fluxo-de-requisição">Fluxo de Requisição</a></p>
+</li>
+<li>
+<p><a href="#-fluxo-de-auditoria">Fluxo de Auditoria</a></p>
+</li>
+<li>
+<p><a href="#-comunicação-entre-módulos">Comunicação entre Módulos</a></p>
+</li>
+<li>
+<p><a href="#-banco-de-dados">Banco de Dados</a></p>
+</li>
+<li>
+<p><a href="#-padrões-de-projeto">Padrões de Projeto</a></p>
+</li>
+<li>
+<p><a href="#-decisões-arquiteturais-adrs">Decisões Arquiteturais (ADRs)</a></p>
+</li>
+<li>
+<p><a href="#-roadmap-arquitetural">Roadmap Arquitetural</a></p>
+</li>
+</ul>
+<hr />
+<h2 id="visao-geral">🎯 Visão Geral<a class="headerlink" href="#visao-geral" title="Permanent link">&para;</a></h2>
+<p>O <strong>SJInovacao.Acesso</strong> é o módulo de autenticação e autorização do ERP SJInovacao. Foi projetado como <strong>Modular Monolith</strong> — um deploy único, mas com <strong>módulos fortemente isolados logicamente</strong>, preparados para extração futura como microsserviços caso a escala exija.</p>
+<h3 id="objetivos-arquiteturais">Objetivos Arquiteturais<a class="headerlink" href="#objetivos-arquiteturais" title="Permanent link">&para;</a></h3>
+<p>| Objetivo | Como é atendido |</p>
+<p>| :--- | :--- |</p>
+<p>| <strong>Escalabilidade</strong> | Modular Monolith pronto para extração de serviços |</p>
+<p>| <strong>Manutenibilidade</strong> | Clean Architecture + Feature Folders |</p>
+<p>| <strong>Observabilidade</strong> | Serilog + Correlation ID + Health Checks |</p>
+<p>| <strong>Auditabilidade</strong> | AuditService interceptando <code>SaveChangesAsync</code> |</p>
+<p>| <strong>Performance</strong> | AsNoTracking + Projections + Índices + Warmup |</p>
+<p>| <strong>Segurança</strong> | JWT + BCrypt + Policies + Auditoria |</p>
+<p>| <strong>Testabilidade</strong> | Repository Pattern + CQRS + DI |</p>
+<hr />
+<h2 id="principios-arquiteturais">📐 Princípios Arquiteturais<a class="headerlink" href="#principios-arquiteturais" title="Permanent link">&para;</a></h2>
+<h3 id="1-separacao-de-responsabilidades-srp">1. Separação de Responsabilidades (SRP)<a class="headerlink" href="#1-separacao-de-responsabilidades-srp" title="Permanent link">&para;</a></h3>
+<p>Cada classe tem <strong>uma única razão para mudar</strong>:</p>
+<ul>
+<li>
+<p><strong>Domain</strong> — Regras de negócio</p>
+</li>
+<li>
+<p><strong>Application</strong> — Orquestração de casos de uso</p>
+</li>
+<li>
+<p><strong>Infrastructure</strong> — Persistência e integrações</p>
+</li>
+<li>
+<p><strong>WebAPI</strong> — Exposição HTTP</p>
+</li>
+</ul>
+<h3 id="2-inversao-de-dependencia-dip">2. Inversão de Dependência (DIP)<a class="headerlink" href="#2-inversao-de-dependencia-dip" title="Permanent link">&para;</a></h3>
+<p>Camadas externas dependem de <strong>abstrações</strong> das camadas internas:</p>
+<pre><code>
+WebAPI → Application → Domain
+
+&amp;#x20;                     ↑
+
+&amp;#x20;             Infrastructure
+
+</code></pre>
+<p>O <strong>Domain</strong> não conhece EF Core, MediatR, AutoMapper ou qualquer biblioteca externa.</p>
+<h3 id="3-isolamento-entre-modulos">3. Isolamento entre Módulos<a class="headerlink" href="#3-isolamento-entre-modulos" title="Permanent link">&para;</a></h3>
+<p>Módulos <strong>não se referenciam</strong> diretamente. Comunicação via <strong>contratos públicos</strong>:</p>
+<pre><code class="language-csharp">
+public interface IUserProvider
+
+{
+
+&amp;#x20;   Task&lt;UserResumo?&gt; ObterAsync(Guid userId, CancellationToken ct);
+
+&amp;#x20;   Task&lt;bool&gt; ExisteAsync(Guid userId, CancellationToken ct);
+
+}
+
+</code></pre>
+<h3 id="4-convencao-sobre-configuracao">4. Convenção sobre Configuração<a class="headerlink" href="#4-convencao-sobre-configuracao" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Feature Folders em vez de Layered Folders</p>
+</li>
+<li>
+<p><code>BaseRepository&lt;TEntity&gt;</code> em vez de repositórios duplicados</p>
+</li>
+<li>
+<p><code>ExecuteWithLoggingAsync</code> em vez de try/catch individual</p>
+</li>
+</ul>
+<h3 id="5-auditoria-by-default">5. Auditoria by Default<a class="headerlink" href="#5-auditoria-by-default" title="Permanent link">&para;</a></h3>
+<p>Toda entidade que implementa <code>IAuditable</code> é auditada <strong>automaticamente</strong>, sem esforço por parte do desenvolvedor.</p>
+<hr />
+<h2 id="estilo-arquitetural">🏛 Estilo Arquitetural<a class="headerlink" href="#estilo-arquitetural" title="Permanent link">&para;</a></h2>
+<p>| Dimensão | Escolha | Justificativa |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| <strong>Estilo</strong> | Modular Monolith | Ver <a href="../../adr/001-modular-monolith/">ADR-001</a> |</p>
+<p>| <strong>Camadas</strong> | Clean Architecture (4 camadas) | Separação clara |</p>
+<p>| <strong>Organização</strong> | Feature Folders | Ver <a href="../../adr/004-feature-folders/">ADR-004</a> |</p>
+<p>| <strong>Comunicação interna</strong> | CQRS (MediatR) | Desacoplamento |</p>
+<p>| <strong>Persistência</strong> | Repository Pattern | Testabilidade |</p>
+<p>| <strong>Autenticação</strong> | JWT Bearer | Stateless |</p>
+<p>| <strong>Auditoria</strong> | Interceptação centralizada | Ver <a href="../../adr/006-centralized-auditing/">ADR-006</a> |</p>
+<p>| <strong>Deploy</strong> | Docker + Docker Compose | Portabilidade |</p>
+<hr />
+<h2 id="diagrama-de-contexto-c4-nivel-1">🌐 Diagrama de Contexto (C4 Nível 1)<a class="headerlink" href="#diagrama-de-contexto-c4-nivel-1" title="Permanent link">&para;</a></h2>
+<p>Quem usa o sistema e quais são as dependências externas:</p>
+<pre><code>
+&amp;#x20;                   ┌──────────────────────┐
+
+&amp;#x20;                   │   Usuário Final      │
+
+&amp;#x20;                   │   (Navegador/App)    │
+
+&amp;#x20;                   └──────────┬───────────┘
+
+&amp;#x20;                              │ HTTPS/JWT
+
+&amp;#x20;                              ▼
+
+&amp;#x20;       ┌──────────────────────────────────────┐
+
+&amp;#x20;       │                                      │
+
+&amp;#x20;       │      SJInovacao.Acesso (WebAPI)      │
+
+&amp;#x20;       │                                      │
+
+&amp;#x20;       │  • Autenticação JWT                  │
+
+&amp;#x20;       │  • Autorização por permissões         │
+
+&amp;#x20;       │  • Gestão de usuários e grupos       │
+
+&amp;#x20;       │  • Auditoria automática              │
+
+&amp;#x20;       │                                      │
+
+&amp;#x20;       └──────────┬───────────┬───────────────┘
+
+&amp;#x20;                  │           │
+
+&amp;#x20;                  │           │
+
+&amp;#x20;                  ▼           ▼
+
+&amp;#x20;        ┌─────────────┐ ┌─────────────┐
+
+&amp;#x20;        │ PostgreSQL  │ │ Redis Cache │
+
+&amp;#x20;        │ (dados)     │ │ (sessões)   │
+
+&amp;#x20;        └─────────────┘ └─────────────┘
+
+
+
+&amp;#x20;        Consumidores internos (futuro):
+
+&amp;#x20;        • Módulo Produtos
+
+&amp;#x20;        • Módulo Vendas
+
+&amp;#x20;        • Módulo Financeiro
+
+&amp;#x20;        • Módulo RH
+
+&amp;#x20;        • ... (9 módulos)
+
+</code></pre>
+<hr />
+<h2 id="diagrama-de-containers-c4-nivel-2">📦 Diagrama de Containers (C4 Nível 2)<a class="headerlink" href="#diagrama-de-containers-c4-nivel-2" title="Permanent link">&para;</a></h2>
+<p>Como o sistema é decomposto em containers executáveis:</p>
+<pre><code>
+┌───────────────────────────────────────────────────────────────┐
+
+│                     Docker Network (bridge)                   │
+
+│                                                               │
+
+│  ┌──────────────────────────────┐                             │
+
+│  │  sjinovacao_acesso_api       │                             │
+
+│  │  (.NET 9 Runtime)            │                             │
+
+│  │  Porta: 8080 / 8081          │                             │
+
+│  └──────────┬───────────────────┘                             │
+
+│             │                                                 │
+
+│             │ EF Core                                         │
+
+│             ▼                                                 │
+
+│  ┌──────────────────────────────┐                             │
+
+│  │  postgres:16                 │                             │
+
+│  │  Porta: 5432                 │                             │
+
+│  │  DB: silverjbase             │                             │
+
+│  └──────────────────────────────┘                             │
+
+│                                                               │
+
+│  ┌──────────────────────────────┐                             │
+
+│  │  redis:7-alpine              │                             │
+
+│  │  Porta: 6379                 │                             │
+
+│  └──────────────────────────────┘                             │
+
+│                                                               │
+
+└───────────────────────────────────────────────────────────────┘
+
+&amp;#x20;        │
+
+&amp;#x20;        │ HTTP/HTTPS
+
+&amp;#x20;        ▼
+
+&amp;#x20;  ┌─────────────┐
+
+&amp;#x20;  │   Cliente   │
+
+&amp;#x20;  │  (Swagger,  │
+
+&amp;#x20;  │  Postman,   │
+
+&amp;#x20;  │  Frontend)  │
+
+&amp;#x20;  └─────────────┘
+
+</code></pre>
+<h3 id="containers">Containers<a class="headerlink" href="#containers" title="Permanent link">&para;</a></h3>
+<p>| Container | Imagem | Porta | Descrição |</p>
+<p>| :--- | :--- | :--- | :--- |</p>
+<p>| <code>sjinovacao_acesso_api</code> | <code>sjinovacaoacessowebapi:latest</code> | 8080, 8081 | API .NET 9 |</p>
+<p>| <code>sjinovacao_developer_evaluation_database</code> | <code>postgres:16</code> | 5434 (host) | Banco PostgreSQL |</p>
+<p>| <code>silverj_developer_evaluation_cache</code> | <code>redis:7-alpine</code> | interno | Cache Redis |</p>
+<hr />
+<h2 id="diagrama-de-componentes-c4-nivel-3">🔩 Diagrama de Componentes (C4 Nível 3)<a class="headerlink" href="#diagrama-de-componentes-c4-nivel-3" title="Permanent link">&para;</a></h2>
+<p>Detalhamento interno da WebAPI:</p>
+<pre><code>
+┌─────────────────────────────────────────────────────────────┐
+
+│                  SJInovacao.Acesso.WebAPI                   │
+
+│                                                             │
+
+│  ┌────────────────────────────────────────────────────┐     │
+
+│  │  Middleware Pipeline                               │     │
+
+│  │  ─────────────────────                             │     │
+
+│  │  1. CorrelationIdMiddleware                        │     │
+
+│  │  2. UseExceptionHandler                            │     │
+
+│  │  3. UseStatusCodePages                             │     │
+
+│  │  4. UseHttpsRedirection                            │     │
+
+│  │  5. UseAuthentication                              │     │
+
+│  │  6. UseAuthorization                               │     │
+
+│  │  7. ValidationExceptionMiddleware                  │     │
+
+│  │  8. UserContextMiddleware                          │     │
+
+│  └────────────────────────────────────────────────────┘     │
+
+│                          │                                  │
+
+│                          ▼                                  │
+
+│  ┌────────────────────────────────────────────────────┐     │
+
+│  │  Controllers                                       │     │
+
+│  │  ────────────                                      │     │
+
+│  │  • AuthController                                  │     │
+
+│  │  • UserController                                  │     │
+
+│  │  • PermissionController                            │     │
+
+│  │  • GroupPermissionsController                      │     │
+
+│  │  • GroupUsersPermissionsController                 │     │
+
+│  │  • UserPermissionsController                       │     │
+
+│  └────────────────────────────────────────────────────┘     │
+
+│                          │                                  │
+
+│                          ▼                                  │
+
+│  ┌────────────────────────────────────────────────────┐     │
+
+│  │  MediatR (CQRS)                                    │     │
+
+│  │  ──────────────                                    │     │
+
+│  │  • ValidationBehavior&lt;,&gt;                           │     │
+
+│  │  • Commands → CommandHandlers                      │     │
+
+│  │  • Queries → QueryHandlers                         │     │
+
+│  └────────────────────────────────────────────────────┘     │
+
+│                          │                                  │
+
+│                          ▼                                  │
+
+│  ┌────────────────────────────────────────────────────┐     │
+
+│  │  Repositories (BaseRepository)                     │     │
+
+│  │  ────────────────────────────                      │     │
+
+│  │  • UserRepository                                  │     │
+
+│  │  • PermissionRepository                            │     │
+
+│  │  • GroupPermissionRepository                       │     │
+
+│  │  • UsersGroupsPermissionsRepository                │     │
+
+│  │  • + AuditService                                  │     │
+
+│  └────────────────────────────────────────────────────┘     │
+
+│                          │                                  │
+
+│                          ▼                                  │
+
+│  ┌────────────────────────────────────────────────────┐     │
+
+│  │  DefaultContext (EF Core)                          │     │
+
+│  │  ───────────────────────                           │     │
+
+│  │  • DbSets                                          │     │
+
+│  │  • Override SaveChangesAsync → Auditoria           │     │
+
+│  └────────────────────────────────────────────────────┘     │
+
+│                          │                                  │
+
+│                          ▼                                  │
+
+│                    PostgreSQL 16                            │
+
+│                                                             │
+
+└─────────────────────────────────────────────────────────────┘
+
+</code></pre>
+<hr />
+<h2 id="camadas">🥞 Camadas<a class="headerlink" href="#camadas" title="Permanent link">&para;</a></h2>
+<h3 id="1-domain-nucleo">1. Domain (Núcleo)<a class="headerlink" href="#1-domain-nucleo" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Regras de negócio, entidades, value objects.</p>
+<p><strong>Não depende de:</strong> nenhuma camada externa (só <code>Common</code>).</p>
+<pre><code>
+Domain/
+
+├── Entities/              User, Permission, GroupPermission, ...
+
+├── ValueObjects/          Name, Document, Geolocation
+
+├── Enums/                 UserRole, StatusTypes, PhoneType
+
+├── Exceptions/            DomainException
+
+├── Repositories/          Interfaces (IUserRepository, ...)
+
+├── Specifications/        Padrões de consulta
+
+├── Validation/            Regras de validação de domínio
+
+└── Common/                BaseEntity, PaginatedList
+
+</code></pre>
+<p><strong>Princípios:</strong></p>
+<ul>
+<li>
+<p>Zero dependências de infraestrutura</p>
+</li>
+<li>
+<p>Regras de negócio explícitas em métodos</p>
+</li>
+<li>
+<p>Value Objects imutáveis</p>
+</li>
+</ul>
+<h3 id="2-application">2. Application<a class="headerlink" href="#2-application" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Orquestração de casos de uso, CQRS, validação.</p>
+<p><strong>Depende de:</strong> Domain.</p>
+<pre><code>
+Application/
+
+├── Authentication/        Login, RefreshToken
+
+├── Authorization/         Policies, Providers
+
+├── Users/                 CRUD de usuários
+
+├── Permissions/           CRUD de permissões
+
+├── GroupPermissions/      Gestão de grupos
+
+├── GroupUsersPermissions/ Vínculos grupo-usuário-permissão
+
+├── UserPermissios/        Vínculos diretos
+
+├── DTOs/                  Objetos de transferência
+
+├── Contracts/             IUserAccessModule
+
+└── Configuration/         ICommandHandler, IQueryHandler
+
+</code></pre>
+<p><strong>Princípios:</strong></p>
+<ul>
+<li>
+<p><strong>Feature Folders</strong> — cada caso de uso em sua pasta</p>
+</li>
+<li>
+<p>Handler delega para repositório (não implementa regra)</p>
+</li>
+<li>
+<p>Validação com FluentValidation</p>
+</li>
+<li>
+<p>Mapping com AutoMapper</p>
+</li>
+</ul>
+<h3 id="3-infrastructureorm">3. Infrastructure.ORM<a class="headerlink" href="#3-infrastructureorm" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Persistência, acesso a dados.</p>
+<p><strong>Depende de:</strong> Domain.</p>
+<pre><code>
+Infrastructure.ORM/
+
+├── DefaultContext.cs      DbContext + SaveChangesAsync override
+
+├── Mapping/               IEntityTypeConfiguration por entidade
+
+├── Repositories/          Implementações
+
+└── Common/                RepositoriesModule
+
+</code></pre>
+<p><strong>Princípios:</strong></p>
+<ul>
+<li>
+<p><code>BaseRepository&lt;TEntity&gt;</code> como base</p>
+</li>
+<li>
+<p><code>ExecuteWithLoggingAsync</code> para observabilidade</p>
+</li>
+<li>
+<p><code>AsNoTracking</code> em leituras</p>
+</li>
+<li>
+<p>Load-then-update em escritas</p>
+</li>
+</ul>
+<h3 id="4-webapi">4. WebAPI<a class="headerlink" href="#4-webapi" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Exposição HTTP, autenticação, middlewares.</p>
+<p><strong>Depende de:</strong> IoC (que referencia tudo).</p>
+<pre><code>
+WebAPI/
+
+├── Modules/               Controllers por domínio
+
+├── Middleware/            CorrelationId, Validation, UserContext
+
+├── Common/                ApiResponse, PaginatedResponse, BaseController
+
+├── Program.cs             Bootstrap
+
+└── appsettings.*.json     Configuração por ambiente
+
+</code></pre>
+<h3 id="5-common-transversal">5. Common (Transversal)<a class="headerlink" href="#5-common-transversal" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Infra compartilhada entre módulos.</p>
+<p><strong>Não depende de nenhum módulo.</strong></p>
+<pre><code>
+Common/
+
+├── Auditing/              IAuditable, AuditService, AuditLog
+
+├── Security/              JWT, BCrypt, IUserContext, Policies
+
+├── Middleware/            UserContextMiddleware
+
+├── Logging/               Serilog setup
+
+├── HealthChecks/          Health endpoints
+
+└── Validation/            ValidationBehavior, Validator
+
+</code></pre>
+<h3 id="6-ioc">6. IoC<a class="headerlink" href="#6-ioc" title="Permanent link">&para;</a></h3>
+<p><strong>Responsabilidade:</strong> Orquestrar DI.</p>
+<pre><code>
+IoC/
+
+├── ModuleInitializers/
+
+│   ├── ApplicationModuleInitializer.cs
+
+│   ├── InfrastructureModuleInitializer.cs
+
+│   └── WebApiModuleInitializer.cs
+
+├── DependencyResolver.cs
+
+└── IModuleInitializer.cs
+
+</code></pre>
+<hr />
+<h2 id="estrutura-de-modulos">🧩 Estrutura de Módulos<a class="headerlink" href="#estrutura-de-modulos" title="Permanent link">&para;</a></h2>
+<h3 id="estado-atual">Estado atual<a class="headerlink" href="#estado-atual" title="Permanent link">&para;</a></h3>
+<pre><code>
+src/
+
+├── SJInovacao.Acesso.Common/                  → transversal
+
+├── SJInovacao.Acesso.Database/                → migrations
+
+├── SJInovacao.Acesso.IoC/                     → orquestração
+
+├── SJInovacao.Acesso.Modules.UserAccess.*     → US01 (Acesso)
+
+└── SJInovacao.Acesso.WebAPI/                  → 1 API
+
+</code></pre>
+<h3 id="estado-futuro-9-modulos">Estado futuro (9 módulos)<a class="headerlink" href="#estado-futuro-9-modulos" title="Permanent link">&para;</a></h3>
+<pre><code>
+src/
+
+├── SJInovacao.Acesso.Common/
+
+├── SJInovacao.Acesso.Database/
+
+├── SJInovacao.Acesso.IoC/
+
+├── SJInovacao.Acesso.WebAPI/
+
+├── Modules/
+
+│   ├── Acesso/                                → US01
+
+│   │   ├── *.Domain/
+
+│   │   ├── *.Application/
+
+│   │   └── *.Infrastructure.ORM/
+
+│   ├── Cadastros/                             → ADR-002
+
+│   ├── Produtos/                              → US02
+
+│   ├── Cliente/                               → US03
+
+│   ├── Colaboradores/                         → US04
+
+│   ├── Fornecedores/                          → US05
+
+│   ├── Vendas/                                → US06
+
+│   ├── Financeiro/                            → US07
+
+│   ├── RH/                                    → US08
+
+│   └── Relatorios/                            → US09
+
+└── Tests/
+
+</code></pre>
+<hr />
+<h2 id="fluxo-de-requisicao">🔄 Fluxo de Requisição<a class="headerlink" href="#fluxo-de-requisicao" title="Permanent link">&para;</a></h2>
+<p>Fluxo completo de uma requisição HTTP até a resposta:</p>
+<pre><code>
+1. Cliente envia request
+
+&amp;#x20;  ↓
+
+2. CorrelationIdMiddleware
+
+&amp;#x20;  • Gera/extrai CorrelationId
+
+&amp;#x20;  • Adiciona ao HttpContext.Items
+
+&amp;#x20;  • Adiciona ao LogContext (Serilog)
+
+&amp;#x20;  • Adiciona ao header de resposta
+
+&amp;#x20;  ↓
+
+3. UseExceptionHandler
+
+&amp;#x20;  • Captura exceções não tratadas
+
+&amp;#x20;  • Mapeia para HTTP 400/401/500
+
+&amp;#x20;  ↓
+
+4. UseStatusCodePages
+
+&amp;#x20;  • Trata 401/403/404 do framework
+
+&amp;#x20;  ↓
+
+5. UseHttpsRedirection
+
+&amp;#x20;  ↓
+
+6. UseRouting
+
+&amp;#x20;  ↓
+
+7. UseAuthentication
+
+&amp;#x20;  • Valida JWT
+
+&amp;#x20;  • Popula context.User com claims
+
+&amp;#x20;  ↓
+
+8. UseAuthorization
+
+&amp;#x20;  • Avalia policies
+
+&amp;#x20;  • Pode retornar 403
+
+&amp;#x20;  ↓
+
+9. ValidationExceptionMiddleware
+
+&amp;#x20;  • Trata ValidationException do FluentValidation
+
+&amp;#x20;  ↓
+
+10. UserContextMiddleware
+
+&amp;#x20;   • Extrai claims
+
+&amp;#x20;   • Popula IUserContext
+
+&amp;#x20;   ↓
+
+11. Controller
+
+&amp;#x20;   • Recebe o request
+
+&amp;#x20;   • Envia Command/Query via MediatR
+
+&amp;#x20;   ↓
+
+12. MediatR Pipeline
+
+&amp;#x20;   • ValidationBehavior valida o Command
+
+&amp;#x20;   • Chama o Handler
+
+&amp;#x20;   ↓
+
+13. Handler
+
+&amp;#x20;   • Orquestra caso de uso
+
+&amp;#x20;   • Chama repositório
+
+&amp;#x20;   ↓
+
+14. Repository (BaseRepository)
+
+&amp;#x20;   • ExecuteWithLoggingAsync
+
+&amp;#x20;   • Operação no DefaultContext
+
+&amp;#x20;   ↓
+
+15. SaveChangesAsync (override)
+
+&amp;#x20;   • AuditService.CaptureChanges()
+
+&amp;#x20;   • Adiciona registros em AuditLogs
+
+&amp;#x20;   • Persiste tudo na mesma transação
+
+&amp;#x20;   ↓
+
+16. Response volta pelo pipeline
+
+&amp;#x20;   ↓
+
+17. CorrelationIdMiddleware
+
+&amp;#x20;   • Loga duração total
+
+&amp;#x20;   ↓
+
+18. Resposta ao cliente
+
+</code></pre>
+<hr />
+<h2 id="fluxo-de-auditoria">🔍 Fluxo de Auditoria<a class="headerlink" href="#fluxo-de-auditoria" title="Permanent link">&para;</a></h2>
+<p>Como a auditoria acontece automaticamente:</p>
+<pre><code>
+┌─────────────────────────────────────────────────┐
+
+│  Handler executa operação                       │
+
+│  ex: userRepository.UpdateAsync(user)           │
+
+└────────────────────┬────────────────────────────┘
+
+&amp;#x20;                    ↓
+
+┌─────────────────────────────────────────────────┐
+
+│  BaseRepository.ExecuteWithLoggingAsync         │
+
+│  • Loga início                                  │
+
+│  • Inicia stopwatch                             │
+
+└────────────────────┬────────────────────────────┘
+
+&amp;#x20;                    ↓
+
+┌─────────────────────────────────────────────────┐
+
+│  Load-then-update                               │
+
+│  • Carrega entidade do banco (tracked)          │
+
+│  • Aplica apenas campos alterados               │
+
+└────────────────────┬────────────────────────────┘
+
+&amp;#x20;                    ↓
+
+┌─────────────────────────────────────────────────┐
+
+│  DefaultContext.SaveChangesAsync (override)     │
+
+│                                                 │
+
+│  1. if (_auditService != null)                  │
+
+│  2. auditLogs = _auditService.CaptureChanges()  │
+
+│     ├─ DetectChanges()                          │
+
+│     ├─ Itera ChangeTracker.Entries()            │
+
+│     ├─ Filtra IAuditable                        │
+
+│     ├─ Filtra valores idênticos                 │
+
+│     ├─ Mascara sensíveis (***)                  │
+
+│     └─ Cria AuditLog[]                          │
+
+│  3. AuditLogs.AddRangeAsync(auditLogs)          │
+
+│  4. base.SaveChangesAsync() → 1 transação       │
+
+└────────────────────┬────────────────────────────┘
+
+&amp;#x20;                    ↓
+
+┌─────────────────────────────────────────────────┐
+
+│  Banco persiste:                                │
+
+│  • Alteração na tabela de origem                │
+
+│  • Registro em AuditLogs                        │
+
+│  AMBOS na mesma transação ACID                  │
+
+└─────────────────────────────────────────────────┘
+
+</code></pre>
+<hr />
+<h2 id="comunicacao-entre-modulos">🔗 Comunicação entre Módulos<a class="headerlink" href="#comunicacao-entre-modulos" title="Permanent link">&para;</a></h2>
+<h3 id="atual-1-modulo">Atual (1 módulo)<a class="headerlink" href="#atual-1-modulo" title="Permanent link">&para;</a></h3>
+<p>Sem comunicação cross-module.</p>
+<h3 id="futuro-9-modulos-padrao-provider">Futuro (9 módulos) — Padrão Provider<a class="headerlink" href="#futuro-9-modulos-padrao-provider" title="Permanent link">&para;</a></h3>
+<pre><code>
+┌──────────────────┐                  ┌──────────────────┐
+
+│  Vendas          │                  │  Produtos        │
+
+│                  │  IProdutoProvider│                  │
+
+│  VendaService ───┼─────────────────▶│  ProdutoService  │
+
+│                  │  (contrato)      │                  │
+
+└──────────────────┘                  └──────────────────┘
+
+&amp;#x20;        │                                     │
+
+&amp;#x20;        │                                     │
+
+&amp;#x20;        ▼                                     ▼
+
+&amp;#x20;   ┌─────────┐                          ┌─────────┐
+
+&amp;#x20;   │ Vendas  │                          │ Produtos│
+
+&amp;#x20;   │ Tables  │                          │ Tables  │
+
+&amp;#x20;   └─────────┘                          └─────────┘
+
+</code></pre>
+<p><strong>Regras:</strong></p>
+<ol>
+<li>
+<p><strong>Nunca</strong> referenciar o <code>Infrastructure.ORM</code> de outro módulo</p>
+</li>
+<li>
+<p><strong>Sempre</strong> usar contratos públicos (<code>I*Provider</code>)</p>
+</li>
+<li>
+<p>Retornar <strong>DTOs de resumo</strong>, não entidades</p>
+</li>
+<li>
+<p>Se a comunicação for pesada, considerar <strong>eventos</strong> (MediatR <code>INotification</code> ou message broker)</p>
+</li>
+</ol>
+<hr />
+<h2 id="banco-de-dados">🗄 Banco de Dados<a class="headerlink" href="#banco-de-dados" title="Permanent link">&para;</a></h2>
+<h3 id="estrategia">Estratégia<a class="headerlink" href="#estrategia" title="Permanent link">&para;</a></h3>
+<p><strong>Um único banco PostgreSQL</strong> com <strong>schemas separados por módulo</strong>.</p>
+<h3 id="schemas-planejados">Schemas planejados<a class="headerlink" href="#schemas-planejados" title="Permanent link">&para;</a></h3>
+<p>| Schema | Módulo |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>acesso</code> | Acesso |</p>
+<p>| <code>cadastros</code> | Cadastros (Person) |</p>
+<p>| <code>produtos</code> | Produtos |</p>
+<p>| <code>cliente</code> | Cliente |</p>
+<p>| <code>colaboradores</code> | Colaboradores |</p>
+<p>| <code>fornecedores</code> | Fornecedores |</p>
+<p>| <code>vendas</code> | Vendas |</p>
+<p>| <code>financeiro</code> | Financeiro |</p>
+<p>| <code>rh</code> | RH |</p>
+<h3 id="estado-atual-schema-public">Estado atual (schema <code>public</code>)<a class="headerlink" href="#estado-atual-schema-public" title="Permanent link">&para;</a></h3>
+<p>Tabelas já criadas no schema <code>public</code>:</p>
+<ul>
+<li>
+<p><code>Persons</code>, <code>Users</code>, <code>Addresses</code>, <code>Phones</code></p>
+</li>
+<li>
+<p><code>Permissions</code>, <code>UserPermissions</code>, <code>GroupPermissions</code>, <code>GroupsPermissions</code></p>
+</li>
+<li>
+<p><code>UsersGroupsPermissions</code>, <code>UserGroups</code></p>
+</li>
+<li>
+<p><code>AuditLogs</code></p>
+</li>
+</ul>
+<h3 id="indices">Índices<a class="headerlink" href="#indices" title="Permanent link">&para;</a></h3>
+<p>| Índice | Tabela | Colunas | Propósito |</p>
+<p>| :--- | :--- | :--- | :--- |</p>
+<p>| <code>IX_UserGroups_GroupId</code> | UserGroups | GroupId | Listar usuários por grupo |</p>
+<p>| <code>IX_UGP_UserId_GroupId</code> | UsersGroupsPermissions | UserId, GroupId | Query de permissões |</p>
+<p>| <code>IX_UGP_PermissionId</code> | UsersGroupsPermissions | PermissionId | Busca por permissão |</p>
+<p>| <code>IX_GroupPermissions_Name</code> | GroupPermissions | Name | Ordenação |</p>
+<p>| <code>IX_AuditLogs_EntityName_EntityId</code> | AuditLogs | EntityName, EntityId | Histórico |</p>
+<p>| <code>IX_AuditLogs_Timestamp</code> | AuditLogs | Timestamp DESC | Últimas mudanças |</p>
+<p>| <code>IX_AuditLogs_CorrelationId</code> | AuditLogs | CorrelationId | Rastreio |</p>
+<hr />
+<h2 id="padroes-de-projeto">🎨 Padrões de Projeto<a class="headerlink" href="#padroes-de-projeto" title="Permanent link">&para;</a></h2>
+<p>| Padrão | Onde | Por quê |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| <strong>Repository</strong> | Infrastructure.ORM | Abstrai persistência |</p>
+<p>| <strong>Unit of Work</strong> | DefaultContext | Transação implícita |</p>
+<p>| <strong>CQRS</strong> | Application (MediatR) | Separa leitura/escrita |</p>
+<p>| <strong>Mediator</strong> | MediatR | Desacopla Controller de Handler |</p>
+<p>| <strong>Pipeline Behavior</strong> | ValidationBehavior | Cross-cutting |</p>
+<p>| <strong>Specification</strong> | Domain/Specifications | Regras reutilizáveis |</p>
+<p>| <strong>Value Object</strong> | Domain/ValueObjects | Imutabilidade |</p>
+<p>| <strong>DTO</strong> | Application/DTOs | Transporte de dados |</p>
+<p>| <strong>Factory</strong> | DefaultContextFactory | Design-time |</p>
+<p>| <strong>Marker Interface</strong> | IAuditable | Auditoria automática |</p>
+<p>| <strong>Decorator</strong> | BaseRepository | Logging transversal |</p>
+<p>| <strong>Provider</strong> | Cross-module | Contratos públicos |</p>
+<hr />
+<h2 id="decisoes-arquiteturais-adrs">📋 Decisões Arquiteturais (ADRs)<a class="headerlink" href="#decisoes-arquiteturais-adrs" title="Permanent link">&para;</a></h2>
+<p>| ID | Título | Status |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| <a href="../../adr/001-modular-monolith/">ADR-001</a> | Adoção de Modular Monolith | Aceito |</p>
+<p>| <a href="../../adr/002-person-shared-kernel/">ADR-002</a> | Person como Shared Kernel | Aceito |</p>
+<p>| <a href="../../adr/003-base-repository/">ADR-003</a> | BaseRepository com ExecuteWithLoggingAsync | Aceito |</p>
+<p>| <a href="../../adr/004-feature-folders/">ADR-004</a> | Feature Folders | Aceito |</p>
+<p>| <a href="../../adr/005-tpt-inheritance/">ADR-005</a> | TPT Inheritance | Em revisão |</p>
+<p>| <a href="../../adr/006-centralized-auditing/">ADR-006</a> | Auditoria Centralizada | Aceito |</p>
+<hr />
+<h2 id="roadmap-arquitetural">🚀 Roadmap Arquitetural<a class="headerlink" href="#roadmap-arquitetural" title="Permanent link">&para;</a></h2>
+<h3 id="fase-1-consolidacao-atual">Fase 1 — Consolidação (atual)<a class="headerlink" href="#fase-1-consolidacao-atual" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>✅ Módulo Acesso 100% funcional</p>
+</li>
+<li>
+<p>✅ Auditoria automática</p>
+</li>
+<li>
+<p>✅ Observabilidade completa</p>
+</li>
+<li>
+<p>🔄 ADRs, testes, README</p>
+</li>
+</ul>
+<h3 id="fase-2-extracao-de-cadastros-us02">Fase 2 — Extração de Cadastros (US02)<a class="headerlink" href="#fase-2-extracao-de-cadastros-us02" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Criar módulo <code>Cadastros</code></p>
+</li>
+<li>
+<p>Migrar <code>Person</code> de <code>Acesso</code> para <code>Cadastros</code></p>
+</li>
+<li>
+<p>Definir <code>ICadastroProvider</code></p>
+</li>
+<li>
+<p>Ajustar <code>User</code> para referenciar <code>Person</code></p>
+</li>
+</ul>
+<h3 id="fase-3-novos-modulos-us02-a-us09">Fase 3 — Novos Módulos (US02 a US09)<a class="headerlink" href="#fase-3-novos-modulos-us02-a-us09" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Criar estrutura padrão para cada módulo</p>
+</li>
+<li>
+<p>Aplicar os padrões já estabelecidos</p>
+</li>
+<li>
+<p>Definir contratos públicos conforme necessidade</p>
+</li>
+</ul>
+<h3 id="fase-4-otimizacoes-avancadas">Fase 4 — Otimizações Avançadas<a class="headerlink" href="#fase-4-otimizacoes-avancadas" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Cache distribuído (Redis) para consultas frequentes</p>
+</li>
+<li>
+<p>CQRS com read models separados</p>
+</li>
+<li>
+<p>Eventos de domínio via message broker (RabbitMQ/Kafka)</p>
+</li>
+</ul>
+<h3 id="fase-5-extracao-de-microsservicos-se-necessario">Fase 5 — Extração de Microsserviços (se necessário)<a class="headerlink" href="#fase-5-extracao-de-microsservicos-se-necessario" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Extrair módulos com carga distinta</p>
+</li>
+<li>
+<p>Introduzir API Gateway</p>
+</li>
+<li>
+<p>Service discovery</p>
+</li>
+</ul>
+<hr />
+<h2 id="referencias">📚 Referências<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><a href="../../backlog/us01-backlog/">Backlog US01</a></p>
+</li>
+<li>
+<p><a href="../../adr/">ADRs</a></p>
+</li>
+<li>
+<p><a href="../../api/endpoints/">API Endpoints</a></p>
+</li>
+<li>
+<p><a href="../../tests/test-plan/">Plano de Testes</a></p>
+</li>
+<li>
+<p><a href="../../README.md">README Principal</a></p>
+</li>
+</ul>
+<hr />
+<p><strong>Arquitetura — SJInovacao.Acesso · Versão 1.0 · 10/10/2026</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/jesuino-treinamento/SJInovacao.Acesso" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2667 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação técnica do módulo Acesso">
+      
+      
+        <meta name="author" content="Marcelo Jesuino">
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>US01 — Acesso - SJInovacao.Acesso</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backlog-e-planejamento-de-sprints-modulo-acesso-us01" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SJInovacao.Acesso" class="md-header__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SJInovacao.Acesso
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              US01 — Acesso
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  Backlog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/overview/" class="md-tabs__link">
+        
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/endpoints/" class="md-tabs__link">
+        
+  
+    
+  
+  API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tests/test-plan/" class="md-tabs__link">
+        
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../adr/" class="md-tabs__link">
+          
+  
+  ADRs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SJInovacao.Acesso" class="md-nav__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SJInovacao.Acesso
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Backlog
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Backlog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    US01 — Acesso
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    US01 — Acesso
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sumario-executivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Sumário Executivo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-status-geral-do-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Status Geral do Módulo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-backlog-detalhado-por-epico" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Backlog Detalhado por Épico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Backlog Detalhado por Épico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-1-fundacao-tecnica-do-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 1 — Fundação Técnica do Módulo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-2-dominio-de-usuarios-e-autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 2 — Domínio de Usuários e Autenticação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-3-gestao-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 3 — Gestão de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-4-usuarios-e-vinculo-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 4 — Usuários e Vínculo de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-5-grupos-e-vinculo-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 5 — Grupos e Vínculo de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-6-autorizacao-seguranca-e-estabilizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 6 — Autorização, Segurança e Estabilização
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-epicos-tecnicos-complementares" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Épicos Técnicos Complementares
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Épicos Técnicos Complementares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-7-observabilidade-e-rastreamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 7 — Observabilidade e Rastreamento 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-8-performance-e-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 8 — Performance e Escala 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-9-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 9 — Auditoria 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-10-refatoracoes-e-debito-tecnico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 10 — Refatorações e Débito Técnico 🆕
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-resumo-consolidado" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Resumo Consolidado
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-priorizacao-e-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Priorização e MVP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Priorização e MVP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mvp-obrigatorio-concluido" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ MVP Obrigatório — Concluído
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvp-com-qualidade-concluido" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ MVP com Qualidade — Concluído
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pendencias-para-homologacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Pendências para Homologação
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cronograma" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cronograma
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cronograma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sprints-concluidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprints Concluídas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sprint-final-sprint-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprint Final — Sprint 7
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recomendacoes-de-gestao" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Recomendações de Gestão
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Recomendações de Gestão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capacidades-ja-disponiveis-em-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Capacidades já disponíveis em produção
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decisoes-de-gestao-recomendadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decisões de Gestão Recomendadas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Próximos Passos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-anexos" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Anexos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Anexos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anexo-a-glossario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo A — Glossário
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anexo-b-adrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo B — ADRs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anexo-c-riscos-mapeados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo C — Riscos Mapeados
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice de Backlogs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Arquitetura
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/endpoints/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/test-plan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ADRs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            ADRs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/001-modular-monolith/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-001 — Modular Monolith
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/002-person-shared-kernel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-002 — Person Shared Kernel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/003-base-repository/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-003 — BaseRepository
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/004-feature-folders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-004 — Feature Folders
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/005-tpt-inheritance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-005 — TPT Inheritance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/006-centralized-auditing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-006 — Auditoria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-sumario-executivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Sumário Executivo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-status-geral-do-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Status Geral do Módulo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-backlog-detalhado-por-epico" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Backlog Detalhado por Épico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Backlog Detalhado por Épico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-1-fundacao-tecnica-do-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 1 — Fundação Técnica do Módulo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-2-dominio-de-usuarios-e-autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 2 — Domínio de Usuários e Autenticação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-3-gestao-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 3 — Gestão de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-4-usuarios-e-vinculo-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 4 — Usuários e Vínculo de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-5-grupos-e-vinculo-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 5 — Grupos e Vínculo de Permissões
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-6-autorizacao-seguranca-e-estabilizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 6 — Autorização, Segurança e Estabilização
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-epicos-tecnicos-complementares" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Épicos Técnicos Complementares
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Épicos Técnicos Complementares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#epico-7-observabilidade-e-rastreamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 7 — Observabilidade e Rastreamento 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-8-performance-e-escala" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 8 — Performance e Escala 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-9-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 9 — Auditoria 🆕
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#epico-10-refatoracoes-e-debito-tecnico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Épico 10 — Refatorações e Débito Técnico 🆕
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-resumo-consolidado" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Resumo Consolidado
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-priorizacao-e-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Priorização e MVP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Priorização e MVP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mvp-obrigatorio-concluido" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ MVP Obrigatório — Concluído
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvp-com-qualidade-concluido" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ MVP com Qualidade — Concluído
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pendencias-para-homologacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Pendências para Homologação
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cronograma" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cronograma
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Cronograma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sprints-concluidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprints Concluídas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sprint-final-sprint-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprint Final — Sprint 7
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recomendacoes-de-gestao" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Recomendações de Gestão
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Recomendações de Gestão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capacidades-ja-disponiveis-em-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Capacidades já disponíveis em produção
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decisoes-de-gestao-recomendadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decisões de Gestão Recomendadas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Próximos Passos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-anexos" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Anexos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Anexos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anexo-a-glossario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo A — Glossário
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anexo-b-adrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo B — ADRs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anexo-c-riscos-mapeados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo C — Riscos Mapeados
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="backlog-e-planejamento-de-sprints-modulo-acesso-us01">Backlog e Planejamento de Sprints — Módulo Acesso (US01)<a class="headerlink" href="#backlog-e-planejamento-de-sprints-modulo-acesso-us01" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Versão:</strong> 2.0
+<strong>Data de atualização:</strong> 10/10/2026
+<strong>Status:</strong> 96% concluído
+<strong>Homologação prevista:</strong> 17/10/2026
+<strong>Classificação:</strong> Documento técnico-executivo</p>
+</blockquote>
+<hr />
+<h2 id="sumario">📑 Sumário<a class="headerlink" href="#sumario" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#1-sumário-executivo">1. Sumário Executivo</a></li>
+<li><a href="#2-status-geral-do-módulo">2. Status Geral do Módulo</a></li>
+<li><a href="#3-backlog-detalhado-por-épico">3. Backlog Detalhado por Épico</a></li>
+<li><a href="#4-épicos-técnicos-complementares">4. Épicos Técnicos Complementares</a></li>
+<li><a href="#5-resumo-consolidado">5. Resumo Consolidado</a></li>
+<li><a href="#6-priorização-e-mvp">6. Priorização e MVP</a></li>
+<li><a href="#7-cronograma">7. Cronograma</a></li>
+<li><a href="#8-recomendações-de-gestão">8. Recomendações de Gestão</a></li>
+<li><a href="#9-próximos-passos">9. Próximos Passos</a></li>
+<li><a href="#10-anexos">10. Anexos</a></li>
+</ul>
+<hr />
+<h2 id="1-sumario-executivo">1. Sumário Executivo<a class="headerlink" href="#1-sumario-executivo" title="Permanent link">&para;</a></h2>
+<p>O módulo <strong>US01 — Acesso</strong> encontra-se em estágio final de desenvolvimento, com <strong>96% do backlog originalmente planejado já entregue</strong>. Todos os épicos funcionais foram concluídos, e adicionalmente foram implementados <strong>quatro épicos técnicos transversais</strong> (Observabilidade, Performance, Auditoria e Refatorações) que elevam o módulo a um patamar de qualidade de produção.</p>
+<p>O sistema está apto a entrar em produção com autenticação JWT, autorização por permissões e grupos, CRUD completo, auditoria automática de todas as operações e performance otimizada em <strong>~20ms por requisição em regime morno</strong>.</p>
+<blockquote>
+<p><strong>Principais entregas já disponíveis:</strong></p>
+<ul>
+<li>✅ Autenticação JWT com refresh token</li>
+<li>✅ Autorização por permissões diretas e por grupos</li>
+<li>✅ CRUD completo de usuários, permissões, grupos e vínculos</li>
+<li>✅ Auditoria automática com <code>OldValues</code>, <code>NewValues</code>, <code>AffectedColumns</code></li>
+<li>✅ Observabilidade com Correlation ID e logs estruturados</li>
+<li>✅ Performance otimizada: <strong>150x mais rápido</strong></li>
+<li>✅ Build em <strong>0 avisos</strong></li>
+</ul>
+</blockquote>
+<hr />
+<h2 id="2-status-geral-do-modulo">2. Status Geral do Módulo<a class="headerlink" href="#2-status-geral-do-modulo" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Itens de backlog concluídos</td>
+<td>**44 de 46**</td>
+</tr>
+<tr>
+<td>Progresso funcional</td>
+<td>**96%**</td>
+</tr>
+<tr>
+<td>Progresso técnico (épicos complementares)</td>
+<td>**100%**</td>
+</tr>
+<tr>
+<td>Prazo estimado restante</td>
+<td>1 sprint curta (~1 semana)</td>
+</tr>
+<tr>
+<td>Data de homologação prevista</td>
+<td>**17/10/2026**</td>
+</tr>
+<tr>
+<td>Build da solução</td>
+<td>✅ **0 avisos**</td>
+</tr>
+<tr>
+<td>Performance média (regime morno)</td>
+<td>✅ **~20ms por requisição**</td>
+</tr>
+<tr>
+<td>Cobertura técnica transversal</td>
+<td>✅ 4 épicos implementados</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="3-backlog-detalhado-por-epico">3. Backlog Detalhado por Épico<a class="headerlink" href="#3-backlog-detalhado-por-epico" title="Permanent link">&para;</a></h2>
+<h3 id="epico-1-fundacao-tecnica-do-modulo">Épico 1 — Fundação Técnica do Módulo<a class="headerlink" href="#epico-1-fundacao-tecnica-do-modulo" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 26 pts (16 originais + 10 extras) · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-001</td>
+<td>Estruturar solução do módulo</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-002</td>
+<td>Configurar PostgreSQL e connection strings</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-003</td>
+<td>Criar `DefaultContext` e registrar DI</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-004</td>
+<td>Configurar convenções de entidade base</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-005</td>
+<td>Padronizar tratamento global de erros</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-006</td>
+<td>Configurar Swagger e versionamento básico</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Entregas extras:</strong></p>
+<ul>
+<li><code>BaseRepository&lt;TEntity&gt;</code> com <code>ExecuteWithLoggingAsync</code></li>
+<li><code>CorrelationIdMiddleware</code> — rastreamento distribuído</li>
+<li><code>UserContextMiddleware</code> — injeção de claims no <code>IUserContext</code></li>
+<li><code>ValidationExceptionMiddleware</code> — tratamento FluentValidation</li>
+<li><code>QueryWarmupService</code> — aquecimento JIT em background</li>
+<li><code>UseExceptionHandler</code> customizado (400/401/500)</li>
+<li>Serilog estruturado por ambiente</li>
+<li>Health checks (<code>/health</code>, <code>/health/live</code>, <code>/health/ready</code>)</li>
+</ul>
+<hr />
+<h3 id="epico-2-dominio-de-usuarios-e-autenticacao">Épico 2 — Domínio de Usuários e Autenticação<a class="headerlink" href="#epico-2-dominio-de-usuarios-e-autenticacao" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 44 pts + extras · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-007</td>
+<td>Modelar entidade `User`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-008</td>
+<td>Criar `IUserRepository` + implementação</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-009</td>
+<td>Implementar `CreateUser`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-010</td>
+<td>Implementar `UpdateUser`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-011</td>
+<td>Implementar `GetUser`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-012</td>
+<td>Implementar `GetAllUsers` (paginado)</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-013</td>
+<td>Implementar `DeactivateUser`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-014</td>
+<td>Criar `UserController`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-015</td>
+<td>Implementar autenticação (Login)</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-016</td>
+<td>Implementar geração de JWT</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Entregas extras:</strong></p>
+<ul>
+<li>Refresh Token com expiração configurável</li>
+<li><code>UpdateRefreshTokenAsync</code> otimizado (load-then-update)</li>
+<li>Ordenação dinâmica multi-campo (<code>username asc, email desc</code>)</li>
+<li>Validação de campos de ordenação</li>
+<li>Projeção para DTO sem expor <code>Password</code> ou <code>RefreshToken</code></li>
+</ul>
+<hr />
+<h3 id="epico-3-gestao-de-permissoes">Épico 3 — Gestão de Permissões<a class="headerlink" href="#epico-3-gestao-de-permissoes" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 24 pts · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-017</td>
+<td>Modelar entidade `Permission`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-018</td>
+<td>Criar `IPermissionRepository` + implementação</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-019</td>
+<td>Implementar `CreatePermission`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-020</td>
+<td>Implementar `ListPermissions`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-021</td>
+<td>Implementar `UpdatePermission`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-022</td>
+<td>Criar `PermissionController`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-023</td>
+<td>Validar unicidade do código da permissão</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-4-usuarios-e-vinculo-de-permissoes">Épico 4 — Usuários e Vínculo de Permissões<a class="headerlink" href="#epico-4-usuarios-e-vinculo-de-permissoes" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 27 pts · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-024</td>
+<td>Modelar entidade `UserPermission`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-025</td>
+<td>Criar `IUserPermissionRepository`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-026</td>
+<td>Implementar cadastro de `UserPermission`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-027</td>
+<td>Criar `UserPermissionsController`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-028</td>
+<td>Modelar vínculo `Users_Permissions`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-029</td>
+<td>Criar contrato/implementação do vínculo</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-030</td>
+<td>Implementar cadastro de `UsersPermissions`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-5-grupos-e-vinculo-de-permissoes">Épico 5 — Grupos e Vínculo de Permissões<a class="headerlink" href="#epico-5-grupos-e-vinculo-de-permissoes" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 30 pts · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-031</td>
+<td>Modelar entidade `GroupPermission`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-032</td>
+<td>Criar `IGroupPermissionRepository`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-032B</td>
+<td>Implementar cadastro de `GroupPermission`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-033</td>
+<td>Criar `GroupPermissionsController`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-034</td>
+<td>Modelar vínculo `GroupUsersPermissions`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-035</td>
+<td>Criar contrato/implementação do vínculo</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-036</td>
+<td>Implementar cadastro de `GroupUsersPermissions`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-037</td>
+<td>Criar `GroupUsersPermissionsController`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-6-autorizacao-seguranca-e-estabilizacao">Épico 6 — Autorização, Segurança e Estabilização<a class="headerlink" href="#epico-6-autorizacao-seguranca-e-estabilizacao" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 34 pts (26 concluídos + 8 pendentes)</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-038</td>
+<td>Implementar `GetUserPermissions`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-039</td>
+<td>Configurar policies/claims por permissão</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-040</td>
+<td>Impedir login de usuário inativo</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-041</td>
+<td>Hash seguro de senha (BCrypt)</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-042</td>
+<td>Seed inicial de permissões</td>
+<td>Média</td>
+<td>3 pts</td>
+<td>⚠️ Parcial</td>
+</tr>
+<tr>
+<td>US01-043</td>
+<td>Testes unitários de domínio e aplicação</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>⚠️ Parcial</td>
+</tr>
+<tr>
+<td>US01-044</td>
+<td>Testes de integração dos endpoints</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>⚠️ Parcial</td>
+</tr>
+<tr>
+<td>US01-045</td>
+<td>Criar `README.md` técnico-operacional</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-046</td>
+<td>Preparar pipeline de publicação</td>
+<td>Média</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="4-epicos-tecnicos-complementares">4. Épicos Técnicos Complementares<a class="headerlink" href="#4-epicos-tecnicos-complementares" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Além do backlog originalmente previsto, foram implementados <strong>quatro épicos técnicos transversais</strong>.</p>
+</blockquote>
+<h3 id="epico-7-observabilidade-e-rastreamento">Épico 7 — Observabilidade e Rastreamento 🆕<a class="headerlink" href="#epico-7-observabilidade-e-rastreamento" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 13 pts · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-047</td>
+<td>Serilog com sinks por ambiente</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-048</td>
+<td>`CorrelationIdMiddleware`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-049</td>
+<td>Structured logging nos repositórios</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-050</td>
+<td>Health checks</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-051</td>
+<td>Padronização de logs por camada</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-8-performance-e-escala">Épico 8 — Performance e Escala 🆕<a class="headerlink" href="#epico-8-performance-e-escala" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 25 pts · ✅ Concluído · Ganho: <strong>~3.000ms → ~20ms (150x)</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-052</td>
+<td>Refatorar repositórios com `ExecuteWithLoggingAsync`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-053</td>
+<td>`AsNoTracking` em leituras</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-054</td>
+<td>Projections (records) para listagens</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-055</td>
+<td>Corrigir cartesian explosion em `GetAllUsers`</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-056</td>
+<td>Adicionar índices em tabelas críticas</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-057</td>
+<td>`QueryWarmupService`</td>
+<td>Média</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-058</td>
+<td>Remover `Password`/`RefreshToken` do SELECT</td>
+<td>Crítica</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-9-auditoria">Épico 9 — Auditoria 🆕<a class="headerlink" href="#epico-9-auditoria" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 17 pts · ✅ Concluído</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-059</td>
+<td>Criar tabela `AuditLogs` (com JSONB)</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-060</td>
+<td>`IAuditable` + `AuditService`</td>
+<td>Alta</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-061</td>
+<td>Override de `SaveChangesAsync` no `DefaultContext`</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-062</td>
+<td>Mascarar `Password`/`RefreshToken`</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-063</td>
+<td>Filtrar "Modified falso"</td>
+<td>Alta</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-064</td>
+<td>Índices em `AuditLogs`</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-065</td>
+<td>Propagação do `CorrelationId` no audit</td>
+<td>Média</td>
+<td>1 pt</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h3 id="epico-10-refatoracoes-e-debito-tecnico">Épico 10 — Refatorações e Débito Técnico 🆕<a class="headerlink" href="#epico-10-refatoracoes-e-debito-tecnico" title="Permanent link">&para;</a></h3>
+<p><strong>Status:</strong> 19 pts · ✅ Concluído · Resultado: <strong>Build em 0 avisos</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Prioridade</th>
+<th>Estimativa</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-066</td>
+<td>Corrigir shadowing `CS0108`</td>
+<td>Média</td>
+<td>1 pt</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-067</td>
+<td>Corrigir `CS8619` nos PolicyProviders</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-068</td>
+<td>Refatorar `GroupPermissionRepository.UpdateAsync`</td>
+<td>Média</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-069</td>
+<td>Refatorar `PermissionRepository`</td>
+<td>Baixa</td>
+<td>2 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-070</td>
+<td>Refatorar `UserPermissionRepository`</td>
+<td>Baixa</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-071</td>
+<td>Substituir `.Update()` por load-then-update</td>
+<td>Alta</td>
+<td>3 pts</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-072</td>
+<td>Suprimir `NU1903` (AutoMapper)</td>
+<td>Baixa</td>
+<td>1 pt</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>US01-073</td>
+<td>Corrigir os 29 avisos nullable</td>
+<td>Média</td>
+<td>5 pts</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="5-resumo-consolidado">5. Resumo Consolidado<a class="headerlink" href="#5-resumo-consolidado" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Épico</th>
+<th>Pontos</th>
+<th>Concluído</th>
+<th>Pendente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Fundação Técnica</td>
+<td>26</td>
+<td>26</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2. Usuários + Auth</td>
+<td>44</td>
+<td>44</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3. Permissões</td>
+<td>24</td>
+<td>24</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4. Usuários ↔ Permissões</td>
+<td>27</td>
+<td>27</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5. Grupos ↔ Permissões</td>
+<td>30</td>
+<td>30</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6. Autorização + Estabilização</td>
+<td>34</td>
+<td>26</td>
+<td>**8**</td>
+</tr>
+<tr>
+<td>7. Observabilidade</td>
+<td>13</td>
+<td>13</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8. Performance</td>
+<td>25</td>
+<td>25</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9. Auditoria</td>
+<td>17</td>
+<td>17</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10. Refatorações</td>
+<td>19</td>
+<td>19</td>
+<td>0</td>
+</tr>
+<tr>
+<td>**TOTAL**</td>
+<td>**259**</td>
+<td>**251 (97%)**</td>
+<td>**8 (3%)**</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="6-priorizacao-e-mvp">6. Priorização e MVP<a class="headerlink" href="#6-priorizacao-e-mvp" title="Permanent link">&para;</a></h2>
+<h3 id="mvp-obrigatorio-concluido">✅ MVP Obrigatório — Concluído<a class="headerlink" href="#mvp-obrigatorio-concluido" title="Permanent link">&para;</a></h3>
+<p>US01-001 a US01-041 + US01-046.</p>
+<h3 id="mvp-com-qualidade-concluido">✅ MVP com Qualidade — Concluído<a class="headerlink" href="#mvp-com-qualidade-concluido" title="Permanent link">&para;</a></h3>
+<p>Épicos 7, 8, 9 e 10 (técnicos, transversais). Entrega de auditoria completa, performance otimizada e build sem avisos.</p>
+<h3 id="pendencias-para-homologacao">⚠️ Pendências para Homologação<a class="headerlink" href="#pendencias-para-homologacao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Estimativa</th>
+<th>Justificativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01-043</td>
+<td>Testes unitários (cobertura ≥ 60%)</td>
+<td>3 pts</td>
+<td>Confiabilidade</td>
+</tr>
+<tr>
+<td>US01-044</td>
+<td>Testes de integração dos endpoints</td>
+<td>2 pts</td>
+<td>Regressão</td>
+</tr>
+<tr>
+<td>US01-042</td>
+<td>Seed inicial de permissões</td>
+<td>2 pts</td>
+<td>Setup de ambiente</td>
+</tr>
+<tr>
+<td>**TOTAL**</td>
+<td></td>
+<td>**7 pts**</td>
+<td>**~1 sprint curta**</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="7-cronograma">7. Cronograma<a class="headerlink" href="#7-cronograma" title="Permanent link">&para;</a></h2>
+<h3 id="sprints-concluidas">Sprints Concluídas<a class="headerlink" href="#sprints-concluidas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Período</th>
+<th>Foco Principal</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sprint 0</td>
+<td>03/10 a 05/10</td>
+<td>Foundation técnica</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 1</td>
+<td>05/10 a 07/10</td>
+<td>Usuários + Autenticação</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 2</td>
+<td>07/10 a 08/10</td>
+<td>Permissões</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 3</td>
+<td>08/10 a 09/10</td>
+<td>Vínculos usuário-permissão</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 4</td>
+<td>09/10 a 10/10</td>
+<td>Grupos + Vínculos</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 5</td>
+<td>10/10</td>
+<td>Autorização + Auditoria</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Sprint 6</td>
+<td>10/10</td>
+<td>Performance + Refatorações</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="sprint-final-sprint-7">Sprint Final — Sprint 7<a class="headerlink" href="#sprint-final-sprint-7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Período</th>
+<th>Foco</th>
+<th>Entregável</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>**Sprint 7**</td>
+<td>**11/10 a 17/10**</td>
+<td>Docs + Testes + Seed</td>
+<td>Módulo pronto para homologação</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Itens da Sprint 7:</strong></p>
+<ul>
+<li>[ ] <strong>US01-043</strong> — Testes unitários dos handlers e domínio</li>
+<li>[ ] <strong>US01-044</strong> — Testes de integração dos endpoints</li>
+<li>[ ] <strong>US01-042</strong> — Seed inicial de permissões (<code>Permissions.g.cs</code>)</li>
+</ul>
+<p><strong>Prazo executivo total: 1 semana — até 17/10/2026</strong></p>
+<hr />
+<h2 id="8-recomendacoes-de-gestao">8. Recomendações de Gestão<a class="headerlink" href="#8-recomendacoes-de-gestao" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>Aprovação Formal</strong></p>
+<p>O módulo <strong>US01 (Acesso)</strong> está <strong>96% concluído</strong>, com todos os épicos funcionais entregues e todos os épicos técnicos implementados. Está apto a entrar em produção após a conclusão dos 3 itens pendentes (7 pts).</p>
+</blockquote>
+<h3 id="capacidades-ja-disponiveis-em-producao">Capacidades já disponíveis em produção<a class="headerlink" href="#capacidades-ja-disponiveis-em-producao" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Autenticação JWT com refresh token</li>
+<li>✅ Autorização por permissões e grupos</li>
+<li>✅ CRUD completo de usuários, permissões e vínculos</li>
+<li>✅ Auditoria automática de todas as entidades</li>
+<li>✅ Performance otimizada (~20ms morno)</li>
+<li>✅ Observabilidade (Correlation ID, logs estruturados)</li>
+<li>✅ Docker + migrations + 7 índices no banco</li>
+</ul>
+<h3 id="decisoes-de-gestao-recomendadas">Decisões de Gestão Recomendadas<a class="headerlink" href="#decisoes-de-gestao-recomendadas" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Homologação prevista para <strong>17/10/2026</strong></li>
+<li>Iniciar <strong>US02 (Produtos)</strong> em paralelo, usando o Acesso como template</li>
+<li>Criar <code>docs/adr/</code> com decisões arquiteturais antes de escalar para os 9 módulos</li>
+<li>Definir política institucional de retenção da auditoria (sugestão: <strong>2 anos + arquivamento</strong>)</li>
+<li>Configurar pipeline CI/CD antes do início do US02</li>
+</ol>
+<hr />
+<h2 id="9-proximos-passos">9. Próximos Passos<a class="headerlink" href="#9-proximos-passos" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ordem</th>
+<th>Ação</th>
+<th>Responsável</th>
+<th>Prazo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Adicionar testes unitários (cobertura ≥ 60%)</td>
+<td>Dev backend + QA</td>
+<td>15/10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Adicionar testes de integração</td>
+<td>Dev backend + QA</td>
+<td>16/10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Seed inicial de permissões</td>
+<td>Dev backend</td>
+<td>17/10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Homologação com PO</td>
+<td>PO + QA</td>
+<td>17/10</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Início do US02 (Produtos)</td>
+<td>Dev backend</td>
+<td>18/10</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Criar ADRs de arquitetura</td>
+<td>Dev backend</td>
+<td>18/10</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Configurar pipeline CI/CD</td>
+<td>DevOps</td>
+<td>20/10</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<h2 id="10-anexos">10. Anexos<a class="headerlink" href="#10-anexos" title="Permanent link">&para;</a></h2>
+<h3 id="anexo-a-glossario">Anexo A — Glossário<a class="headerlink" href="#anexo-a-glossario" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Termo</th>
+<th>Definição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CQRS</td>
+<td>Command Query Responsibility Segregation</td>
+</tr>
+<tr>
+<td>DTO</td>
+<td>Data Transfer Object</td>
+</tr>
+<tr>
+<td>JWT</td>
+<td>JSON Web Token</td>
+</tr>
+<tr>
+<td>TPT</td>
+<td>Table-per-Type</td>
+</tr>
+<tr>
+<td>Warmup</td>
+<td>Pré-compilação JIT em background</td>
+</tr>
+<tr>
+<td>Correlation ID</td>
+<td>Identificador único propagado na requisição</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="anexo-b-adrs">Anexo B — ADRs<a class="headerlink" href="#anexo-b-adrs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../../adr/001-modular-monolith/">ADR-001 — Modular Monolith</a></li>
+<li><a href="../../adr/002-person-shared-kernel/">ADR-002 — Person como Shared Kernel</a></li>
+<li><a href="../../adr/003-base-repository/">ADR-003 — BaseRepository</a></li>
+<li><a href="../../adr/004-feature-folders/">ADR-004 — Feature Folders</a></li>
+<li><a href="../../adr/005-tpt-inheritance/">ADR-005 — TPT Inheritance</a></li>
+<li><a href="../../adr/006-centralized-auditing/">ADR-006 — Auditoria Centralizada</a></li>
+</ul>
+<h3 id="anexo-c-riscos-mapeados">Anexo C — Riscos Mapeados<a class="headerlink" href="#anexo-c-riscos-mapeados" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risco</th>
+<th>Impacto</th>
+<th>Mitigação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Migração de `Person` para módulo Cadastros</td>
+<td>Médio</td>
+<td>Executar antes do US02</td>
+</tr>
+<tr>
+<td>Crescimento da base de auditoria</td>
+<td>Médio</td>
+<td>Índices + política de retenção</td>
+</tr>
+<tr>
+<td>Acoplamento entre módulos futuros</td>
+<td>Alto</td>
+<td>Providers públicos antes do US02</td>
+</tr>
+<tr>
+<td>Cobertura de testes insuficiente</td>
+<td>Médio</td>
+<td>Meta mínima 60%</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+<p><strong>Prazo executivo sugerido: 17/10/2026</strong></p>
+<hr />
+<p><em>SJInovacao.Acesso — Backlog e Planejamento de Sprints · Módulo US01 · Versão 2.0 · 10/10/2026</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/jesuino-treinamento/SJInovacao.Acesso" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

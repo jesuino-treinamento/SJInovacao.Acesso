@@ -1,0 +1,2338 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação técnica do módulo Acesso">
+      
+      
+        <meta name="author" content="Marcelo Jesuino">
+      
+      
+      
+        <link rel="prev" href="../../api/endpoints/">
+      
+      
+        <link rel="next" href="../../adr/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Testes - SJInovacao.Acesso</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plano-de-testes-modulo-us01-acesso" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SJInovacao.Acesso" class="md-header__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SJInovacao.Acesso
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Testes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backlog/us01-backlog/" class="md-tabs__link">
+          
+  
+  Backlog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/overview/" class="md-tabs__link">
+        
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/endpoints/" class="md-tabs__link">
+        
+  
+    
+  
+  API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../adr/" class="md-tabs__link">
+          
+  
+  ADRs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SJInovacao.Acesso" class="md-nav__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SJInovacao.Acesso
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Backlog
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Backlog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/us01-backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    US01 — Acesso
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice de Backlogs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Arquitetura
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/endpoints/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Testes
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Testes
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategia-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Estratégia de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Estratégia de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objetivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escopo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#piramide-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔺 Pirâmide de Testes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠 Ferramentas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testes Unitários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dominio-entidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Domínio — Entidades
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Domínio — Entidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissiontestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aplicacao-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Aplicação — Handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Aplicação — Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createuserhandlertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateUserHandlerTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-aplicacao-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Aplicação — Validators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplicação — Validators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createuservalidatortestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateUserValidatorTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dominio-value-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Domínio — Value Objects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Testes de Integração
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Testes de Integração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-com-testcontainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração com Testcontainers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suites-planejadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suites Planejadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suites Planejadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#userendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissionendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orderingtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      OrderingTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Testes de Auditoria
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Testes de Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auditservicetestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuditServiceTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Testes de Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Testes de Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cenários
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-k6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de carga (k6)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Testes de Segurança
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Testes de Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authenticationtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthenticationTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bcryptpasswordhashertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      BCryptPasswordHasherTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlationidtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CorrelationIdTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-de-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Matriz de Cobertura
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Matriz de Cobertura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gerar-relatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gerar relatório
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 CI/CD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 CI/CD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-sugerido-github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipeline sugerido (GitHub Actions)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gates-de-qualidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gates de qualidade
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criterios-de-aceite-para-homologacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Critérios de Aceite para Homologação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-rapidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Comandos Rápidos
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ADRs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            ADRs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/001-modular-monolith/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-001 — Modular Monolith
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/002-person-shared-kernel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-002 — Person Shared Kernel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/003-base-repository/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-003 — BaseRepository
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/004-feature-folders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-004 — Feature Folders
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/005-tpt-inheritance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-005 — TPT Inheritance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/006-centralized-auditing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-006 — Auditoria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrategia-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Estratégia de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Estratégia de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objetivo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escopo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#piramide-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔺 Pirâmide de Testes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ferramentas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠 Ferramentas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Testes Unitários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-dominio-entidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Domínio — Entidades
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Domínio — Entidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissiontestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aplicacao-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Aplicação — Handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Aplicação — Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createuserhandlertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateUserHandlerTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-aplicacao-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Aplicação — Validators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplicação — Validators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createuservalidatortestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateUserValidatorTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-dominio-value-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Domínio — Value Objects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Testes de Integração
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Testes de Integração">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-com-testcontainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração com Testcontainers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suites-planejadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suites Planejadas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suites Planejadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#userendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissionendpointstestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionEndpointsTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#orderingtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      OrderingTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-auditoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Testes de Auditoria
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Testes de Auditoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auditservicetestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuditServiceTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Testes de Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ Testes de Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cenários
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-k6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de carga (k6)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Testes de Segurança
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Testes de Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authenticationtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      AuthenticationTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bcryptpasswordhashertestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      BCryptPasswordHasherTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correlationidtestscs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CorrelationIdTests.cs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matriz-de-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Matriz de Cobertura
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Matriz de Cobertura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gerar-relatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gerar relatório
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 CI/CD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 CI/CD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-sugerido-github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipeline sugerido (GitHub Actions)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gates-de-qualidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gates de qualidade
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criterios-de-aceite-para-homologacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Critérios de Aceite para Homologação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-rapidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Comandos Rápidos
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="plano-de-testes-modulo-us01-acesso">Plano de Testes — Módulo US01 (Acesso)<a class="headerlink" href="#plano-de-testes-modulo-us01-acesso" title="Permanent link">&para;</a></h1>
+<ul>
+<li>
+<p><strong>Versão:</strong> 1.0</p>
+</li>
+<li>
+<p><strong>Data:</strong> 10/10/2026</p>
+</li>
+<li>
+<p><strong>Módulo:</strong> US01 — Acesso</p>
+</li>
+<li>
+<p><strong>Responsável:</strong> Dev Backend + QA</p>
+</li>
+</ul>
+<hr />
+<h2 id="sumario">📑 Sumário<a class="headerlink" href="#sumario" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><a href="#-estratégia-de-testes">Estratégia de Testes</a></p>
+</li>
+<li>
+<p><a href="#-pirâmide-de-testes">Pirâmide de Testes</a></p>
+</li>
+<li>
+<p><a href="#-ferramentas">Ferramentas</a></p>
+</li>
+<li>
+<p><a href="#-testes-unitários">Testes Unitários</a></p>
+</li>
+<li>
+<p><a href="#-testes-de-integração">Testes de Integração</a></p>
+</li>
+<li>
+<p><a href="#-testes-de-auditoria">Testes de Auditoria</a></p>
+</li>
+<li>
+<p><a href="#-testes-de-performance">Testes de Performance</a></p>
+</li>
+<li>
+<p><a href="#-testes-de-segurança">Testes de Segurança</a></p>
+</li>
+<li>
+<p><a href="#-matriz-de-cobertura">Matriz de Cobertura</a></p>
+</li>
+<li>
+<p><a href="#-cicd">CI/CD</a></p>
+</li>
+</ul>
+<hr />
+<h2 id="estrategia-de-testes">🎯 Estratégia de Testes<a class="headerlink" href="#estrategia-de-testes" title="Permanent link">&para;</a></h2>
+<h3 id="objetivo">Objetivo<a class="headerlink" href="#objetivo" title="Permanent link">&para;</a></h3>
+<p>Garantir <strong>confiabilidade, performance e segurança</strong> do módulo Acesso antes da homologação, com <strong>cobertura mínima de 60%</strong> nas camadas críticas.</p>
+<h3 id="escopo">Escopo<a class="headerlink" href="#escopo" title="Permanent link">&para;</a></h3>
+<p>| Categoria | Incluído | Fora do escopo |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| Domínio | Entidades, Value Objects, regras | — |</p>
+<p>| Aplicação | Handlers, Validators, Profiles | — |</p>
+<p>| Infraestrutura | Repositories | Migrations (testadas via integração) |</p>
+<p>| API | Controllers, Middlewares | Swagger UI |</p>
+<p>| Segurança | JWT, BCrypt, Autorização | — |</p>
+<p>| Auditoria | Captura, Mascaramento | — |</p>
+<hr />
+<h2 id="piramide-de-testes">🔺 Pirâmide de Testes<a class="headerlink" href="#piramide-de-testes" title="Permanent link">&para;</a></h2>
+<pre><code>
+&amp;#x20;       ▲
+
+&amp;#x20;      ╱ ╲        E2E (manual via Swagger)
+
+&amp;#x20;     ╱───╲
+
+&amp;#x20;    ╱ Int ╲      20% — Integração (banco real)
+
+&amp;#x20;   ╱───────╲
+
+&amp;#x20;  ╱  Unit   ╲    80% — Unidade (rápidos, isolados)
+
+&amp;#x20; ╱───────────╲
+
+</code></pre>
+<hr />
+<h2 id="ferramentas">🛠 Ferramentas<a class="headerlink" href="#ferramentas" title="Permanent link">&para;</a></h2>
+<p>| Ferramenta | Uso |</p>
+<p>| :--- | :--- |</p>
+<p>| xUnit | Framework de testes |</p>
+<p>| FluentAssertions | Assertions legíveis |</p>
+<p>| Moq | Mock de dependências |</p>
+<p>| Testcontainers | Banco PostgreSQL real em integração |</p>
+<p>| Coverlet | Cobertura de código |</p>
+<p>| ReportGenerator | Relatórios de cobertura |</p>
+<hr />
+<h2 id="testes-unitarios">🧪 Testes Unitários<a class="headerlink" href="#testes-unitarios" title="Permanent link">&para;</a></h2>
+<p><strong>Local:</strong> <code>src/Tests/SJInovacao.Acesso.UnitTests/</code></p>
+<h3 id="1-dominio-entidades">1. Domínio — Entidades<a class="headerlink" href="#1-dominio-entidades" title="Permanent link">&para;</a></h3>
+<h4 id="usertestscs"><code>UserTests.cs</code><a class="headerlink" href="#usertestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Create_ComDadosValidos_DeveCriarUsuario</code> | Validar construtor |</p>
+<p>| <code>Create_SemUsername_DeveLancarArgumentNullException</code> | Validação de parâmetro |</p>
+<p>| <code>Deactivate_DeveMudarStatusParaInactive</code> | Regra de negócio |</p>
+<p>| <code>Deactivate_DevePreencherUpdatedAt</code> | Auditoria implícita |</p>
+<p>| <code>Permissions_DeveRetornarPermissoesDiretasEGrupos</code> | Agregação de permissões |</p>
+<h4 id="permissiontestscs"><code>PermissionTests.cs</code><a class="headerlink" href="#permissiontestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Create_ComNomeValido_DeveCriar</code> | Construtor |</p>
+<p>| <code>Update_DeveMudarDescricao</code> | Mutabilidade controlada |</p>
+<h3 id="2-aplicacao-handlers">2. Aplicação — Handlers<a class="headerlink" href="#2-aplicacao-handlers" title="Permanent link">&para;</a></h3>
+<h4 id="createuserhandlertestscs"><code>CreateUserHandlerTests.cs</code><a class="headerlink" href="#createuserhandlertestscs" title="Permanent link">&para;</a></h4>
+<pre><code class="language-csharp">
+[Fact]
+
+public async Task Handle_ComDadosValidos_DeveCriarUsuario()
+
+{
+
+&amp;#x20;   // Arrange
+
+&amp;#x20;   var command = new CreateUserCommand(&quot;marcelo&quot;, &quot;m@empresa.com&quot;, &quot;Senha@123&quot;, UserRole.Admin);
+
+&amp;#x20;   _repoMock.Setup(r =&gt; r.GetNameAsync(It.IsAny&lt;string&gt;(), It.IsAny&lt;CancellationToken&gt;()))
+
+&amp;#x20;            .ReturnsAsync(false);
+
+&amp;#x20;   _repoMock.Setup(r =&gt; r.CreateAsync(It.IsAny&lt;User&gt;(), It.IsAny&lt;CancellationToken&gt;()))
+
+&amp;#x20;            .ReturnsAsync((User u, CancellationToken _) =&gt; u);
+
+
+
+&amp;#x20;   // Act
+
+&amp;#x20;   var result = await _handler.Handle(command, CancellationToken.None);
+
+
+
+&amp;#x20;   // Assert
+
+&amp;#x20;   result.Should().NotBeNull();
+
+&amp;#x20;   result.Username.Should().Be(&quot;marcelo&quot;);
+
+&amp;#x20;   _repoMock.Verify(r =&gt; r.CreateAsync(It.IsAny&lt;User&gt;(), It.IsAny&lt;CancellationToken&gt;()), Times.Once);
+
+}
+
+
+
+[Fact]
+
+public async Task Handle_ComUsernameDuplicado_DeveLancarDomainException()
+
+{
+
+&amp;#x20;   // Arrange
+
+&amp;#x20;   _repoMock.Setup(r =&gt; r.GetNameAsync(It.IsAny&lt;string&gt;(), It.IsAny&lt;CancellationToken&gt;()))
+
+&amp;#x20;            .ReturnsAsync(true);
+
+&amp;#x20;   var command = new CreateUserCommand(&quot;marcelo&quot;, &quot;m@empresa.com&quot;, &quot;Senha@123&quot;, UserRole.Admin);
+
+
+
+&amp;#x20;   // Act
+
+&amp;#x20;   Func&lt;Task&gt; act = () =&gt; _handler.Handle(command, CancellationToken.None);
+
+
+
+&amp;#x20;   // Assert
+
+&amp;#x20;   await act.Should().ThrowAsync&lt;DomainException&gt;();
+
+&amp;#x20;   _repoMock.Verify(r =&gt; r.CreateAsync(It.IsAny&lt;User&gt;(), It.IsAny&lt;CancellationToken&gt;()), Times.Never);
+
+}
+
+</code></pre>
+<h3 id="3-aplicacao-validators">3. Aplicação — Validators<a class="headerlink" href="#3-aplicacao-validators" title="Permanent link">&para;</a></h3>
+<h4 id="createuservalidatortestscs"><code>CreateUserValidatorTests.cs</code><a class="headerlink" href="#createuservalidatortestscs" title="Permanent link">&para;</a></h4>
+<pre><code class="language-csharp">
+[Theory]
+
+[InlineData(&quot;&quot;, &quot;email@valido.com&quot;, &quot;Senha@123&quot;, false)]     // username vazio
+
+[InlineData(&quot;marcelo&quot;, &quot;email-invalido&quot;, &quot;Senha@123&quot;, false)] // email inválido
+
+[InlineData(&quot;marcelo&quot;, &quot;email@valido.com&quot;, &quot;123&quot;, false)]     // senha fraca
+
+[InlineData(&quot;marcelo&quot;, &quot;email@valido.com&quot;, &quot;Senha@123&quot;, true)] // válido
+
+public void Validate_CenariosVariados(string username, string email, string password, bool esperado)
+
+{
+
+&amp;#x20;   var validator = new CreateUserValidator();
+
+&amp;#x20;   var command = new CreateUserCommand(username, email, password, UserRole.Admin);
+
+
+
+&amp;#x20;   var result = validator.Validate(command);
+
+
+
+&amp;#x20;   result.IsValid.Should().Be(esperado);
+
+}
+
+</code></pre>
+<h3 id="4-dominio-value-objects">4. Domínio — Value Objects<a class="headerlink" href="#4-dominio-value-objects" title="Permanent link">&para;</a></h3>
+<p>| Classe | Testes |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>DocumentValidator</code> | CPF válido, CPF inválido, CNPJ válido, CNPJ inválido |</p>
+<p>| <code>EmailValidator</code> | Email válido, inválido, vazio, formato incorreto |</p>
+<p>| <code>NameValidator</code> | Nome com 2 partes, 1 parte, vazio, caracteres especiais |</p>
+<p>| <code>PhoneValidator</code> | Fixo, celular, internacional |</p>
+<p>| <code>PasswordValidator</code> | Mínimo, maiúscula, número, símbolo |</p>
+<hr />
+<h2 id="testes-de-integracao">🔗 Testes de Integração<a class="headerlink" href="#testes-de-integracao" title="Permanent link">&para;</a></h2>
+<p><strong>Local:</strong> <code>src/Tests/SJInovacao.Acesso.IntegrationTests/</code></p>
+<h3 id="configuracao-com-testcontainers">Configuração com Testcontainers<a class="headerlink" href="#configuracao-com-testcontainers" title="Permanent link">&para;</a></h3>
+<pre><code class="language-csharp">
+public class PostgresFixture : IAsyncLifetime
+
+{
+
+&amp;#x20;   private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
+
+&amp;#x20;       .WithImage(&quot;postgres:16&quot;)
+
+&amp;#x20;       .WithDatabase(&quot;silverjbase_test&quot;)
+
+&amp;#x20;       .WithUsername(&quot;developer&quot;)
+
+&amp;#x20;       .WithPassword(&quot;ev@luAt10n&quot;)
+
+&amp;#x20;       .Build();
+
+
+
+&amp;#x20;   public DefaultContext Context { get; private set; } = null!;
+
+
+
+&amp;#x20;   public async Task InitializeAsync()
+
+&amp;#x20;   {
+
+&amp;#x20;       await _postgres.StartAsync();
+
+&amp;#x20;       var options = new DbContextOptionsBuilder&lt;DefaultContext&gt;()
+
+&amp;#x20;           .UseNpgsql(_postgres.GetConnectionString())
+
+&amp;#x20;           .Options;
+
+&amp;#x20;       Context = new DefaultContext(options, NullLogger...);
+
+&amp;#x20;       await Context.Database.MigrateAsync();
+
+&amp;#x20;   }
+
+
+
+&amp;#x20;   public async Task DisposeAsync()
+
+&amp;#x20;   {
+
+&amp;#x20;       await Context.DisposeAsync();
+
+&amp;#x20;       await _postgres.DisposeAsync();
+
+&amp;#x20;   }
+
+}
+
+</code></pre>
+<h3 id="suites-planejadas">Suites Planejadas<a class="headerlink" href="#suites-planejadas" title="Permanent link">&para;</a></h3>
+<h4 id="userendpointstestscs"><code>UserEndpointsTests.cs</code><a class="headerlink" href="#userendpointstestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Endpoint |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Post_CriaUsuario_Retorna201</code> | <code>POST /api/Users</code> |</p>
+<p>| <code>Get_ListaUsuariosPaginado_Retorna200</code> | <code>GET /api/Users?page=1\&amp;size=10</code> |</p>
+<p>| <code>Get_UsuarioInexistente_Retorna404</code> | <code>GET /api/Users/{id}</code> |</p>
+<p>| <code>Put_AtualizaUsuario_Retorna200</code> | <code>PUT /api/Users/{id}</code> |</p>
+<p>| <code>Delete_DesativaUsuario_Retorna204</code> | <code>DELETE /api/Users/{id}</code> |</p>
+<h4 id="authendpointstestscs"><code>AuthEndpointsTests.cs</code><a class="headerlink" href="#authendpointstestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Endpoint |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Post_LoginValido_RetornaToken</code> | <code>POST /api/Auth/Login</code> |</p>
+<p>| <code>Post_LoginInvalido_Retorna401</code> | <code>POST /api/Auth/Login</code> |</p>
+<p>| <code>Post_LoginUsuarioInativo_Retorna401</code> | <code>POST /api/Auth/Login</code> |</p>
+<p>| <code>Post_RefreshToken_RetornaNovoToken</code> | <code>POST /api/Auth/RefreshToken</code> |</p>
+<h4 id="permissionendpointstestscs"><code>PermissionEndpointsTests.cs</code><a class="headerlink" href="#permissionendpointstestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Endpoint |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Post_CriaPermissao_Retorna201</code> | <code>POST /api/Permissions</code> |</p>
+<p>| <code>Post_PermissaoDuplicada_Retorna400</code> | <code>POST /api/Permissions</code> |</p>
+<p>| <code>Get_PermissaoInexistente_Retorna404</code> | <code>GET /api/Permissions/{id}</code> |</p>
+<h4 id="orderingtestscs"><code>OrderingTests.cs</code><a class="headerlink" href="#orderingtestscs" title="Permanent link">&para;</a></h4>
+<p>| Teste | Query |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Get_OrdenacaoSimples_RetornaOrdenado</code> | <code>?order=username asc</code> |</p>
+<p>| <code>Get_OrdenacaoMultipla_RetornaOrdenado</code> | <code>?order=username desc, groupname asc</code> |</p>
+<p>| <code>Get_CampoInvalido_Retorna400</code> | <code>?order=campo_invalido asc</code> |</p>
+<hr />
+<h2 id="testes-de-auditoria">🔍 Testes de Auditoria<a class="headerlink" href="#testes-de-auditoria" title="Permanent link">&para;</a></h2>
+<h3 id="auditservicetestscs"><code>AuditServiceTests.cs</code><a class="headerlink" href="#auditservicetestscs" title="Permanent link">&para;</a></h3>
+<p>| Teste | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>CaptureChanges_Added_DeveCriarRegistro</code> | Insert gera <code>Action=Added</code> |</p>
+<p>| <code>CaptureChanges_Modified_DeveRegistrarColunasAlteradas</code> | Update captura <code>AffectedColumns</code> |</p>
+<p>| <code>CaptureChanges_Deleted_DeveRegistrarOldValues</code> | Delete captura valores antigos |</p>
+<p>| <code>CaptureChanges_PasswordMascarado</code> | <code>Password</code> virou <code>***</code> |</p>
+<p>| <code>CaptureChanges_RefreshTokenMascarado</code> | <code>RefreshToken</code> virou <code>***</code> |</p>
+<p>| <code>CaptureChanges_SemAlteracao_NaoGeraRegistro</code> | Skip de "Modified falso" |</p>
+<p>| <code>CaptureChanges_MultiplasEntidades_GeraMultiplosRegistros</code> | Batch |</p>
+<h3 id="exemplo">Exemplo<a class="headerlink" href="#exemplo" title="Permanent link">&para;</a></h3>
+<pre><code class="language-csharp">
+[Fact]
+
+public async Task CaptureChanges_ComPassword_DeveMascarar()
+
+{
+
+&amp;#x20;   // Arrange
+
+&amp;#x20;   var user = new User(&quot;marcelo&quot;, &quot;m@e.com&quot;, &quot;SenhaHash&quot;, UserRole.Admin, ...);
+
+&amp;#x20;   _context.Users.Add(user);
+
+&amp;#x20;   await _context.SaveChangesAsync();
+
+
+
+&amp;#x20;   // Act
+
+&amp;#x20;   var logs = await _context.AuditLogs
+
+&amp;#x20;       .Where(a =&gt; a.EntityName == &quot;User&quot; \&amp;\&amp; a.Action == &quot;Added&quot;)
+
+&amp;#x20;       .FirstAsync();
+
+
+
+&amp;#x20;   // Assert
+
+&amp;#x20;   logs.NewValues.Should().NotContain(&quot;SenhaHash&quot;);
+
+&amp;#x20;   logs.NewValues.Should().Contain(&quot;\\&quot;Password\\&quot;:\\&quot;***\\&quot;&quot;);
+
+}
+
+</code></pre>
+<hr />
+<h2 id="testes-de-performance">⚡ Testes de Performance<a class="headerlink" href="#testes-de-performance" title="Permanent link">&para;</a></h2>
+<h3 id="cenarios">Cenários<a class="headerlink" href="#cenarios" title="Permanent link">&para;</a></h3>
+<p>| Cenário | Meta | Ferramenta |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| Query paginada (morna) | &lt; 50ms | Swagger + Stopwatch |</p>
+<p>| Query paginada (1000 users) | &lt; 100ms | k6 |</p>
+<p>| Login | &lt; 200ms | k6 |</p>
+<p>| Criação de usuário | &lt; 300ms | k6 |</p>
+<p>| Startup (warmup) | &lt; 5s | Benchmark manual |</p>
+<h3 id="teste-de-carga-k6">Teste de carga (k6)<a class="headerlink" href="#teste-de-carga-k6" title="Permanent link">&para;</a></h3>
+<pre><code class="language-javascript">
+import http from 'k6/http';
+
+import { check } from 'k6';
+
+
+
+export const options = {
+
+&amp;#x20; stages: [
+
+&amp;#x20;   { duration: '30s', target: 10 },
+
+&amp;#x20;   { duration: '1m', target: 50 },
+
+&amp;#x20;   { duration: '30s', target: 0 },
+
+&amp;#x20; ],
+
+};
+
+
+
+export default function () {
+
+&amp;#x20; const res = http.get(
+
+&amp;#x20;   'https://localhost:44382/api/UserGroups/GroupUsersPermissions/paginated?page=1\&amp;size=10\&amp;order=username%20asc',
+
+&amp;#x20;   {
+
+&amp;#x20;     headers: {
+
+&amp;#x20;       Authorization: `Bearer ${__ENV.TOKEN}`,
+
+&amp;#x20;     },
+
+&amp;#x20;   }
+
+&amp;#x20; );
+
+&amp;#x20; check(res, {
+
+&amp;#x20;   'status is 200': (r) =&gt; r.status === 200,
+
+&amp;#x20;   'duration &lt; 100ms': (r) =&gt; r.timings.duration &lt; 100,
+
+&amp;#x20; });
+
+}
+
+</code></pre>
+<hr />
+<h2 id="testes-de-seguranca">🔐 Testes de Segurança<a class="headerlink" href="#testes-de-seguranca" title="Permanent link">&para;</a></h2>
+<h3 id="authenticationtestscs"><code>AuthenticationTests.cs</code><a class="headerlink" href="#authenticationtestscs" title="Permanent link">&para;</a></h3>
+<p>| Teste | Cenário |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Request_SemToken_Retorna401</code> | Endpoint protegido sem header |</p>
+<p>| <code>Request_TokenInvalido_Retorna401</code> | JWT com assinatura errada |</p>
+<p>| <code>Request_TokenExpirado_Retorna401</code> | Token expirado |</p>
+<p>| <code>Request_TokenValidoComPermissao_Retorna200</code> | Autorização OK |</p>
+<p>| <code>Request_TokenValidoSemPermissao_Retorna403</code> | Policy bloqueou |</p>
+<h3 id="bcryptpasswordhashertestscs"><code>BCryptPasswordHasherTests.cs</code><a class="headerlink" href="#bcryptpasswordhashertestscs" title="Permanent link">&para;</a></h3>
+<p>| Teste | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Hash_DeveGerarHashDiferenteParaMesmaSenha</code> | Salt aleatório |</p>
+<p>| <code>Verify_HashValido_RetornaTrue</code> | Autenticação correta |</p>
+<p>| <code>Verify_HashInvalido_RetornaFalse</code> | Autenticação incorreta |</p>
+<h3 id="correlationidtestscs"><code>CorrelationIdTests.cs</code><a class="headerlink" href="#correlationidtestscs" title="Permanent link">&para;</a></h3>
+<p>| Teste | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>Request_SemHeader_GeraCorrelationId</code> | Middleware gera |</p>
+<p>| <code>Request_ComHeader_UsaHeaderFornecido</code> | Middleware respeita |</p>
+<p>| <code>Response_ContemHeaderCorrelationId</code> | Header na resposta |</p>
+<hr />
+<h2 id="matriz-de-cobertura">📊 Matriz de Cobertura<a class="headerlink" href="#matriz-de-cobertura" title="Permanent link">&para;</a></h2>
+<h3 id="metas">Metas<a class="headerlink" href="#metas" title="Permanent link">&para;</a></h3>
+<p>| Camada | Meta | Atual | Status |</p>
+<p>| :--- | ---: | ----: | :----- |</p>
+<p>| Domain | 80% | 0% | 🔴 |</p>
+<p>| Application (Handlers) | 70% | 0% | 🔴 |</p>
+<p>| Application (Validators) | 90% | 0% | 🔴 |</p>
+<p>| Infrastructure (Repositories) | 60% | 0% | 🔴 |</p>
+<p>| Common (Auditing, Security) | 70% | 0% | 🔴 |</p>
+<p>| <strong>Total</strong> | <strong>60%</strong> | <strong>0%</strong> | 🔴 |</p>
+<h3 id="gerar-relatorio">Gerar relatório<a class="headerlink" href="#gerar-relatorio" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
+
+</code></pre>
+<hr />
+<h2 id="cicd">🔄 CI/CD<a class="headerlink" href="#cicd" title="Permanent link">&para;</a></h2>
+<h3 id="pipeline-sugerido-github-actions">Pipeline sugerido (GitHub Actions)<a class="headerlink" href="#pipeline-sugerido-github-actions" title="Permanent link">&para;</a></h3>
+<pre><code class="language-yaml">
+name: CI
+
+
+
+on:
+
+&amp;#x20; push:
+
+&amp;#x20;   branches: [main, develop]
+
+&amp;#x20; pull_request:
+
+&amp;#x20;   branches: [main]
+
+
+
+jobs:
+
+&amp;#x20; build:
+
+&amp;#x20;   runs-on: ubuntu-latest
+
+&amp;#x20;   steps:
+
+&amp;#x20;     - uses: actions/checkout@v4
+
+
+
+&amp;#x20;     - uses: actions/setup-dotnet@v4
+
+&amp;#x20;       with:
+
+&amp;#x20;         dotnet-version: '9.0.x'
+
+
+
+&amp;#x20;     - name: Restore
+
+&amp;#x20;       run: dotnet restore
+
+
+
+&amp;#x20;     - name: Build (warn as error)
+
+&amp;#x20;       run: dotnet build --no-restore /warnaserror
+
+
+
+&amp;#x20;     - name: Unit Tests
+
+&amp;#x20;       run: dotnet test src/Tests/SJInovacao.Acesso.UnitTests --no-build
+
+
+
+&amp;#x20;     - name: Integration Tests
+
+&amp;#x20;       run: dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests --no-build
+
+
+
+&amp;#x20;     - name: Coverage Report
+
+&amp;#x20;       run: |
+
+&amp;#x20;         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+&amp;#x20;         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
+
+
+
+&amp;#x20;     - name: Upload Coverage
+
+&amp;#x20;       uses: codecov/codecov-action@v4
+
+&amp;#x20;       with:
+
+&amp;#x20;         files: ./coverage-report/Cobertura.xml
+
+</code></pre>
+<h3 id="gates-de-qualidade">Gates de qualidade<a class="headerlink" href="#gates-de-qualidade" title="Permanent link">&para;</a></h3>
+<p>| Gate | Requisito |</p>
+<p>| :--- | :--- |</p>
+<p>| Build | 0 erros, 0 avisos |</p>
+<p>| Testes unitários | 100% passando |</p>
+<p>| Testes de integração | 100% passando |</p>
+<p>| Cobertura | ≥ 60% |</p>
+<p>| Vulnerabilidades | 0 críticas |</p>
+<hr />
+<h2 id="criterios-de-aceite-para-homologacao">🎯 Critérios de Aceite para Homologação<a class="headerlink" href="#criterios-de-aceite-para-homologacao" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>[ ] Cobertura total ≥ 60%</p>
+</li>
+<li>
+<p>[ ] Todos os testes passando em CI</p>
+</li>
+<li>
+<p>[ ] Zero avisos no build</p>
+</li>
+<li>
+<p>[ ] Testes de carga com resultado &lt; 100ms (p95)</p>
+</li>
+<li>
+<p>[ ] Testes de segurança validados</p>
+</li>
+<li>
+<p>[ ] Teste de auditoria validado em todos os tipos de operação</p>
+</li>
+</ul>
+<hr />
+<h2 id="comandos-rapidos">📌 Comandos Rápidos<a class="headerlink" href="#comandos-rapidos" title="Permanent link">&para;</a></h2>
+<pre><code class="language-bash">
+# Rodar todos os testes
+
+dotnet test
+
+
+
+# Rodar apenas unit tests
+
+dotnet test src/Tests/SJInovacao.Acesso.UnitTests
+
+
+
+# Rodar apenas integration tests
+
+dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests
+
+
+
+# Com cobertura
+
+dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+
+
+# Um teste específico
+
+dotnet test --filter &quot;FullyQualifiedName~CreateUserHandlerTests&quot;
+
+
+
+# Watch mode (durante desenvolvimento)
+
+dotnet watch --project src/Tests/SJInovacao.Acesso.UnitTests test
+
+</code></pre>
+<hr />
+<p><strong>Plano de Testes — US01 · Versão 1.0 · 10/10/2026</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/jesuino-treinamento/SJInovacao.Acesso" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

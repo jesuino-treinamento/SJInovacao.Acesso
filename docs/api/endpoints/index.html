@@ -1,0 +1,3393 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação técnica do módulo Acesso">
+      
+      
+        <meta name="author" content="Marcelo Jesuino">
+      
+      
+      
+        <link rel="prev" href="../../architecture/overview/">
+      
+      
+        <link rel="next" href="../../tests/test-plan/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>API - SJInovacao.Acesso</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-endpoints-sjinovacaoacesso" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SJInovacao.Acesso" class="md-header__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SJInovacao.Acesso
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../backlog/us01-backlog/" class="md-tabs__link">
+          
+  
+  Backlog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/overview/" class="md-tabs__link">
+        
+  
+    
+  
+  Arquitetura
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  API
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tests/test-plan/" class="md-tabs__link">
+        
+  
+    
+  
+  Testes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../adr/" class="md-tabs__link">
+          
+  
+  ADRs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SJInovacao.Acesso" class="md-nav__button md-logo" aria-label="SJInovacao.Acesso" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SJInovacao.Acesso
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Início
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Backlog
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Backlog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/us01-backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    US01 — Acesso
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backlog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice de Backlogs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Arquitetura
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Convenções
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 Convenções">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base URL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content-Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Autenticação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swagger
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacao_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Autenticação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Autenticação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthrefreshtoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/RefreshToken
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthrevoketoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/RevokeToken
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 Usuários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 Usuários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apiusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Permissões
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔑 Permissões">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apipermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apipermissionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Permissions/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apipermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apipermissionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/Permissions/{id}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupos-e-vinculos" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 Grupos e Vínculos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 Grupos e Vínculos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apigroupuserspermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/GroupUsersPermissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apigroupuserspermissionspaginated" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/GroupUsersPermissions/paginated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apiusergroupsgroupuserspermissionsuseridgroupiduserisactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/UserGroups/GroupUsersPermissions/{userId}/{groupId}/{userIsActive}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vinculos-usuario-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Vínculos Usuário-Permissão
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Vínculos Usuário-Permissão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-apiuserpermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/UserPermissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apiuserpermissionsuserid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/UserPermissions/{userId}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiuserpermissionsuseridpermissionid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/UserPermissions/{userId}/{permissionId}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏥 Health Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏥 Health Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-healthlive" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health/live
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-healthready" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health/ready
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codigos-de-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Códigos de Status
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Códigos de Status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sucesso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erro-do-cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erro do Cliente
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erro-do-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erro do Servidor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 Paginação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ordenacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔤 Ordenação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔤 Ordenação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplos-validos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplos válidos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direcoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Direções
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#campos-suportados-exemplos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Campos suportados (exemplos)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validação
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      📨 Headers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📨 Headers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Request Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo de uso
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#erros" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Erros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Erros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#400-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      400 — Validação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#400-regra-de-negocio-domainexception" class="md-nav__link">
+    <span class="md-ellipsis">
+      400 — Regra de negócio (DomainException)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#401-nao-autenticado" class="md-nav__link">
+    <span class="md-ellipsis">
+      401 — Não autenticado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#403-sem-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      403 — Sem permissão
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#404-nao-encontrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      404 — Não encontrado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#500-erro-interno" class="md-nav__link">
+    <span class="md-ellipsis">
+      500 — Erro interno
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colecao-postman-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Coleção Postman / cURL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Coleção Postman / cURL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listar-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listar usuários
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criar permissão
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atualizar-vinculos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atualizar vínculos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiting-futuro" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Rate Limiting (futuro)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/test-plan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ADRs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            ADRs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Índice
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/001-modular-monolith/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-001 — Modular Monolith
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/002-person-shared-kernel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-002 — Person Shared Kernel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/003-base-repository/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-003 — BaseRepository
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/004-feature-folders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-004 — Feature Folders
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/005-tpt-inheritance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-005 — TPT Inheritance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/006-centralized-auditing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ADR-006 — Auditoria
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sumario" class="md-nav__link">
+    <span class="md-ellipsis">
+      📑 Sumário
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      📐 Convenções
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 Convenções">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base URL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content-Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autenticacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Autenticação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swagger
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacao_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Autenticação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Autenticação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthrefreshtoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/RefreshToken
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiauthrevoketoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Auth/RevokeToken
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 Usuários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 Usuários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apiusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apiusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiusersid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/Users/{id}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Permissões
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔑 Permissões">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apipermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apipermissionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/Permissions/{id}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-apipermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apipermissionsid" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/Permissions/{id}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grupos-e-vinculos" class="md-nav__link">
+    <span class="md-ellipsis">
+      👥 Grupos e Vínculos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👥 Grupos e Vínculos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-apigroupuserspermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/GroupUsersPermissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apigroupuserspermissionspaginated" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/GroupUsersPermissions/paginated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#put-apiusergroupsgroupuserspermissionsuseridgroupiduserisactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      PUT /api/UserGroups/GroupUsersPermissions/{userId}/{groupId}/{userIsActive}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vinculos-usuario-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Vínculos Usuário-Permissão
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Vínculos Usuário-Permissão">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-apiuserpermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST /api/UserPermissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-apiuserpermissionsuserid" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /api/UserPermissions/{userId}
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-apiuserpermissionsuseridpermissionid" class="md-nav__link">
+    <span class="md-ellipsis">
+      DELETE /api/UserPermissions/{userId}/{permissionId}
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏥 Health Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏥 Health Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-healthlive" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health/live
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-healthready" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET /health/ready
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codigos-de-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Códigos de Status
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Códigos de Status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sucesso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sucesso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erro-do-cliente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erro do Cliente
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erro-do-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Erro do Servidor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paginacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 Paginação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ordenacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔤 Ordenação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔤 Ordenação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplos-validos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplos válidos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direcoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Direções
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#campos-suportados-exemplos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Campos suportados (exemplos)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validação
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      📨 Headers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📨 Headers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Request Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo de uso
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#erros" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Erros
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Erros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#400-validacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      400 — Validação
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#400-regra-de-negocio-domainexception" class="md-nav__link">
+    <span class="md-ellipsis">
+      400 — Regra de negócio (DomainException)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#401-nao-autenticado" class="md-nav__link">
+    <span class="md-ellipsis">
+      401 — Não autenticado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#403-sem-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      403 — Sem permissão
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#404-nao-encontrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      404 — Não encontrado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#500-erro-interno" class="md-nav__link">
+    <span class="md-ellipsis">
+      500 — Erro interno
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colecao-postman-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Coleção Postman / cURL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Coleção Postman / cURL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listar-usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listar usuários
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-permissao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criar permissão
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atualizar-vinculos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atualizar vínculos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiting-futuro" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Rate Limiting (futuro)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Referências
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-endpoints-sjinovacaoacesso">API Endpoints — SJInovacao.Acesso<a class="headerlink" href="#api-endpoints-sjinovacaoacesso" title="Permanent link">&para;</a></h1>
+<ul>
+<li>
+<p><strong>Versão:</strong> 1.0</p>
+</li>
+<li>
+<p><strong>Data:</strong> 10/10/2026</p>
+</li>
+<li>
+<p><strong>Base URL (dev):</strong> <code>https://localhost:44382</code></p>
+</li>
+<li>
+<p><strong>Base URL (Docker):</strong> <code>http://localhost:8080</code></p>
+</li>
+<li>
+<p><strong>Autenticação:</strong> JWT Bearer</p>
+</li>
+<li>
+<p><strong>Formato:</strong> JSON</p>
+</li>
+<li>
+<p><strong>Swagger:</strong> <code>/swagger</code></p>
+</li>
+</ul>
+<hr />
+<h2 id="sumario">📑 Sumário<a class="headerlink" href="#sumario" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><a href="#-convenções">Convenções</a></p>
+</li>
+<li>
+<p><a href="#-autenticação">Autenticação</a></p>
+</li>
+<li>
+<p><a href="#-usuários">Usuários</a></p>
+</li>
+<li>
+<p><a href="#-permissões">Permissões</a></p>
+</li>
+<li>
+<p><a href="#-grupos-e-vínculos">Grupos e Vínculos</a></p>
+</li>
+<li>
+<p><a href="#-vínculos-usuário-permissão">Vínculos Usuário-Permissão</a></p>
+</li>
+<li>
+<p><a href="#-health-checks">Health Checks</a></p>
+</li>
+<li>
+<p><a href="#-códigos-de-status">Códigos de Status</a></p>
+</li>
+<li>
+<p><a href="#-paginação">Paginação</a></p>
+</li>
+<li>
+<p><a href="#-ordenação">Ordenação</a></p>
+</li>
+<li>
+<p><a href="#-headers">Headers</a></p>
+</li>
+<li>
+<p><a href="#-erros">Erros</a></p>
+</li>
+</ul>
+<hr />
+<h2 id="convencoes">📐 Convenções<a class="headerlink" href="#convencoes" title="Permanent link">&para;</a></h2>
+<h3 id="base-url">Base URL<a class="headerlink" href="#base-url" title="Permanent link">&para;</a></h3>
+<p>| Ambiente | URL |</p>
+<p>| :--- | :--- |</p>
+<p>| Desenvolvimento | <code>https://localhost:44382</code> |</p>
+<p>| Docker | <code>http://localhost:8080</code> |</p>
+<p>| Produção | <code>https://api.suaempresa.com.br</code> |</p>
+<h3 id="content-type">Content-Type<a class="headerlink" href="#content-type" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Request:</strong> <code>application/json</code></p>
+</li>
+<li>
+<p><strong>Response:</strong> <code>application/json; charset=utf-8</code></p>
+</li>
+</ul>
+<h3 id="autenticacao">Autenticação<a class="headerlink" href="#autenticacao" title="Permanent link">&para;</a></h3>
+<p>Endpoints protegidos requerem o header:</p>
+<pre><code class="language-http">
+Authorization: Bearer {seu_jwt_token}
+
+</code></pre>
+<h3 id="swagger">Swagger<a class="headerlink" href="#swagger" title="Permanent link">&para;</a></h3>
+<p>Documentação interativa disponível em:</p>
+<ul>
+<li>
+<p>Desenvolvimento: <code>https://localhost:44382/swagger/index.html</code></p>
+</li>
+<li>
+<p>Basic Auth (produção): <code>admin</code> / senha configurada em <code>SwaggerAuth__Password</code></p>
+</li>
+</ul>
+<hr />
+<h2 id="autenticacao_1">🔐 Autenticação<a class="headerlink" href="#autenticacao_1" title="Permanent link">&para;</a></h2>
+<h3 id="post-apiauthlogin">POST <code>/api/Auth/Login</code><a class="headerlink" href="#post-apiauthlogin" title="Permanent link">&para;</a></h3>
+<p>Autentica um usuário e retorna o token JWT.</p>
+<p><strong>Autenticação:</strong> ❌ Não requerida</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20; &quot;password&quot;: &quot;Senha@123&quot;
+
+}
+
+</code></pre>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+
+&amp;#x20;   &quot;refreshToken&quot;: &quot;dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...&quot;,
+
+&amp;#x20;   &quot;expiresIn&quot;: 28800,
+
+&amp;#x20;   &quot;tokenType&quot;: &quot;Bearer&quot;,
+
+&amp;#x20;   &quot;user&quot;: {
+
+&amp;#x20;     &quot;id&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;     &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20;     &quot;email&quot;: &quot;marcelo@empresa.com&quot;,
+
+&amp;#x20;     &quot;role&quot;: &quot;Admin&quot;,
+
+&amp;#x20;     &quot;permissions&quot;: [
+
+&amp;#x20;       &quot;user.add&quot;,
+
+&amp;#x20;       &quot;user.update&quot;,
+
+&amp;#x20;       &quot;user.view&quot;,
+
+&amp;#x20;       &quot;user.Deactivate&quot;
+
+&amp;#x20;     ],
+
+&amp;#x20;     &quot;groups&quot;: [&quot;group.all&quot;]
+
+&amp;#x20;   }
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Response 401 Unauthorized:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Credenciais inválidas.&quot;
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Login OK |</p>
+<p>| 400 | Dados inválidos |</p>
+<p>| 401 | Credenciais inválidas ou usuário inativo |</p>
+<hr />
+<h3 id="post-apiauthrefreshtoken">POST <code>/api/Auth/RefreshToken</code><a class="headerlink" href="#post-apiauthrefreshtoken" title="Permanent link">&para;</a></h3>
+<p>Renova o token de acesso usando o refresh token.</p>
+<p><strong>Autenticação:</strong> ❌ Não requerida</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;refreshToken&quot;: &quot;dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...&quot;
+
+}
+
+</code></pre>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;accessToken&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+
+&amp;#x20;   &quot;refreshToken&quot;: &quot;bm92byByZWZyZXNoIHRva2Vu...&quot;,
+
+&amp;#x20;   &quot;expiresIn&quot;: 28800,
+
+&amp;#x20;   &quot;tokenType&quot;: &quot;Bearer&quot;
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Token renovado |</p>
+<p>| 401 | Refresh token inválido/expirado |</p>
+<hr />
+<h3 id="post-apiauthrevoketoken">POST <code>/api/Auth/RevokeToken</code><a class="headerlink" href="#post-apiauthrevoketoken" title="Permanent link">&para;</a></h3>
+<p>Revoga o refresh token do usuário.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida</p>
+<p><strong>Response 204 No Content</strong></p>
+<hr />
+<h2 id="usuarios">👥 Usuários<a class="headerlink" href="#usuarios" title="Permanent link">&para;</a></h2>
+<h3 id="get-apiusers">GET <code>/api/Users</code><a class="headerlink" href="#get-apiusers" title="Permanent link">&para;</a></h3>
+<p>Lista usuários com paginação e ordenação.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.view</code>)</p>
+<p><strong>Query Parameters:</strong></p>
+<p>| Parâmetro | Tipo | Padrão | Descrição |</p>
+<p>| :--- | :--- | :--- | :--- |</p>
+<p>| <code>page</code> | int | 1 | Página (1-based) |</p>
+<p>| <code>size</code> | int | 10 | Itens por página (1-100) |</p>
+<p>| <code>order</code> | string | <code>username asc</code> | Ordenação |</p>
+<p><strong>Exemplo:</strong></p>
+<pre><code>
+GET /api/Users?page=1\&amp;size=10\&amp;order=username asc, email desc
+
+</code></pre>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;currentPage&quot;: 1,
+
+&amp;#x20; &quot;pageSize&quot;: 10,
+
+&amp;#x20; &quot;totalPages&quot;: 3,
+
+&amp;#x20; &quot;totalCount&quot;: 25,
+
+&amp;#x20; &quot;hasPrevious&quot;: false,
+
+&amp;#x20; &quot;hasNext&quot;: true,
+
+&amp;#x20; &quot;data&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;id&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;     &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20;     &quot;email&quot;: &quot;marcelo@empresa.com&quot;,
+
+&amp;#x20;     &quot;firstName&quot;: &quot;Marcelo&quot;,
+
+&amp;#x20;     &quot;lastName&quot;: &quot;Jesuino&quot;,
+
+&amp;#x20;     &quot;role&quot;: &quot;Admin&quot;,
+
+&amp;#x20;     &quot;status&quot;: &quot;Active&quot;,
+
+&amp;#x20;     &quot;createdAt&quot;: &quot;2026-10-04T03:10:40Z&quot;,
+
+&amp;#x20;     &quot;updatedAt&quot;: null
+
+&amp;#x20;   }
+
+&amp;#x20; ],
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;message&quot;: &quot;&quot;,
+
+&amp;#x20; &quot;errors&quot;: []
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Lista retornada |</p>
+<p>| 400 | Parâmetros inválidos |</p>
+<p>| 401 | Não autenticado |</p>
+<p>| 403 | Sem permissão <code>user.view</code> |</p>
+<hr />
+<h3 id="get-apiusersid">GET <code>/api/Users/{id}</code><a class="headerlink" href="#get-apiusersid" title="Permanent link">&para;</a></h3>
+<p>Busca usuário por ID.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.view</code>)</p>
+<p><strong>Path Parameters:</strong></p>
+<ul>
+<li><code>id</code> (uuid) — ID do usuário</li>
+</ul>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;id&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;   &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20;   &quot;email&quot;: &quot;marcelo@empresa.com&quot;,
+
+&amp;#x20;   &quot;firstName&quot;: &quot;Marcelo&quot;,
+
+&amp;#x20;   &quot;lastName&quot;: &quot;Jesuino&quot;,
+
+&amp;#x20;   &quot;role&quot;: &quot;Admin&quot;,
+
+&amp;#x20;   &quot;status&quot;: &quot;Active&quot;,
+
+&amp;#x20;   &quot;addresses&quot;: [
+
+&amp;#x20;     {
+
+&amp;#x20;       &quot;id&quot;: &quot;...&quot;,
+
+&amp;#x20;       &quot;street&quot;: &quot;Rua Exemplo&quot;,
+
+&amp;#x20;       &quot;number&quot;: &quot;123&quot;,
+
+&amp;#x20;       &quot;neighborhood&quot;: &quot;Centro&quot;,
+
+&amp;#x20;       &quot;city&quot;: &quot;São Paulo&quot;,
+
+&amp;#x20;       &quot;state&quot;: &quot;SP&quot;,
+
+&amp;#x20;       &quot;zipCode&quot;: &quot;01234-567&quot;
+
+&amp;#x20;     }
+
+&amp;#x20;   ],
+
+&amp;#x20;   &quot;phones&quot;: [
+
+&amp;#x20;     {
+
+&amp;#x20;       &quot;id&quot;: &quot;...&quot;,
+
+&amp;#x20;       &quot;number&quot;: &quot;+55 11 99999-9999&quot;,
+
+&amp;#x20;       &quot;type&quot;: &quot;Mobile&quot;
+
+&amp;#x20;     }
+
+&amp;#x20;   ]
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Usuário encontrado |</p>
+<p>| 404 | Usuário não encontrado |</p>
+<hr />
+<h3 id="post-apiusers">POST <code>/api/Users</code><a class="headerlink" href="#post-apiusers" title="Permanent link">&para;</a></h3>
+<p>Cria um novo usuário.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.add</code>)</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;username&quot;: &quot;novo.usuario&quot;,
+
+&amp;#x20; &quot;email&quot;: &quot;novo@empresa.com&quot;,
+
+&amp;#x20; &quot;password&quot;: &quot;Senha@123&quot;,
+
+&amp;#x20; &quot;role&quot;: &quot;User&quot;,
+
+&amp;#x20; &quot;name&quot;: {
+
+&amp;#x20;   &quot;firstName&quot;: &quot;Novo&quot;,
+
+&amp;#x20;   &quot;lastName&quot;: &quot;Usuário&quot;
+
+&amp;#x20; },
+
+&amp;#x20; &quot;document&quot;: {
+
+&amp;#x20;   &quot;number&quot;: &quot;12345678900&quot;,
+
+&amp;#x20;   &quot;personType&quot;: &quot;Physical&quot;
+
+&amp;#x20; },
+
+&amp;#x20; &quot;addresses&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;street&quot;: &quot;Rua Exemplo&quot;,
+
+&amp;#x20;     &quot;number&quot;: &quot;123&quot;,
+
+&amp;#x20;     &quot;neighborhood&quot;: &quot;Centro&quot;,
+
+&amp;#x20;     &quot;city&quot;: &quot;São Paulo&quot;,
+
+&amp;#x20;     &quot;state&quot;: &quot;SP&quot;,
+
+&amp;#x20;     &quot;zipCode&quot;: &quot;01234-567&quot;
+
+&amp;#x20;   }
+
+&amp;#x20; ],
+
+&amp;#x20; &quot;phones&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;number&quot;: &quot;+55 11 99999-9999&quot;,
+
+&amp;#x20;     &quot;type&quot;: &quot;Mobile&quot;
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<p><strong>Response 201 Created:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;id&quot;: &quot;novo-uuid-aqui&quot;,
+
+&amp;#x20;   &quot;username&quot;: &quot;novo.usuario&quot;,
+
+&amp;#x20;   &quot;email&quot;: &quot;novo@empresa.com&quot;,
+
+&amp;#x20;   &quot;createdAt&quot;: &quot;2026-10-10T18:00:00Z&quot;
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 201 | Usuário criado |</p>
+<p>| 400 | Dados inválidos ou usuário duplicado |</p>
+<p>| 401 | Não autenticado |</p>
+<p>| 403 | Sem permissão <code>user.add</code> |</p>
+<hr />
+<h3 id="put-apiusersid">PUT <code>/api/Users/{id}</code><a class="headerlink" href="#put-apiusersid" title="Permanent link">&para;</a></h3>
+<p>Atualiza dados de um usuário.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.update</code>)</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20; &quot;email&quot;: &quot;novo.email@empresa.com&quot;,
+
+&amp;#x20; &quot;role&quot;: &quot;Admin&quot;,
+
+&amp;#x20; &quot;status&quot;: &quot;Active&quot;
+
+}
+
+</code></pre>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;id&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;   &quot;email&quot;: &quot;novo.email@empresa.com&quot;,
+
+&amp;#x20;   &quot;updatedAt&quot;: &quot;2026-10-10T18:05:00Z&quot;
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Observação:</strong> Apenas campos realmente alterados aparecem em <code>AffectedColumns</code> na auditoria.</p>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Atualizado |</p>
+<p>| 400 | Dados inválidos |</p>
+<p>| 404 | Usuário não encontrado |</p>
+<hr />
+<h3 id="delete-apiusersid">DELETE <code>/api/Users/{id}</code><a class="headerlink" href="#delete-apiusersid" title="Permanent link">&para;</a></h3>
+<p>Desativa logicamente um usuário (soft delete).</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.Deactivate</code>)</p>
+<p><strong>Response 204 No Content</strong></p>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 204 | Desativado |</p>
+<p>| 404 | Usuário não encontrado |</p>
+<hr />
+<h2 id="permissoes">🔑 Permissões<a class="headerlink" href="#permissoes" title="Permanent link">&para;</a></h2>
+<h3 id="get-apipermissions">GET <code>/api/Permissions</code><a class="headerlink" href="#get-apipermissions" title="Permanent link">&para;</a></h3>
+<p>Lista todas as permissões.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.view</code>)</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;id&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;,
+
+&amp;#x20;     &quot;name&quot;: &quot;user.Deactivate&quot;,
+
+&amp;#x20;     &quot;description&quot;: &quot;Permite desativar usuários&quot;,
+
+&amp;#x20;     &quot;isActive&quot;: true,
+
+&amp;#x20;     &quot;createdAt&quot;: &quot;2026-10-09T20:23:03.937038Z&quot;,
+
+&amp;#x20;     &quot;updatedAt&quot;: &quot;2026-10-10T02:24:33.896299Z&quot;
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<hr />
+<h3 id="get-apipermissionsid">GET <code>/api/Permissions/{id}</code><a class="headerlink" href="#get-apipermissionsid" title="Permanent link">&para;</a></h3>
+<p>Busca permissão por ID.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.view</code>)</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;id&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;,
+
+&amp;#x20;   &quot;name&quot;: &quot;user.Deactivate&quot;,
+
+&amp;#x20;   &quot;description&quot;: &quot;Permite desativar usuários&quot;,
+
+&amp;#x20;   &quot;isActive&quot;: true
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<hr />
+<h3 id="post-apipermissions">POST <code>/api/Permissions</code><a class="headerlink" href="#post-apipermissions" title="Permanent link">&para;</a></h3>
+<p>Cria uma nova permissão.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.add</code>)</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;name&quot;: &quot;report.export&quot;,
+
+&amp;#x20; &quot;description&quot;: &quot;Permite exportar relatórios&quot;
+
+}
+
+</code></pre>
+<p><strong>Response 201 Created:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;id&quot;: &quot;novo-uuid&quot;,
+
+&amp;#x20;   &quot;name&quot;: &quot;report.export&quot;,
+
+&amp;#x20;   &quot;description&quot;: &quot;Permite exportar relatórios&quot;,
+
+&amp;#x20;   &quot;isActive&quot;: true,
+
+&amp;#x20;   &quot;createdAt&quot;: &quot;2026-10-10T18:10:00Z&quot;
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 201 | Criada |</p>
+<p>| 400 | Nome duplicado ou inválido |</p>
+<hr />
+<h3 id="put-apipermissionsid">PUT <code>/api/Permissions/{id}</code><a class="headerlink" href="#put-apipermissionsid" title="Permanent link">&para;</a></h3>
+<p>Atualiza uma permissão.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.update</code>)</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;name&quot;: &quot;report.export&quot;,
+
+&amp;#x20; &quot;description&quot;: &quot;Permite exportar relatórios (atualizado)&quot;,
+
+&amp;#x20; &quot;isActive&quot;: true
+
+}
+
+</code></pre>
+<p><strong>Response 200 OK</strong></p>
+<hr />
+<h2 id="grupos-e-vinculos">👥 Grupos e Vínculos<a class="headerlink" href="#grupos-e-vinculos" title="Permanent link">&para;</a></h2>
+<h3 id="get-apigroupuserspermissions">GET <code>/api/GroupUsersPermissions</code><a class="headerlink" href="#get-apigroupuserspermissions" title="Permanent link">&para;</a></h3>
+<p>Lista todos os vínculos usuário-grupo-permissão.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;userId&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;     &quot;userName&quot;: &quot;Marcelo Jesuino&quot;,
+
+&amp;#x20;     &quot;groupId&quot;: &quot;15dfb65d-cb63-4588-bc9f-00e9d3236f0a&quot;,
+
+&amp;#x20;     &quot;groupName&quot;: &quot;group.all&quot;,
+
+&amp;#x20;     &quot;userIsActive&quot;: true,
+
+&amp;#x20;     &quot;permissions&quot;: [
+
+&amp;#x20;       {
+
+&amp;#x20;         &quot;id&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;,
+
+&amp;#x20;         &quot;name&quot;: &quot;user.Deactivate&quot;,
+
+&amp;#x20;         &quot;description&quot;: &quot;O usuário tem permissão de desativar&quot;,
+
+&amp;#x20;         &quot;isActive&quot;: true
+
+&amp;#x20;       }
+
+&amp;#x20;     ]
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<hr />
+<h3 id="get-apigroupuserspermissionspaginated">GET <code>/api/GroupUsersPermissions/paginated</code><a class="headerlink" href="#get-apigroupuserspermissionspaginated" title="Permanent link">&para;</a></h3>
+<p>Versão paginada do endpoint anterior.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida</p>
+<p><strong>Query Parameters:</strong></p>
+<p>| Parâmetro | Tipo | Padrão | Descrição |</p>
+<p>| :--- | :--- | :--- | :--- |</p>
+<p>| <code>page</code> | int | 1 | Página |</p>
+<p>| <code>size</code> | int | 10 | Itens por página |</p>
+<p>| <code>order</code> | string | <code>username asc</code> | Ordenação multi-campo |</p>
+<p><strong>Ordenação suportada:</strong></p>
+<ul>
+<li>
+<p><code>username</code> — nome do usuário</p>
+</li>
+<li>
+<p><code>groupname</code> / <code>name</code> — nome do grupo</p>
+</li>
+<li>
+<p><code>userid</code> — ID do usuário</p>
+</li>
+<li>
+<p><code>groupid</code> — ID do grupo</p>
+</li>
+</ul>
+<p><strong>Exemplo:</strong></p>
+<pre><code>
+GET /api/GroupUsersPermissions/paginated?page=1\&amp;size=10\&amp;order=username asc, groupname desc
+
+</code></pre>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;currentPage&quot;: 1,
+
+&amp;#x20; &quot;pageSize&quot;: 10,
+
+&amp;#x20; &quot;totalPages&quot;: 1,
+
+&amp;#x20; &quot;totalCount&quot;: 2,
+
+&amp;#x20; &quot;hasPrevious&quot;: false,
+
+&amp;#x20; &quot;hasNext&quot;: false,
+
+&amp;#x20; &quot;data&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;userId&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;     &quot;userName&quot;: &quot;Marcelo Jesuino&quot;,
+
+&amp;#x20;     &quot;groupId&quot;: &quot;15dfb65d-cb63-4588-bc9f-00e9d3236f0a&quot;,
+
+&amp;#x20;     &quot;groupName&quot;: &quot;group.all&quot;,
+
+&amp;#x20;     &quot;userIsActive&quot;: true,
+
+&amp;#x20;     &quot;permissions&quot;: [...]
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Lista retornada |</p>
+<p>| 400 | Parâmetros de ordenação inválidos |</p>
+<hr />
+<h3 id="put-apiusergroupsgroupuserspermissionsuseridgroupiduserisactive">PUT <code>/api/UserGroups/GroupUsersPermissions/{userId}/{groupId}/{userIsActive}</code><a class="headerlink" href="#put-apiusergroupsgroupuserspermissionsuseridgroupiduserisactive" title="Permanent link">&para;</a></h3>
+<p>Atualiza vínculos de um usuário em um grupo, incluindo permissões específicas.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>group.update</code>)</p>
+<p><strong>Path Parameters:</strong></p>
+<ul>
+<li>
+<p><code>userId</code> (uuid) — ID do usuário</p>
+</li>
+<li>
+<p><code>groupId</code> (uuid) — ID do grupo</p>
+</li>
+<li>
+<p><code>userIsActive</code> (bool) — Ativa/desativa usuário no grupo</p>
+</li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;permissionIds&quot;: [
+
+&amp;#x20;   &quot;ac4e76f2-17d4-4f21-9aa3-f2cd42cd3b40&quot;,
+
+&amp;#x20;   &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;
+
+&amp;#x20; ],
+
+&amp;#x20; &quot;permissionIsActive&quot;: true
+
+}
+
+</code></pre>
+<p><strong>Regras:</strong></p>
+<ul>
+<li>
+<p>Se <code>permissionIds</code> estiver vazio, apenas o status do usuário no grupo muda</p>
+</li>
+<li>
+<p>Se <code>permissionIsActive</code> for <code>null</code>, apenas o status do usuário muda</p>
+</li>
+<li>
+<p>Todas as permissões informadas devem pertencer ao grupo (senão 400)</p>
+</li>
+<li>
+<p>Se <code>userIsActive = false</code>, todas as permissões também ficam inativas</p>
+</li>
+</ul>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;userId&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;   &quot;userName&quot;: &quot;Marcelo Jesuino&quot;,
+
+&amp;#x20;   &quot;groupId&quot;: &quot;15dfb65d-cb63-4588-bc9f-00e9d3236f0a&quot;,
+
+&amp;#x20;   &quot;groupName&quot;: &quot;group.all&quot;,
+
+&amp;#x20;   &quot;userIsActive&quot;: true,
+
+&amp;#x20;   &quot;permissionIsActive&quot;: true,
+
+&amp;#x20;   &quot;permissions&quot;: [...]
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 200 | Vínculos atualizados |</p>
+<p>| 400 | Usuário/permissão não encontrados ou permissão fora do grupo |</p>
+<p>| 404 | Grupo não encontrado |</p>
+<hr />
+<h2 id="vinculos-usuario-permissao">🔗 Vínculos Usuário-Permissão<a class="headerlink" href="#vinculos-usuario-permissao" title="Permanent link">&para;</a></h2>
+<h3 id="post-apiuserpermissions">POST <code>/api/UserPermissions</code><a class="headerlink" href="#post-apiuserpermissions" title="Permanent link">&para;</a></h3>
+<p>Cria vínculo direto entre usuário e permissão.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.grant</code>)</p>
+<p><strong>Request Body:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;userId&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20; &quot;permissionId&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;
+
+}
+
+</code></pre>
+<p><strong>Response 201 Created:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: {
+
+&amp;#x20;   &quot;userId&quot;: &quot;bdae663e-e7bb-426f-90ae-366e1d8839d9&quot;,
+
+&amp;#x20;   &quot;permissionId&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;,
+
+&amp;#x20;   &quot;isActive&quot;: true,
+
+&amp;#x20;   &quot;createdAt&quot;: &quot;2026-10-10T18:15:00Z&quot;
+
+&amp;#x20; }
+
+}
+
+</code></pre>
+<p><strong>Códigos:</strong></p>
+<p>| Status | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| 201 | Vínculo criado |</p>
+<p>| 400 | Usuário/permissão inexistente ou vínculo duplicado |</p>
+<hr />
+<h3 id="get-apiuserpermissionsuserid">GET <code>/api/UserPermissions/{userId}</code><a class="headerlink" href="#get-apiuserpermissionsuserid" title="Permanent link">&para;</a></h3>
+<p>Lista permissões diretas de um usuário.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>user.view</code>)</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;data&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;id&quot;: &quot;770c7a5d-4637-4587-9cc1-34849c31d765&quot;,
+
+&amp;#x20;     &quot;name&quot;: &quot;user.Deactivate&quot;,
+
+&amp;#x20;     &quot;description&quot;: &quot;Permite desativar usuários&quot;,
+
+&amp;#x20;     &quot;isActive&quot;: true
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<hr />
+<h3 id="delete-apiuserpermissionsuseridpermissionid">DELETE <code>/api/UserPermissions/{userId}/{permissionId}</code><a class="headerlink" href="#delete-apiuserpermissionsuseridpermissionid" title="Permanent link">&para;</a></h3>
+<p>Remove vínculo direto.</p>
+<p><strong>Autenticação:</strong> ✅ Requerida (<code>permission.revoke</code>)</p>
+<p><strong>Response 204 No Content</strong></p>
+<hr />
+<h2 id="health-checks">🏥 Health Checks<a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h2>
+<h3 id="get-health">GET <code>/health</code><a class="headerlink" href="#get-health" title="Permanent link">&para;</a></h3>
+<p>Health check completo.</p>
+<p><strong>Autenticação:</strong> ❌ Não requerida</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;status&quot;: &quot;Healthy&quot;,
+
+&amp;#x20; &quot;timestamp&quot;: &quot;2026-10-10T18:20:00Z&quot;,
+
+&amp;#x20; &quot;healthChecks&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;name&quot;: &quot;Liveness&quot;,
+
+&amp;#x20;     &quot;status&quot;: &quot;Healthy&quot;,
+
+&amp;#x20;     &quot;description&quot;: null,
+
+&amp;#x20;     &quot;errorMessage&quot;: null,
+
+&amp;#x20;     &quot;hostEnvironment&quot;: &quot;development&quot;
+
+&amp;#x20;   },
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;name&quot;: &quot;Readiness&quot;,
+
+&amp;#x20;     &quot;status&quot;: &quot;Healthy&quot;,
+
+&amp;#x20;     &quot;description&quot;: null,
+
+&amp;#x20;     &quot;errorMessage&quot;: null,
+
+&amp;#x20;     &quot;hostEnvironment&quot;: &quot;development&quot;
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<h3 id="get-healthlive">GET <code>/health/live</code><a class="headerlink" href="#get-healthlive" title="Permanent link">&para;</a></h3>
+<p>Liveness probe — apenas verifica se a API está de pé.</p>
+<p><strong>Response 200 OK:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;status&quot;: &quot;Healthy&quot;,
+
+&amp;#x20; &quot;healthChecks&quot;: [
+
+&amp;#x20;   { &quot;name&quot;: &quot;Liveness&quot;, &quot;status&quot;: &quot;Healthy&quot; }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<h3 id="get-healthready">GET <code>/health/ready</code><a class="headerlink" href="#get-healthready" title="Permanent link">&para;</a></h3>
+<p>Readiness probe — verifica dependências (banco, cache).</p>
+<p><strong>Response 200 OK</strong> ou <strong>503 Service Unavailable</strong></p>
+<hr />
+<h2 id="codigos-de-status">📊 Códigos de Status<a class="headerlink" href="#codigos-de-status" title="Permanent link">&para;</a></h2>
+<h3 id="sucesso">Sucesso<a class="headerlink" href="#sucesso" title="Permanent link">&para;</a></h3>
+<p>| Status | Descrição | Quando usar |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| 200 | OK | GET, PUT, PATCH |</p>
+<p>| 201 | Created | POST que cria recurso |</p>
+<p>| 204 | No Content | DELETE, operações sem retorno |</p>
+<h3 id="erro-do-cliente">Erro do Cliente<a class="headerlink" href="#erro-do-cliente" title="Permanent link">&para;</a></h3>
+<p>| Status | Descrição | Quando usar |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| 400 | Bad Request | Validação, <code>DomainException</code> |</p>
+<p>| 401 | Unauthorized | Sem token ou token inválido |</p>
+<p>| 403 | Forbidden | Sem permissão |</p>
+<p>| 404 | Not Found | Recurso não existe |</p>
+<h3 id="erro-do-servidor">Erro do Servidor<a class="headerlink" href="#erro-do-servidor" title="Permanent link">&para;</a></h3>
+<p>| Status | Descrição | Quando usar |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| 500 | Internal Server Error | Bug, exceção não tratada |</p>
+<p>| 503 | Service Unavailable | Health check falhando |</p>
+<hr />
+<h2 id="paginacao">📄 Paginação<a class="headerlink" href="#paginacao" title="Permanent link">&para;</a></h2>
+<p>Todos os endpoints paginados seguem o <strong>mesmo formato</strong>:</p>
+<p><strong>Query Parameters:</strong></p>
+<p>| Parâmetro | Tipo | Padrão | Range |</p>
+<p>| :--- | :--- | :--- | :--- |</p>
+<p>| <code>page</code> | int | 1 | ≥ 1 |</p>
+<p>| <code>size</code> | int | 10 | 1-100 |</p>
+<p><strong>Response envelope:</strong></p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;currentPage&quot;: 1,
+
+&amp;#x20; &quot;pageSize&quot;: 10,
+
+&amp;#x20; &quot;totalPages&quot;: 3,
+
+&amp;#x20; &quot;totalCount&quot;: 25,
+
+&amp;#x20; &quot;hasPrevious&quot;: false,
+
+&amp;#x20; &quot;hasNext&quot;: true,
+
+&amp;#x20; &quot;data&quot;: [...],
+
+&amp;#x20; &quot;success&quot;: true,
+
+&amp;#x20; &quot;message&quot;: &quot;&quot;,
+
+&amp;#x20; &quot;errors&quot;: []
+
+}
+
+</code></pre>
+<hr />
+<h2 id="ordenacao">🔤 Ordenação<a class="headerlink" href="#ordenacao" title="Permanent link">&para;</a></h2>
+<p>Formato:</p>
+<pre><code>
+?order={campo} {direção}[, {campo2} {direção2}][, ...]
+
+</code></pre>
+<h3 id="exemplos-validos">Exemplos válidos<a class="headerlink" href="#exemplos-validos" title="Permanent link">&para;</a></h3>
+<pre><code>
+?order=username asc
+
+?order=username desc
+
+?order=username asc, email desc
+
+?order=groupname asc, username desc, email asc
+
+</code></pre>
+<h3 id="direcoes">Direções<a class="headerlink" href="#direcoes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><code>asc</code> (padrão se omitido)</p>
+</li>
+<li>
+<p><code>desc</code></p>
+</li>
+</ul>
+<h3 id="campos-suportados-exemplos">Campos suportados (exemplos)<a class="headerlink" href="#campos-suportados-exemplos" title="Permanent link">&para;</a></h3>
+<p>| Endpoint | Campos |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>/api/Users</code> | <code>username</code>, <code>email</code>, <code>role</code>, <code>status</code>, <code>createdat</code>, <code>updatedat</code>, <code>name</code>, <code>name.firstname</code>, <code>name.lastname</code>, <code>address.city</code>, <code>address.street</code>, <code>phone</code> |</p>
+<p>| <code>/api/GroupUsersPermissions/paginated</code> | <code>username</code>, <code>userid</code>, <code>groupname</code>, <code>name</code>, <code>groupid</code> |</p>
+<h3 id="validacao">Validação<a class="headerlink" href="#validacao" title="Permanent link">&para;</a></h3>
+<p>Campos inválidos retornam <strong>400 Bad Request</strong>:</p>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Order inválido. Campos válidos: username, userid, groupname, name, groupid. Direções: asc, desc.&quot;
+
+}
+
+</code></pre>
+<hr />
+<h2 id="headers">📨 Headers<a class="headerlink" href="#headers" title="Permanent link">&para;</a></h2>
+<h3 id="request-headers">Request Headers<a class="headerlink" href="#request-headers" title="Permanent link">&para;</a></h3>
+<p>| Header | Obrigatório | Descrição |</p>
+<p>| :--- | :--- | :--- |</p>
+<p>| <code>Authorization</code> | ✅ (endpoints protegidos) | <code>Bearer {token}</code> |</p>
+<p>| <code>Content-Type</code> | ✅ (POST/PUT) | <code>application/json</code> |</p>
+<p>| <code>X-Correlation-ID</code> | ❌ | ID para rastreamento (gerado automaticamente se ausente) |</p>
+<h3 id="response-headers">Response Headers<a class="headerlink" href="#response-headers" title="Permanent link">&para;</a></h3>
+<p>| Header | Descrição |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>X-Correlation-ID</code> | Correlation ID da requisição |</p>
+<p>| <code>Content-Type</code> | Sempre <code>application/json; charset=utf-8</code> |</p>
+<h3 id="exemplo-de-uso">Exemplo de uso<a class="headerlink" href="#exemplo-de-uso" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+curl -X GET https://localhost:44382/api/Users \\
+
+&amp;#x20; -H &quot;Authorization: Bearer eyJhbGciOi...&quot; \\
+
+&amp;#x20; -H &quot;X-Correlation-ID: minha-correlacao-123&quot; \\
+
+&amp;#x20; -H &quot;Accept: application/json&quot;
+
+</code></pre>
+<hr />
+<h2 id="erros">⚠️ Erros<a class="headerlink" href="#erros" title="Permanent link">&para;</a></h2>
+<p>Todos os erros seguem o mesmo formato:</p>
+<h3 id="400-validacao">400 — Validação<a class="headerlink" href="#400-validacao" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Erro de validação nos dados enviados.&quot;,
+
+&amp;#x20; &quot;errors&quot;: [
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;field&quot;: &quot;Username&quot;,
+
+&amp;#x20;     &quot;message&quot;: &quot;O nome de usuário é obrigatório.&quot;
+
+&amp;#x20;   },
+
+&amp;#x20;   {
+
+&amp;#x20;     &quot;field&quot;: &quot;Email&quot;,
+
+&amp;#x20;     &quot;message&quot;: &quot;Email inválido.&quot;
+
+&amp;#x20;   }
+
+&amp;#x20; ]
+
+}
+
+</code></pre>
+<h3 id="400-regra-de-negocio-domainexception">400 — Regra de negócio (<code>DomainException</code>)<a class="headerlink" href="#400-regra-de-negocio-domainexception" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Já existe uma permissão com o nome 'user.add'.&quot;
+
+}
+
+</code></pre>
+<h3 id="401-nao-autenticado">401 — Não autenticado<a class="headerlink" href="#401-nao-autenticado" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Você não tem autorização para acessar este recurso.&quot;
+
+}
+
+</code></pre>
+<h3 id="403-sem-permissao">403 — Sem permissão<a class="headerlink" href="#403-sem-permissao" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Você não tem permissão para acessar este recurso.&quot;
+
+}
+
+</code></pre>
+<h3 id="404-nao-encontrado">404 — Não encontrado<a class="headerlink" href="#404-nao-encontrado" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Recurso não encontrado.&quot;
+
+}
+
+</code></pre>
+<h3 id="500-erro-interno">500 — Erro interno<a class="headerlink" href="#500-erro-interno" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">
+{
+
+&amp;#x20; &quot;success&quot;: false,
+
+&amp;#x20; &quot;message&quot;: &quot;Erro interno do servidor. Contate o suporte.&quot;
+
+}
+
+</code></pre>
+<p><strong>Nota:</strong> o cliente <strong>nunca</strong> vê stack trace ou detalhes internos. O erro completo é logado no servidor com o <code>CorrelationId</code> para rastreamento.</p>
+<hr />
+<h2 id="colecao-postman-curl">🧪 Coleção Postman / cURL<a class="headerlink" href="#colecao-postman-curl" title="Permanent link">&para;</a></h2>
+<h3 id="login">Login<a class="headerlink" href="#login" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+curl -X POST https://localhost:44382/api/Auth/Login \\
+
+&amp;#x20; -H &quot;Content-Type: application/json&quot; \\
+
+&amp;#x20; -d '{
+
+&amp;#x20;   &quot;username&quot;: &quot;marcelo.jesuino&quot;,
+
+&amp;#x20;   &quot;password&quot;: &quot;Senha@123&quot;
+
+&amp;#x20; }'
+
+</code></pre>
+<h3 id="listar-usuarios">Listar usuários<a class="headerlink" href="#listar-usuarios" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+curl -X GET &quot;https://localhost:44382/api/Users?page=1\&amp;size=10\&amp;order=username%20asc&quot; \\
+
+&amp;#x20; -H &quot;Authorization: Bearer SEU_TOKEN&quot; \\
+
+&amp;#x20; -H &quot;Accept: application/json&quot;
+
+</code></pre>
+<h3 id="criar-permissao">Criar permissão<a class="headerlink" href="#criar-permissao" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+curl -X POST https://localhost:44382/api/Permissions \\
+
+&amp;#x20; -H &quot;Authorization: Bearer SEU_TOKEN&quot; \\
+
+&amp;#x20; -H &quot;Content-Type: application/json&quot; \\
+
+&amp;#x20; -d '{
+
+&amp;#x20;   &quot;name&quot;: &quot;report.export&quot;,
+
+&amp;#x20;   &quot;description&quot;: &quot;Permite exportar relatórios&quot;
+
+&amp;#x20; }'
+
+</code></pre>
+<h3 id="atualizar-vinculos">Atualizar vínculos<a class="headerlink" href="#atualizar-vinculos" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">
+curl -X PUT &quot;https://localhost:44382/api/UserGroups/GroupUsersPermissions/BD.../15.../true&quot; \\
+
+&amp;#x20; -H &quot;Authorization: Bearer SEU_TOKEN&quot; \\
+
+&amp;#x20; -H &quot;Content-Type: application/json&quot; \\
+
+&amp;#x20; -d '{
+
+&amp;#x20;   &quot;permissionIds&quot;: [&quot;ac4e76f2-17d4-4f21-9aa3-f2cd42cd3b40&quot;],
+
+&amp;#x20;   &quot;permissionIsActive&quot;: true
+
+&amp;#x20; }'
+
+</code></pre>
+<hr />
+<h2 id="rate-limiting-futuro">📌 Rate Limiting (futuro)<a class="headerlink" href="#rate-limiting-futuro" title="Permanent link">&para;</a></h2>
+<p>| Endpoint | Limite |</p>
+<p>| :--- | :--- |</p>
+<p>| <code>POST /api/Auth/Login</code> | 5/min por IP |</p>
+<p>| <code>POST /api/Auth/RefreshToken</code> | 20/min por usuário |</p>
+<p>| Demais endpoints | 100/min por usuário |</p>
+<hr />
+<h2 id="referencias">📚 Referências<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p><a href="../../backlog/us01-backlog/">Backlog US01</a></p>
+</li>
+<li>
+<p><a href="../../architecture/overview/">Arquitetura</a></p>
+</li>
+<li>
+<p><a href="../../adr/">ADRs</a></p>
+</li>
+<li>
+<p><a href="../../tests/test-plan/">Plano de Testes</a></p>
+</li>
+<li>
+<p>Swagger interativo: <code>/swagger</code></p>
+</li>
+</ul>
+<hr />
+<p><strong>API Endpoints — SJInovacao.Acesso · Versão 1.0 · 10/10/2026</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/jesuino-treinamento/SJInovacao.Acesso" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

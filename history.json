@@ -1,0 +1,29 @@
+{
+  "Results": [
+    {
+      "Passed": "1",
+      "Total": "1",
+      "File": "ApplicationTests.trx",
+      "Failed": "0"
+    },
+    {
+      "Passed": "2",
+      "Total": "2",
+      "File": "InfraTests.trx",
+      "Failed": "0"
+    },
+    {
+      "Passed": "15",
+      "Total": "15",
+      "File": "IntegrationTests.trx",
+      "Failed": "0"
+    },
+    {
+      "Passed": "19",
+      "Total": "19",
+      "File": "UnitTests.trx",
+      "Failed": "0"
+    }
+  ],
+  "Date": "2026-10-10 22:36"
+}
