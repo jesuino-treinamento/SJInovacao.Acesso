@@ -1,6 +1,6 @@
 param(
-    [string]$TrxFolder = ".\TestResults", # Aponta para a pasta onde o dotnet test gera os arquivos
-    [string]$HistoryFile = ".\TestResults\history.json"
+    [string]$TrxFolder = [System.IO.Path]::Combine($PSScriptRoot, "..", "TestResults"),
+    [string]$HistoryFile = [System.IO.Path]::Combine($PSScriptRoot, "..", "TestResults", "history.json")
 )
 
 function Get-TestSummary($trxFile) {
@@ -14,22 +14,18 @@ function Get-TestSummary($trxFile) {
     }
 }
 
-# Busca todos os arquivos .trx na pasta TestResults
 $trxFiles = Get-ChildItem -Path $TrxFolder -Recurse -Filter *.trx
 
-# Cria lista de resultados
 $results = @()
 foreach ($file in $trxFiles) {
     $results += Get-TestSummary $file.FullName
 }
 
-# Cria objeto da execução atual
 $currentRun = @{
     Date = (Get-Date).ToString("yyyy-MM-dd HH:mm")
     Results = $results
 }
 
-# Carrega histórico existente ou cria lista nova
 if (Test-Path $HistoryFile) {
     $history = Get-Content $HistoryFile | ConvertFrom-Json
     if (-not ($history -is [System.Collections.IList])) {
@@ -39,10 +35,8 @@ if (Test-Path $HistoryFile) {
     $history = @()
 }
 
-# Adiciona execução atual ao histórico
 $history += $currentRun
 
-# Salva de volta em JSON
 $history | ConvertTo-Json -Depth 5 | Out-File $HistoryFile -Encoding utf8
 
 Write-Host "Histórico atualizado em $HistoryFile"
