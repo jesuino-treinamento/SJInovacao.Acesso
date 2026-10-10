@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v4
 
     # =========================
-    # 1. BUILD DA APLICAÇÃO + TESTES
+    # 1. BUILD + TESTES
     # =========================
     - name: Instalar .NET
       uses: actions/setup-dotnet@v4
@@ -34,14 +34,30 @@ jobs:
         dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests/SJInovacao.Acesso.IntegrationTests.csproj --logger "trx;LogFileName=IntegrationTests.trx" --results-directory ./TestResults || true
         dotnet test src/Tests/SJInovacao.Acesso.UnitTests/SJInovacao.Acesso.UnitTests.csproj --logger "trx;LogFileName=UnitTests.trx" --results-directory ./TestResults || true
 
-    - name: Gerar Dashboard (PowerShell)
-      shell: pwsh
-      run: |
-        pwsh -File .\scripts\Update-History.ps1
-        pwsh -File .\scripts\Generate-TestReport.ps1
+    - name: Listar TestResults (debug)
+      run: ls -la ./TestResults/
 
     # =========================
-    # 2. BUILD DO SITE (MKDOCS)
+    # 2. DASHBOARD
+    # =========================
+    - name: Atualizar histórico
+      shell: pwsh
+      run: pwsh -File ./scripts/Update-History.ps1
+
+    - name: Gerar Dashboard
+      shell: pwsh
+      run: pwsh -File ./scripts/Generate-TestReport.ps1
+
+    - name: Verificar Dashboard gerado
+      run: |
+        if [ ! -f "./TestResults/Dashboard.html" ]; then
+          echo "❌ Dashboard.html não foi gerado"
+          exit 1
+        fi
+        echo "✅ Dashboard.html OK"
+
+    # =========================
+    # 3. MKDOCS
     # =========================
     - name: Instalar Python
       uses: actions/setup-python@v5
@@ -55,7 +71,7 @@ jobs:
       run: mkdocs build --site-dir ./deploy/docs
 
     # =========================
-    # 3. PREPARAR DEPLOY
+    # 4. PREPARAR DEPLOY
     # =========================
     - name: Preparar pasta de deploy
       run: |
@@ -63,9 +79,11 @@ jobs:
         cp ./index.html ./deploy/index.html
         cp ./TestResults/Dashboard.html ./deploy/Dashboard.html
         cp ./TestResults/history.json ./deploy/history.json
+        echo "--- Conteúdo de deploy: ---"
+        ls -la ./deploy/
 
     # =========================
-    # 4. PUBLICAR
+    # 5. PUBLICAR
     # =========================
     - name: Publicar no GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
