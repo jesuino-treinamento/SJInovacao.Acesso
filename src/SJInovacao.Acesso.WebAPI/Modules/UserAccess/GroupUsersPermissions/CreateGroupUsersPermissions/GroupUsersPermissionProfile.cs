@@ -9,13 +9,12 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.Crea
         public CreateGroupUsersPermissionProfile()
         {
             CreateMap<CreateGroupUsersPermissionsRequest, CreateGroupUsersPermissionCommand>();
-
             CreateMap<GroupUsersPermissionDto, CreateGroupUsersPermissionsResponse>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-            .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId))
-            .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src => src.GroupName)) // Novo mapeamento
-            .ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.Permissions));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId))
+                .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src => src.GroupName)) 
+                .ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.Permissions));
         }
     }
 }

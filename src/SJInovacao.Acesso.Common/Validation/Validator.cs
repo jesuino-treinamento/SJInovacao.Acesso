@@ -4,10 +4,6 @@ namespace SJInovacao.Acesso.Common.Validation
 {
     public static class Validator
     {
-        /// <summary>
-        /// Localiza e executa todos os validators do tipo <see cref="IValidator{T}"/> carregados no AppDomain.
-        /// Retorna a lista de erros (convertidos para <see cref="ValidationErrorDetail"/>).
-        /// </summary>
         public static async Task<IEnumerable<ValidationErrorDetail>> ValidateAsync<T>(T instance)
         {
             var validatorInterface = typeof(IValidator<T>);
@@ -33,7 +29,6 @@ namespace SJInovacao.Acesso.Common.Validation
                         errors.AddRange(result.Errors.Select(e => (ValidationErrorDetail)e));
                 }
             }
-
             return errors;
         }
     }

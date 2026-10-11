@@ -2,14 +2,8 @@ using FluentValidation;
 
 namespace  SJInovacao.Acesso.WebAPI.Modules.UserAccess.Auth.AuthenticateUserFeature
 {
-    /// <summary>
-    /// Validator for AuthenticateUserRequest
-    /// </summary>
     public class AuthenticateUserRequestValidator : AbstractValidator<LoginRequest>
     {
-        /// <summary>
-        /// Initializes validation rules for AuthenticateUserRequest
-        /// </summary>
         public AuthenticateUserRequestValidator()
         {
             RuleFor(x => x.Email)

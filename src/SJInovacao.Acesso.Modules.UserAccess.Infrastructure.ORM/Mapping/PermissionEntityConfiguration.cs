@@ -20,21 +20,17 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.Property(p => p.Description)
                 .HasMaxLength(250);
 
-            builder.Property(u => u.IsActive).IsRequired();//.HasConversion<string>();
+            builder.Property(u => u.IsActive).IsRequired();
             builder.Property(u => u.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(u => u.UpdatedAt);
 
-            // Relacionamentos inversos (opcional, mas recomendado)
             builder.HasMany(p => p.UserPermissions)
                    .WithOne(up => up.Permission)
                    .HasForeignKey(up => up.PermissionId);
 
-            // Analisar melhor para criar uma classe e tabela
             builder.HasMany(p => p.GroupsPermissions)
                    .WithOne(gp => gp.Permission)
                    .HasForeignKey(gp => gp.PermissionId);
-
-
         }
     }
 }

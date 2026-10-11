@@ -7,7 +7,6 @@
         public string? UserRole { get; private set; }
         public IReadOnlyList<string> Permissions { get; private set; } = Array.Empty<string>();
         public IReadOnlyList<string> Groups { get; private set; } = Array.Empty<string>();
-
         public void SetUserData(string? userId, string? userName, string? userRole, IEnumerable<string> permissions, IEnumerable<string> groups)
         {
             UserId = userId;

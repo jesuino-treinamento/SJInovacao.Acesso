@@ -64,7 +64,7 @@ namespace SJInovacao.Acesso.UnitTests.Handlers
 
             var repoMock = new Mock<IPermissionRepository>();
             repoMock.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(new List<Permission>()); // lista vazia
+                    .ReturnsAsync(new List<Permission>()); 
 
             var handler = new UpdatePermissionHandler(repoMock.Object, context, Mock.Of<ILogger<UpdatePermissionHandler>>(), Mock.Of<IMapper>());
 
@@ -107,7 +107,7 @@ namespace SJInovacao.Acesso.UnitTests.Handlers
 
             var handler = new UpdatePermissionHandler(repoMock.Object, context, Mock.Of<ILogger<UpdatePermissionHandler>>(), Mock.Of<IMapper>());
 
-            var command = new UpdatePermissionCommand(Guid.NewGuid(), "", "Teste", true); // nome vazio
+            var command = new UpdatePermissionCommand(Guid.NewGuid(), "", "Teste", true); 
 
             Func<Task> act = async () => await handler.Handle(command, CancellationToken.None);
 

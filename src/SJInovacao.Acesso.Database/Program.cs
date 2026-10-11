@@ -12,7 +12,6 @@ using SJInovacao.Acesso.Common.Logging;
 using SJInovacao.Acesso.Common.Security;
 using SJInovacao.Acesso.IoC;
 using SJInovacao.Acesso.WebAPI.Middleware;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using System.Text.Json;
 
 public class Program
@@ -98,11 +97,6 @@ public class Program
                 throw new InvalidOperationException(
                     "Configuração ausente: 'Jwt:SecretKey'. Defina em appsettings.json ou variável de ambiente (Jwt__SecretKey).");
 
-            //app.UseMiddleware<CorrelationIdMiddleware>();
-
-            // =============================
-            // 2. Tratamento global de exceções
-            // =============================
             app.UseExceptionHandler(errorApp =>
             {
                 errorApp.Run(async context =>
@@ -112,31 +106,22 @@ public class Program
 
                     var (status, message) = exception switch
                     {
-                        // FluentValidation → 400 (caso não seja capturado pelo middleware específico)
                         FluentValidation.ValidationException => (
                             StatusCodes.Status400BadRequest,
                             "Erro de validação nos dados enviados."),
 
-                        // DomainException → 400 (regra de negócio violada)
                         SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions.DomainException domainEx => (
                             StatusCodes.Status400BadRequest,
                             domainEx.Message),
 
-                        // Not found → 404 (adicione se você tiver essa exception)
-                        // NotFoundException => (404, "Recurso não encontrado."),
-
-                        // Auth → 401
                         UnauthorizedAccessException => (
                             StatusCodes.Status401Unauthorized,
                             "Você não tem autorização para acessar este recurso."),
-
-                        // Qualquer outra exceção → 500 (não vaza detalhes internos)
                         _ => (
                             StatusCodes.Status500InternalServerError,
                             "Erro interno do servidor. Contate o suporte.")
                     };
 
-                    // Loga o erro real (o cliente não vê os detalhes)
                     var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
                     logger.LogError(exception,
                         "Erro não tratado em {Method} {Path}",
@@ -173,12 +158,6 @@ public class Program
                 }
             });
 
-            // 🔐 PROTEÇÃO DO SWAGGER EM PRODUÇÃO
-            //if (app.Environment.IsProduction())                       
-            //{
-            //    app.UseMiddleware<SwaggerBasicAuthMiddleware>();
-            //}
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -193,7 +172,6 @@ public class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseMiddleware<ValidationExceptionMiddleware>();
             app.UseMiddleware<UserContextMiddleware>();
 
             app.UseBasicHealthChecks();

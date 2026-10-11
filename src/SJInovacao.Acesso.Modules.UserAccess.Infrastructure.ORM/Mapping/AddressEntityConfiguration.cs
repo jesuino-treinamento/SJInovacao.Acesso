@@ -4,47 +4,6 @@ using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 
 namespace SJInovacao.Acesso.Infrastructure.ORM.Mappings
 {
-    //public class AddressEntityConfiguration : IEntityTypeConfiguration<Address>
-    //{
-    //    public void Configure(EntityTypeBuilder<Address> builder)
-    //    {
-    //        builder.ToTable("Addresses");
-
-    //        builder.HasKey(u => u.Id);
-    //        builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
-
-    //        builder.HasOne(a => a.Person)
-    //            .WithMany(u => u.Addresses)
-    //            .HasForeignKey(a => a.PersonId)
-    //            .OnDelete(DeleteBehavior.Cascade);
-
-    //        builder.Property(a => a.City)
-    //            .IsRequired()
-    //            .HasMaxLength(100);
-
-    //        builder.Property(a => a.Street)
-    //            .IsRequired()
-    //            .HasMaxLength(100);
-
-    //        builder.Property(a => a.Number)
-    //            .IsRequired();
-
-    //        builder.Property(a => a.ZipCode)
-    //            .HasMaxLength(20);
-
-    //        builder.OwnsOne(a => a.Geolocation, location =>
-    //        {
-    //            location.Property(l => l.Lat)
-    //                .HasMaxLength(20)
-    //                .HasColumnName("Latitude");
-
-    //            location.Property(l => l.Long)
-    //                .HasMaxLength(20)
-    //                .HasColumnName("Longitude");
-    //        });            
-    //    }
-    //}
-
     public class AddressEntityConfiguration : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)

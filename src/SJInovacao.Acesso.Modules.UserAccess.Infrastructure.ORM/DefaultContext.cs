@@ -7,17 +7,10 @@ using System.Reflection;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
 {
-    /// <summary>
-    /// DbContext do módulo Acesso.
-    /// Contém entidades de Users, Permissions, Groups e Audit.
-    /// </summary>
     public class DefaultContext : DbContext
     {
         private readonly IAuditService? _auditService;
 
-        // =========================
-        // DbSets
-        // =========================
         public DbSet<AuditLog> AuditLogs { get; set; } = null!;
         public DbSet<Person> Persons { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
@@ -30,13 +23,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
         public DbSet<GroupsPermissions> GroupsPermissions { get; set; } = null!;
         public DbSet<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = null!;
 
-        // =========================
-        // Construtores
-        // =========================
-
-        /// <summary>
-        /// Construtor usado em RUNTIME. O DI injeta o IAuditService.
-        /// </summary>
         public DefaultContext(
             DbContextOptions<DefaultContext> options,
             IAuditService auditService)
@@ -45,34 +31,18 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
             _auditService = auditService;
         }
 
-        /// <summary>
-        /// Construtor usado em DESIGN-TIME (migrations).
-        /// Não recebe IAuditService — auditoria fica desativada nesse contexto.
-        /// </summary>
         public DefaultContext(DbContextOptions<DefaultContext> options)
             : base(options)
         {
             _auditService = null;
         }
 
-        // =========================
-        // Modelo
-        // =========================
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Configurações do módulo Acesso (mesmo assembly)
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            // Configuração do AuditLog vem do Common (assembly diferente)
             modelBuilder.ApplyConfiguration(new AuditLogEntityConfiguration());
         }
-
-        // =========================
-        // SaveChanges — Auditoria automática
-        // =========================
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -105,9 +75,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
         }
     }
 
-    /// <summary>
-    /// Factory usada pelo `dotnet ef` em design-time (migrations).
-    /// </summary>
     public class DefaultContextFactory : IDesignTimeDbContextFactory<DefaultContext>
     {
         public DefaultContext CreateDbContext(string[] args)
@@ -134,7 +101,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM
             builder.UseNpgsql(connectionString,
                 b => b.MigrationsAssembly("SJInovacao.Acesso.Database"));
 
-            // Chama o construtor de 1 parâmetro (design-time)
             return new DefaultContext(builder.Options);
         }
     }

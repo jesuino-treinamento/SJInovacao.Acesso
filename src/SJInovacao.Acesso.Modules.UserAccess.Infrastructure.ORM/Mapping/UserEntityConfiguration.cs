@@ -8,10 +8,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            // Mapeia para uma tabela separada 'Users'
             builder.ToTable("Users");
 
-            // Chave estrangeira para Persons (TPT)
             builder.HasBaseType<Person>();
             builder.Property(u => u.Username).HasMaxLength(50);
             builder.Property(u => u.Email).HasMaxLength(200);
@@ -21,27 +19,20 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Mapping
             builder.Property(u => u.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(u => u.UpdatedAt); 
 
-            // Configurações para Refresh Token
             builder.Property(u => u.RefreshToken)
-                .HasMaxLength(200)      // GUID ou token JWT longo
-                .IsRequired(false);     // pode ser nulo (usuário sem refresh token ativo)
+                .HasMaxLength(200)      
+                .IsRequired(false);     
 
             builder.Property(u => u.RefreshTokenExpiry)
-                .IsRequired(false);     // pode ser nulo se não houver refresh token ativo
+                .IsRequired(false);     
                         
-            // Relacionamento User <-> UserPermission (Many-to-Many explícito)
             builder.HasMany(u => u.UserPermissions)
                    .WithOne(up => up.User)
                    .HasForeignKey(up => up.UserId);
 
-
-
-
-            // Relacionamento User -> UserGroup (one-to-many)
             builder.HasMany(u => u.UserGroups)
                    .WithOne(ug => ug.User)
-                   .HasForeignKey(ug => ug.UserId);           
-
+                   .HasForeignKey(ug => ug.UserId);     
         }
     }
 }

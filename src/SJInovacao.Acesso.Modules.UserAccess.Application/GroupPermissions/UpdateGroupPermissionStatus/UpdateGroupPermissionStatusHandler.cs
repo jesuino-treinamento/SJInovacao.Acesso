@@ -8,26 +8,15 @@ namespace SJInovacao.Acesso.Modules.UserAccess.GroupPermissions.UpdateGroupPermi
 {
     public class UpdateGroupPermissionStatusHandler : IRequestHandler<UpdateGroupPermissionStatusCommand, UpdateGroupPermissionStatusResult>
     {
-        private readonly IGroupPermissionRepository _groupAccessrepository;
         private readonly IGroupsPermissionsRepository _groupsPermissionsrepository;
-        private readonly IMapper _mapper;
 
-        public UpdateGroupPermissionStatusHandler(IGroupPermissionRepository groupAccessrepository,
-            IGroupsPermissionsRepository groupsPermissionsrepository, IMapper mapper)
+        public UpdateGroupPermissionStatusHandler(IGroupsPermissionsRepository groupsPermissionsrepositoryr)
         {
-            _groupAccessrepository = groupAccessrepository;
-            _groupsPermissionsrepository = groupsPermissionsrepository;
-            _mapper = mapper;
+            _groupsPermissionsrepository = groupsPermissionsrepositoryr;
         }
 
         public async Task<UpdateGroupPermissionStatusResult> Handle(UpdateGroupPermissionStatusCommand command, CancellationToken ct)
         {
-            //var validator = new UpdateUserPermissionStatusValidator();
-            //var validationResult = await validator.ValidateAsync(command, ct);
-
-            //if (!validationResult.IsValid)
-            //    throw new ValidationException(validationResult.Errors);
-
             await _groupsPermissionsrepository.UpdateStatusAsync(command.GroupId, command.PermissionId, command.IsActive, ct);
 
             return new UpdateGroupPermissionStatusResult

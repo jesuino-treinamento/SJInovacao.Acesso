@@ -7,10 +7,6 @@ using SJInovacao.Acesso.Common.Security.Context;
 
 namespace SJInovacao.Acesso.Common.Auditing;
 
-/// <summary>
-/// Serviço responsável por capturar alterações de entidades IAuditable
-/// no ChangeTracker do DbContext e gerar registros de auditoria.
-/// </summary>
 public sealed class AuditService : IAuditService
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -19,10 +15,6 @@ public sealed class AuditService : IAuditService
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    /// <summary>
-    /// Propriedades que NÃO devem ter seus valores reais expostos.
-    /// São mascaradas com "***" para manter rastreabilidade sem vazar dados.
-    /// </summary>
     private static readonly HashSet<string> SensitiveProperties = new(StringComparer.OrdinalIgnoreCase)
     {
         "Password",
@@ -32,13 +24,10 @@ public sealed class AuditService : IAuditService
         "ConcurrencyStamp"
     };
 
-    /// <summary>
-    /// Propriedades que devem ser completamente IGNORADAS na auditoria.
-    /// </summary>
     private static readonly HashSet<string> IgnoredProperties = new(StringComparer.OrdinalIgnoreCase)
     {
         "RowVersion",
-        "xmin"  // PostgreSQL system column
+        "xmin"  
     };
 
     private readonly IUserContext _userContext;
@@ -90,7 +79,6 @@ public sealed class AuditService : IAuditService
                 case EntityState.Modified:
                     var modified = GetModifiedProperties(entry);
 
-                    // ✅ Se nada realmente mudou (todos os valores são idênticos), não loga
                     if (modified.Columns.Count == 0)
                         continue;
 
@@ -108,10 +96,6 @@ public sealed class AuditService : IAuditService
 
         return auditLogs;
     }
-
-    // =========================
-    // Helpers
-    // =========================
 
     private static Guid? ParseGuid(string? value)
         => Guid.TryParse(value, out var id) ? id : null;
@@ -147,11 +131,6 @@ public sealed class AuditService : IAuditService
         return JsonSerializer.Serialize(dict, JsonOptions);
     }
 
-    /// <summary>
-    /// Extrai as propriedades efetivamente modificadas.
-    /// Ignora propriedades mascaradas e colunas de sistema.
-    /// Retorna lista vazia se nada mudou de fato (values iguais).
-    /// </summary>
     private static (string OldValues, string NewValues, List<string> Columns) GetModifiedProperties(EntityEntry entry)
     {
         var oldValues = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
@@ -166,7 +145,6 @@ public sealed class AuditService : IAuditService
             var oldValue = prop.OriginalValue?.ToString();
             var newValue = prop.CurrentValue?.ToString();
 
-            // ✅ Skip se o valor não mudou de fato (evita "Modified falso")
             if (oldValue == newValue)
                 continue;
 
@@ -183,7 +161,6 @@ public sealed class AuditService : IAuditService
             newValues[propName] = newValue;
         }
 
-        // Ordena alfabeticamente para ficar legível
         columns.Sort(StringComparer.OrdinalIgnoreCase);
 
         var orderedOld = oldValues.OrderBy(kv => kv.Key).ToDictionary(kv => kv.Key, kv => kv.Value);
@@ -203,7 +180,6 @@ public sealed class AuditService : IAuditService
         if (httpContext.Items.TryGetValue("CorrelationId", out var value) && value is not null)
             return value.ToString();
 
-        // Fallback: usa o TraceIdentifier se o middleware não tiver rodado
         return httpContext.TraceIdentifier;
     }
 }

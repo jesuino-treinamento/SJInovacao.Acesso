@@ -18,7 +18,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
         public List<PhoneDto> Phones { get; set; } = new();
         public StatusTypes Status { get; set; }
         public UserRole Role { get; set; }
-
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }    

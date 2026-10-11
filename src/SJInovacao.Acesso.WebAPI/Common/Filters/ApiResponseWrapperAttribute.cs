@@ -1,5 +1,4 @@
-﻿using SJInovacao.Acesso.WebAPI.Common;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SJInovacao.Acesso.WebAPI.Common.Filters

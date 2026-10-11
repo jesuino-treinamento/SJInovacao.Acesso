@@ -10,23 +10,19 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
     public class DeleteGroupUsersPermissionHandler : IRequestHandler<DeleteGroupUsersPermissionCommand, GroupUsersPermissionDto>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPermissionRepository _permissionRepository;
         private readonly IGroupPermissionRepository _groupUserRepository;
         private readonly IMapper _mapper;
         public DeleteGroupUsersPermissionHandler(IUserRepository userRepository,
-            IPermissionRepository permissionRepository, IGroupPermissionRepository groupUserRepository,
+            IGroupPermissionRepository groupUserRepository,
             IMapper mapper)
         {
             _userRepository = userRepository;
-            _permissionRepository = permissionRepository;
             _groupUserRepository = groupUserRepository;
             _mapper = mapper;
         }
 
         public async Task<GroupUsersPermissionDto> Handle(DeleteGroupUsersPermissionCommand request, CancellationToken cancellationToken)
         {
-            // Validação via pipeline (ValidationBehavior)
-
             var existingUser = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if (existingUser == null)

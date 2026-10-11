@@ -15,10 +15,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public string State { get; private set; } = string.Empty;        
         public string ZipCode { get; private set; } = string.Empty;      
         public Geolocation Geolocation { get; set; } = null!;
-
-        public bool IsActive { get; private set; } = true;         
-
-        // Construtor protegido para EF Core
+        public bool IsActive { get; private set; } = true; 
         protected Address() { }
 
         public Address(string street, string number, string neighborhood, string city, string state, string zipCode, Guid personId, Geolocation geolocation)

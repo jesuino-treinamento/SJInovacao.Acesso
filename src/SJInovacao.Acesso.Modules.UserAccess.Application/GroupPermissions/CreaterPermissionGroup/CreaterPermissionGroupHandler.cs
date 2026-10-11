@@ -58,10 +58,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Crea
             return new CreaterPermissionGroupResult
             {
                 GroupId = command.GroupId,
-                PermissionId = command.PermissionId,
-            
-                IsActive = true,
-                //UpdatedAt = DateTime.UtcNow
+                PermissionId = command.PermissionId,            
+                IsActive = true
             };
         }
     }

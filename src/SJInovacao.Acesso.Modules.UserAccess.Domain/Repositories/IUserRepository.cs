@@ -34,7 +34,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories
         Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiry, CancellationToken cancellationToken);
         Task RevokeRefreshTokenAsync(Guid userId, CancellationToken cancellationToken);
         Task UpdateAllUsersPermissionStatusAsync(Guid id, bool isActive, CancellationToken cancellationToken);
-        //Importante
         Task<User> UpdateUserGroupsPermissions(User user, CancellationToken cancellationToken);
     }
 }

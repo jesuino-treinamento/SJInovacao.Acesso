@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 namespace SJInovacao.Acesso.Common.Validation
 {
@@ -9,9 +7,7 @@ namespace SJInovacao.Acesso.Common.Validation
         public bool IsValid { get; set; }
         public IEnumerable<ValidationErrorDetail> Errors { get; set; } = Enumerable.Empty<ValidationErrorDetail>();
 
-        public ValidationResultDetail()
-        {
-        }
+        public ValidationResultDetail() { }
 
         public ValidationResultDetail(ValidationResult validationResult)
         {

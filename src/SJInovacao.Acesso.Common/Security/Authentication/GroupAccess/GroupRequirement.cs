@@ -5,7 +5,6 @@ namespace SJInovacao.Acesso.Common.Security.Authentication.GroupAccess
     public class GroupRequirement : IAuthorizationRequirement
     {
         public IReadOnlyList<string> Groups { get; }
-
         public GroupRequirement(string groups)
         {
             Groups = groups

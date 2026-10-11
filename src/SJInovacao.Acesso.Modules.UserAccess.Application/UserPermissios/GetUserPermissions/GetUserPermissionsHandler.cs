@@ -15,7 +15,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.GetUs
 
         public async Task<IEnumerable<PermissionDto>> Handle(GetUserPermissionsQuery query, CancellationToken ct)
         {
-
             var permissions = await _repository.GetByUserIdAsync(query.UserId, ct);
             return permissions.Select(p => new PermissionDto { Id = p.Id, Name = p.Name, Description = p.Description, CreatedAt =p.CreatedAt, IsActive = p.IsActive, UpdatedAt = p.UpdatedAt });
         }

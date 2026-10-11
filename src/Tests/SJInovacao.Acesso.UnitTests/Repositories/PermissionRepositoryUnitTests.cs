@@ -35,9 +35,6 @@
                 CreatedAt = DateTime.UtcNow
             };
 
-        // =========================
-        // CREATE
-        // =========================
         [Fact]
         public async Task CreateAsync_ComDadosValidos_DeveSalvar()
         {
@@ -67,9 +64,6 @@
                 .WithMessage("A permission with the same name already exists");
         }
 
-        // =========================
-        // UPDATE
-        // =========================
         [Fact]
         public async Task UpdateAsync_ComDadosValidos_DeveAtualizar()
         {
@@ -105,9 +99,6 @@
                 .WithMessage("*Existente*");
         }
 
-        // =========================
-        // DELETE
-        // =========================
         [Fact]
         public async Task DeleteAsync_ComIdExistente_DeveRetornarTrue()
         {
@@ -136,9 +127,6 @@
             resultado.Should().BeFalse();
         }
 
-        // =========================
-        // DESATIVAR
-        // =========================
         [Fact]
         public async Task DesativarAsync_ComIdValido_DeveMarcarComoInativo()
         {
@@ -167,9 +155,6 @@
             resultado.Should().BeFalse();
         }
 
-        // =========================
-        // GET BY NAME
-        // =========================
         [Fact]
         public async Task GetNameAsync_ComNomeExistente_DeveRetornarTrue()
         {

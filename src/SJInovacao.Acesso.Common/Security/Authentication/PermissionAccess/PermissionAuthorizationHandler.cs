@@ -28,7 +28,6 @@ namespace SJInovacao.Acesso.Common.Security.Authentication.PermissionAccess
                 Log.Warning("❌ [PermissionHandler] Acesso negado");
                 context.Fail();
             }
-
             return Task.CompletedTask;
         }
 

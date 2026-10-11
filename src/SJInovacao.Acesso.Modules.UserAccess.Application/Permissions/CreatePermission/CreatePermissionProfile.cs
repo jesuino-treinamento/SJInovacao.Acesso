@@ -10,7 +10,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.CreatePer
         {
             CreateMap<CreatePermissionCommand, Permission>();
             CreateMap<Permission, PermissionDto>();
-
         }
     }
 }
