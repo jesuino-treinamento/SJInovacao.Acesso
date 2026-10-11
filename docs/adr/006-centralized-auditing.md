@@ -145,6 +145,7 @@ CREATE TABLE "AuditLogs" (
 
 ## Referências
 
-- [AuditService.cs](../../src/SJInovacao.Acesso.Common/Auditing/AuditService.cs)
+- [AuditService.cs](https://github.com/jesuino-treinamento/SJInovacao.Acesso/blob/master/src/SJInovacao.Acesso.Common/Auditing/AuditService.cs)
+
 - [Backlog US01](../backlog/us01-backlog.md)
 

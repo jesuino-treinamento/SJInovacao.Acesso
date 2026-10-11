@@ -43,48 +43,19 @@ O sistema está apto a entrar em produção com autenticação JWT, autorizaçã
 
 ## 2. Status Geral do Módulo
 
-<table>
-<thead>
-<tr>
-<th>Indicador</th>
-<th>Valor</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Itens de backlog concluídos</td>
-<td>**44 de 46**</td>
-</tr>
-<tr>
-<td>Progresso funcional</td>
-<td>**96%**</td>
-</tr>
-<tr>
-<td>Progresso técnico (épicos complementares)</td>
-<td>**100%**</td>
-</tr>
-<tr>
-<td>Prazo estimado restante</td>
-<td>1 sprint curta (~1 semana)</td>
-</tr>
-<tr>
-<td>Data de homologação prevista</td>
-<td>**17/10/2026**</td>
-</tr>
-<tr>
-<td>Build da solução</td>
-<td>✅ **0 avisos**</td>
-</tr>
-<tr>
-<td>Performance média (regime morno)</td>
-<td>✅ **~20ms por requisição**</td>
-</tr>
-<tr>
-<td>Cobertura técnica transversal</td>
-<td>✅ 4 épicos implementados</td>
-</tr>
-</tbody>
-</table>
+## 📊 Indicadores do Projeto
+
+| Indicador                          | Valor                          |
+|------------------------------------|--------------------------------|
+| Itens de backlog concluidos        | **44 de 46**                   |
+| Progresso funcional                | **96%**                        |
+| Progresso tecnico (epicos)         | **100%**                       |
+| Prazo estimado restante            | 1 sprint curta (~1 semana)     |
+| Data de homologacao prevista       | **17/10/2026**                 |
+| Build da solucao                   | ✅ **0 avisos**                 |
+| Performance media (regime morno)   | ✅ **~20ms por requisicao**     |
+| Cobertura tecnica transversal      | ✅ 4 epicos implementados       |
+
 
 ---
 

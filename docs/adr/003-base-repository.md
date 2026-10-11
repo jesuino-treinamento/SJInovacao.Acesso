@@ -114,5 +114,5 @@ public abstract class BaseRepository<TEntity> where TEntity : class
 
 ## Referências
 
-- [BaseRepository.cs](../../src/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM/Repositories/BaseRepository.cs)
+- [BaseRepository.cs](https://github.com/jesuino-treinamento/SJInovacao.Acesso/blob/master/src/SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM/Repositories/BaseRepository.cs)
 - [Backlog US01](../backlog/us01-backlog.md)
