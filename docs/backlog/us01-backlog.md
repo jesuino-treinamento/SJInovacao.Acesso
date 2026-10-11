@@ -10,15 +10,15 @@
 
 ## 📑 Sumário
 
-- [1. Sumário Executivo](#1-sumário-executivo)
-- [2. Status Geral do Módulo](#2-status-geral-do-módulo)
-- [3. Backlog Detalhado por Épico](#3-backlog-detalhado-por-épico)
-- [4. Épicos Técnicos Complementares](#4-épicos-técnicos-complementares)
+- [1. Sumário Executivo](#1-sumario-executivo)
+- [2. Status Geral do Módulo](#2-status-geral-do-modulo)
+- [3. Backlog Detalhado por Épico](#3-backlog-detalhado-por-epico)
+- [4. Épicos Técnicos Complementares](#4-epicos-tecnicos-complementares)
 - [5. Resumo Consolidado](#5-resumo-consolidado)
-- [6. Priorização e MVP](#6-priorização-e-mvp)
+- [6. Priorização e MVP](#6-priorizacao-e-mvp)
 - [7. Cronograma](#7-cronograma)
-- [8. Recomendações de Gestão](#8-recomendações-de-gestão)
-- [9. Próximos Passos](#9-próximos-passos)
+- [8. Recomendações de Gestão](#8-recomendacoes-de-gestao)
+- [9. Próximos Passos](#9-proximos-passos)
 - [10. Anexos](#10-anexos)
 
 ---
@@ -833,84 +833,22 @@ O sistema está apto a entrar em produção com autenticação JWT, autorizaçã
 
 ## 5. Resumo Consolidado
 
-<table>
-<thead>
-<tr>
-<th>Épico</th>
-<th>Pontos</th>
-<th>Concluído</th>
-<th>Pendente</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1. Fundação Técnica</td>
-<td>26</td>
-<td>26</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2. Usuários + Auth</td>
-<td>44</td>
-<td>44</td>
-<td>0</td>
-</tr>
-<tr>
-<td>3. Permissões</td>
-<td>24</td>
-<td>24</td>
-<td>0</td>
-</tr>
-<tr>
-<td>4. Usuários ↔ Permissões</td>
-<td>27</td>
-<td>27</td>
-<td>0</td>
-</tr>
-<tr>
-<td>5. Grupos ↔ Permissões</td>
-<td>30</td>
-<td>30</td>
-<td>0</td>
-</tr>
-<tr>
-<td>6. Autorização + Estabilização</td>
-<td>34</td>
-<td>26</td>
-<td>**8**</td>
-</tr>
-<tr>
-<td>7. Observabilidade</td>
-<td>13</td>
-<td>13</td>
-<td>0</td>
-</tr>
-<tr>
-<td>8. Performance</td>
-<td>25</td>
-<td>25</td>
-<td>0</td>
-</tr>
-<tr>
-<td>9. Auditoria</td>
-<td>17</td>
-<td>17</td>
-<td>0</td>
-</tr>
-<tr>
-<td>10. Refatorações</td>
-<td>19</td>
-<td>19</td>
-<td>0</td>
-</tr>
-<tr>
-<td>**TOTAL**</td>
-<td>**259**</td>
-<td>**251 (97%)**</td>
-<td>**8 (3%)**</td>
-</tr>
-</tbody>
-</table>
+## 📊 Resumo Consolidado dos Épicos
+
+| Nº | Épico                        | Pontos | Concluído | Pendente |
+|----|------------------------------|--------|-----------|----------|
+| 1  | Fundação Técnica             | 26     | 26        | 0        |
+| 2  | Usuários + Auth              | 44     | 44        | 0        |
+| 3  | Permissões                   | 24     | 24        | 0        |
+| 4  | Usuários ↔ Permissões        | 27     | 27        | 0        |
+| 5  | Grupos ↔ Permissões          | 30     | 30        | 0        |
+| 6  | Autorização + Estabilização  | 34     | 26        | **8**    |
+| 7  | Observabilidade              | 13     | 13        | 0        |
+| 8  | Performance                  | 25     | 25        | 0        |
+| 9  | Auditoria                    | 17     | 17        | 0        |
+| 10 | Refatorações                 | 19     | 19        | 0        |
+| **TOTAL** |                        | **259**| **251 (97%)** | **8 (3%)** |
+
 
 ---
 
@@ -926,42 +864,15 @@ US01-001 a US01-041 + US01-046.
 
 ### ⚠️ Pendências para Homologação
 
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Item</th>
-<th>Estimativa</th>
-<th>Justificativa</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>US01-043</td>
-<td>Testes unitários (cobertura ≥ 60%)</td>
-<td>3 pts</td>
-<td>Confiabilidade</td>
-</tr>
-<tr>
-<td>US01-044</td>
-<td>Testes de integração dos endpoints</td>
-<td>2 pts</td>
-<td>Regressão</td>
-</tr>
-<tr>
-<td>US01-042</td>
-<td>Seed inicial de permissões</td>
-<td>2 pts</td>
-<td>Setup de ambiente</td>
-</tr>
-<tr>
-<td>**TOTAL**</td>
-<td></td>
-<td>**7 pts**</td>
-<td>**~1 sprint curta**</td>
-</tr>
-</tbody>
-</table>
+## 📊 Estimativas — US01
+
+| Nº | ID        | Item                                | Estimativa | Justificativa       |
+|----|-----------|-------------------------------------|------------|---------------------|
+| 1  | US01-043  | Testes unitários (cobertura ≥ 60%)  | 3 pts      | Confiabilidade      |
+| 2  | US01-044  | Testes de integração dos endpoints  | 2 pts      | Regressão           |
+| 3  | US01-042  | Seed inicial de permissões          | 2 pts      | Setup de ambiente   |
+| **TOTAL** |       |                                     | **7 pts**  | **~1 sprint curta** |
+
 
 ---
 

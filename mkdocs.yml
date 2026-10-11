@@ -51,15 +51,11 @@ markdown_extensions:
   - footnotes
   - md_in_html
   - tables
-markdown_extensions:
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - tables
   - toc:
       permalink: true
+  - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.mark
 
 plugins:
   - search

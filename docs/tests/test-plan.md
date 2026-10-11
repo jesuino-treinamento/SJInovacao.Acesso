@@ -20,319 +20,164 @@
 
 
 
-- [Estratégia de Testes](#-estratégia-de-testes)
-
-- [Pirâmide de Testes](#-pirâmide-de-testes)
-
-- [Ferramentas](#-ferramentas)
-
-- [Testes Unitários](#-testes-unitários)
-
-- [Testes de Integração](#-testes-de-integração)
-
-- [Testes de Auditoria](#-testes-de-auditoria)
-
-- [Testes de Performance](#-testes-de-performance)
-
-- [Testes de Segurança](#-testes-de-segurança)
-
-- [Matriz de Cobertura](#-matriz-de-cobertura)
-
-- [CI/CD](#-cicd)
-
-
+- [1. Estratégia de Testes](#1-estrategia-de-testes)
+- [2. Pirâmide de Testes](#2-piramide-de-testes)
+- [3. Ferramentas](#3-ferramentas)
+- [4. Testes Unitários](#4-testes-unitarios)
+- [5. Testes de Integração](#5-testes-de-integracao)
+- [6. Testes de Auditoria](#6-testes-de-auditoria)
+- [7. Testes de Performance](#7-testes-de-performance)
+- [8. Testes de Segurança](#8-testes-de-seguranca)
+- [9. Matriz de Cobertura](#9-matriz-de-cobertura)
+- [10. CI/CD](#10-cicd)
 
 ---
 
-
-
-## 🎯 Estratégia de Testes
-
-
+## 1. Estratégia de Testes
 
 ### Objetivo
 
-
-
 Garantir **confiabilidade, performance e segurança** do módulo Acesso antes da homologação, com **cobertura mínima de 60%** nas camadas críticas.
-
-
 
 ### Escopo
 
-
-
 | Categoria | Incluído | Fora do escopo |
-
 | :--- | :--- | :--- |
-
 | Domínio | Entidades, Value Objects, regras | — |
-
 | Aplicação | Handlers, Validators, Profiles | — |
-
 | Infraestrutura | Repositories | Migrations (testadas via integração) |
-
 | API | Controllers, Middlewares | Swagger UI |
-
 | Segurança | JWT, BCrypt, Autorização | — |
-
 | Auditoria | Captura, Mascaramento | — |
 
-
-
 ---
 
-
-
-## 🔺 Pirâmide de Testes
-
-
+##  2. Pirâmide de Testes
 
 ```
 
-&#x20;       ▲
-
-&#x20;      ╱ ╲        E2E (manual via Swagger)
-
-&#x20;     ╱───╲
-
-&#x20;    ╱ Int ╲      20% — Integração (banco real)
-
-&#x20;   ╱───────╲
-
-&#x20;  ╱  Unit   ╲    80% — Unidade (rápidos, isolados)
-
-&#x20; ╱───────────╲
+       ▲
+      ╱ ╲        E2E (manual via Swagger)
+     ╱───╲
+    ╱ Int ╲      20% — Integração (banco real)
+   ╱───────╲
+  ╱  Unit   ╲    80% — Unidade (rápidos, isolados)
+ ╱───────────╲
 
 ```
 
-
-
----
-
-
-
-## 🛠 Ferramentas
-
-
+## 3. Ferramentas
 
 | Ferramenta | Uso |
-
 | :--- | :--- |
-
 | xUnit | Framework de testes |
-
 | FluentAssertions | Assertions legíveis |
-
 | Moq | Mock de dependências |
-
 | Testcontainers | Banco PostgreSQL real em integração |
-
 | Coverlet | Cobertura de código |
-
 | ReportGenerator | Relatórios de cobertura |
-
-
 
 ---
 
-
-
-## 🧪 Testes Unitários
-
+##  4. Testes Unitários
 
 
 **Local:** `src/Tests/SJInovacao.Acesso.UnitTests/`
 
-
-
 ### 1. Domínio — Entidades
-
-
-
 #### `UserTests.cs`
 
-
-
 | Teste | Descrição |
-
 | :--- | :--- |
-
 | `Create_ComDadosValidos_DeveCriarUsuario` | Validar construtor |
-
 | `Create_SemUsername_DeveLancarArgumentNullException` | Validação de parâmetro |
-
 | `Deactivate_DeveMudarStatusParaInactive` | Regra de negócio |
-
 | `Deactivate_DevePreencherUpdatedAt` | Auditoria implícita |
-
 | `Permissions_DeveRetornarPermissoesDiretasEGrupos` | Agregação de permissões |
-
-
 
 #### `PermissionTests.cs`
 
-
-
 | Teste | Descrição |
-
 | :--- | :--- |
-
 | `Create_ComNomeValido_DeveCriar` | Construtor |
-
 | `Update_DeveMudarDescricao` | Mutabilidade controlada |
-
-
 
 ### 2. Aplicação — Handlers
 
-
-
 #### `CreateUserHandlerTests.cs`
-
-
 
 ```csharp
 
 [Fact]
-
 public async Task Handle_ComDadosValidos_DeveCriarUsuario()
-
 {
+   // Arrange
+   var command = new CreateUserCommand("marcelo", "m@empresa.com", "Senha@123", UserRole.Admin);
+   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+   _repoMock.Setup(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((User u, CancellationToken _) => u);
 
-&#x20;   // Arrange
+   // Act
+   var result = await _handler.Handle(command, CancellationToken.None);
 
-&#x20;   var command = new CreateUserCommand("marcelo", "m@empresa.com", "Senha@123", UserRole.Admin);
-
-&#x20;   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-
-&#x20;            .ReturnsAsync(false);
-
-&#x20;   _repoMock.Setup(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
-
-&#x20;            .ReturnsAsync((User u, CancellationToken _) => u);
-
-
-
-&#x20;   // Act
-
-&#x20;   var result = await _handler.Handle(command, CancellationToken.None);
-
-
-
-&#x20;   // Assert
-
-&#x20;   result.Should().NotBeNull();
-
-&#x20;   result.Username.Should().Be("marcelo");
-
-&#x20;   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
-
+   // Assert
+   result.Should().NotBeNull();
+   result.Username.Should().Be("marcelo");
+   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
 }
 
-
-
 [Fact]
-
 public async Task Handle_ComUsernameDuplicado_DeveLancarDomainException()
-
 {
-
-&#x20;   // Arrange
-
-&#x20;   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-
-&#x20;            .ReturnsAsync(true);
-
-&#x20;   var command = new CreateUserCommand("marcelo", "m@empresa.com", "Senha@123", UserRole.Admin);
-
-
-
-&#x20;   // Act
-
-&#x20;   Func<Task> act = () => _handler.Handle(command, CancellationToken.None);
-
-
-
-&#x20;   // Assert
-
-&#x20;   await act.Should().ThrowAsync<DomainException>();
-
-&#x20;   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
-
+   // Arrange
+   _repoMock.Setup(r => r.GetNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+   var command = new CreateUserCommand("marcelo", "m@empresa.com", "Senha@123", UserRole.Admin);
+   // Act
+   Func<Task> act = () => _handler.Handle(command, CancellationToken.None);
+   // Assert
+   await act.Should().ThrowAsync<DomainException>();
+   _repoMock.Verify(r => r.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
 }
 
 ```
-
-
-
 ### 3. Aplicação — Validators
 
-
-
 #### `CreateUserValidatorTests.cs`
-
-
 
 ```csharp
 
 [Theory]
-
 [InlineData("", "email@valido.com", "Senha@123", false)]     // username vazio
-
 [InlineData("marcelo", "email-invalido", "Senha@123", false)] // email inválido
-
 [InlineData("marcelo", "email@valido.com", "123", false)]     // senha fraca
-
 [InlineData("marcelo", "email@valido.com", "Senha@123", true)] // válido
-
 public void Validate_CenariosVariados(string username, string email, string password, bool esperado)
-
 {
-
-&#x20;   var validator = new CreateUserValidator();
-
-&#x20;   var command = new CreateUserCommand(username, email, password, UserRole.Admin);
-
-
-
-&#x20;   var result = validator.Validate(command);
-
-
-
-&#x20;   result.IsValid.Should().Be(esperado);
-
+   var validator = new CreateUserValidator();
+   var command = new CreateUserCommand(username, email, password, UserRole.Admin);
+   var result = validator.Validate(command);
+   result.IsValid.Should().Be(esperado);
 }
-
-```
 
 
 
 ### 4. Domínio — Value Objects
 
-
-
 | Classe | Testes |
-
 | :--- | :--- |
-
 | `DocumentValidator` | CPF válido, CPF inválido, CNPJ válido, CNPJ inválido |
-
 | `EmailValidator` | Email válido, inválido, vazio, formato incorreto |
-
 | `NameValidator` | Nome com 2 partes, 1 parte, vazio, caracteres especiais |
-
 | `PhoneValidator` | Fixo, celular, internacional |
-
 | `PasswordValidator` | Mínimo, maiúscula, número, símbolo |
 
 
-
+```
 ---
 
-
-
-## 🔗 Testes de Integração
+## 5. Testes de Integração
 
 
 
@@ -347,394 +192,203 @@ public void Validate_CenariosVariados(string username, string email, string pass
 ```csharp
 
 public class PostgresFixture : IAsyncLifetime
-
 {
-
-&#x20;   private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
-
-&#x20;       .WithImage("postgres:16")
-
-&#x20;       .WithDatabase("silverjbase_test")
-
-&#x20;       .WithUsername("developer")
-
-&#x20;       .WithPassword("ev@luAt10n")
-
-&#x20;       .Build();
-
-
-
-&#x20;   public DefaultContext Context { get; private set; } = null!;
-
-
-
-&#x20;   public async Task InitializeAsync()
-
-&#x20;   {
-
-&#x20;       await _postgres.StartAsync();
-
-&#x20;       var options = new DbContextOptionsBuilder<DefaultContext>()
-
-&#x20;           .UseNpgsql(_postgres.GetConnectionString())
-
-&#x20;           .Options;
-
-&#x20;       Context = new DefaultContext(options, NullLogger...);
-
-&#x20;       await Context.Database.MigrateAsync();
-
-&#x20;   }
-
-
-
-&#x20;   public async Task DisposeAsync()
-
-&#x20;   {
-
-&#x20;       await Context.DisposeAsync();
-
-&#x20;       await _postgres.DisposeAsync();
-
-&#x20;   }
-
+   private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
+       .WithImage("postgres:16")
+       .WithDatabase("silverjbase_test")
+       .WithUsername("developer")
+       .WithPassword("ev@luAt10n")
+       .Build();
+   public DefaultContext Context { get; private set; } = null!;
+   public async Task InitializeAsync()
+   {
+       await _postgres.StartAsync();
+       var options = new DbContextOptionsBuilder<DefaultContext>()
+           .UseNpgsql(_postgres.GetConnectionString())
+           .Options;
+       Context = new DefaultContext(options, NullLogger...);
+       await Context.Database.MigrateAsync();
+   }
+   public async Task DisposeAsync()
+   {
+       await Context.DisposeAsync();
+       await _postgres.DisposeAsync();
+   }
 }
 
 ```
 
-
-
 ### Suites Planejadas
-
-
 
 #### `UserEndpointsTests.cs`
 
-
-
 | Teste | Endpoint |
-
 | :--- | :--- |
-
 | `Post_CriaUsuario_Retorna201` | `POST /api/Users` |
-
 | `Get_ListaUsuariosPaginado_Retorna200` | `GET /api/Users?page=1\&size=10` |
-
 | `Get_UsuarioInexistente_Retorna404` | `GET /api/Users/{id}` |
-
 | `Put_AtualizaUsuario_Retorna200` | `PUT /api/Users/{id}` |
-
 | `Delete_DesativaUsuario_Retorna204` | `DELETE /api/Users/{id}` |
-
-
 
 #### `AuthEndpointsTests.cs`
 
-
-
 | Teste | Endpoint |
-
 | :--- | :--- |
-
 | `Post_LoginValido_RetornaToken` | `POST /api/Auth/Login` |
-
 | `Post_LoginInvalido_Retorna401` | `POST /api/Auth/Login` |
-
 | `Post_LoginUsuarioInativo_Retorna401` | `POST /api/Auth/Login` |
-
 | `Post_RefreshToken_RetornaNovoToken` | `POST /api/Auth/RefreshToken` |
-
-
 
 #### `PermissionEndpointsTests.cs`
 
-
-
 | Teste | Endpoint |
-
 | :--- | :--- |
-
 | `Post_CriaPermissao_Retorna201` | `POST /api/Permissions` |
-
 | `Post_PermissaoDuplicada_Retorna400` | `POST /api/Permissions` |
-
 | `Get_PermissaoInexistente_Retorna404` | `GET /api/Permissions/{id}` |
-
-
 
 #### `OrderingTests.cs`
 
-
-
 | Teste | Query |
-
 | :--- | :--- |
-
 | `Get_OrdenacaoSimples_RetornaOrdenado` | `?order=username asc` |
-
 | `Get_OrdenacaoMultipla_RetornaOrdenado` | `?order=username desc, groupname asc` |
-
 | `Get_CampoInvalido_Retorna400` | `?order=campo_invalido asc` |
-
-
 
 ---
 
-
-
-## 🔍 Testes de Auditoria
-
+## 6. Testes de Auditoria
 
 
 ### `AuditServiceTests.cs`
 
-
-
 | Teste | Descrição |
-
 | :--- | :--- |
-
 | `CaptureChanges_Added_DeveCriarRegistro` | Insert gera `Action=Added` |
-
 | `CaptureChanges_Modified_DeveRegistrarColunasAlteradas` | Update captura `AffectedColumns` |
-
 | `CaptureChanges_Deleted_DeveRegistrarOldValues` | Delete captura valores antigos |
-
 | `CaptureChanges_PasswordMascarado` | `Password` virou `***` |
-
 | `CaptureChanges_RefreshTokenMascarado` | `RefreshToken` virou `***` |
-
 | `CaptureChanges_SemAlteracao_NaoGeraRegistro` | Skip de "Modified falso" |
-
 | `CaptureChanges_MultiplasEntidades_GeraMultiplosRegistros` | Batch |
 
-
-
 ### Exemplo
-
-
 
 ```csharp
 
 [Fact]
 
 public async Task CaptureChanges_ComPassword_DeveMascarar()
-
 {
-
-&#x20;   // Arrange
-
-&#x20;   var user = new User("marcelo", "m@e.com", "SenhaHash", UserRole.Admin, ...);
-
-&#x20;   _context.Users.Add(user);
-
-&#x20;   await _context.SaveChangesAsync();
-
-
-
-&#x20;   // Act
-
-&#x20;   var logs = await _context.AuditLogs
-
-&#x20;       .Where(a => a.EntityName == "User" \&\& a.Action == "Added")
-
-&#x20;       .FirstAsync();
-
-
-
-&#x20;   // Assert
-
-&#x20;   logs.NewValues.Should().NotContain("SenhaHash");
-
-&#x20;   logs.NewValues.Should().Contain("\\"Password\\":\\"***\\"");
-
+   // Arrange
+   var user = new User("marcelo", "m@e.com", "SenhaHash", UserRole.Admin, ...);
+   _context.Users.Add(user);
+   await _context.SaveChangesAsync();
+   // Act
+   var logs = await _context.AuditLogs
+       .Where(a => a.EntityName == "User" \&\& a.Action == "Added")
+       .FirstAsync();
+   // Assert
+   logs.NewValues.Should().NotContain("SenhaHash");
+   logs.NewValues.Should().Contain("\\"Password\\":\\"***\\"");
 }
 
 ```
 
-
-
 ---
 
-
-
-## ⚡ Testes de Performance
-
-
+## 7. Testes de Performance
 
 ### Cenários
 
-
-
 | Cenário | Meta | Ferramenta |
-
 | :--- | :--- | :--- |
-
 | Query paginada (morna) | < 50ms | Swagger + Stopwatch |
-
 | Query paginada (1000 users) | < 100ms | k6 |
-
 | Login | < 200ms | k6 |
-
 | Criação de usuário | < 300ms | k6 |
-
 | Startup (warmup) | < 5s | Benchmark manual |
-
 
 
 ### Teste de carga (k6)
 
-
-
 ```javascript
 
 import http from 'k6/http';
-
 import { check } from 'k6';
 
-
-
 export const options = {
-
-&#x20; stages: [
-
-&#x20;   { duration: '30s', target: 10 },
-
-&#x20;   { duration: '1m', target: 50 },
-
-&#x20;   { duration: '30s', target: 0 },
-
-&#x20; ],
-
+ stages: [
+   { duration: '30s', target: 10 },
+   { duration: '1m', target: 50 },
+   { duration: '30s', target: 0 },
+ ],
 };
 
-
-
 export default function () {
-
-&#x20; const res = http.get(
-
-&#x20;   'https://localhost:44382/api/UserGroups/GroupUsersPermissions/paginated?page=1\&size=10\&order=username%20asc',
-
-&#x20;   {
-
-&#x20;     headers: {
-
-&#x20;       Authorization: `Bearer ${__ENV.TOKEN}`,
-
-&#x20;     },
-
-&#x20;   }
-
-&#x20; );
-
-&#x20; check(res, {
-
-&#x20;   'status is 200': (r) => r.status === 200,
-
-&#x20;   'duration < 100ms': (r) => r.timings.duration < 100,
-
-&#x20; });
-
+    const res = http.get(
+   'https://localhost:44382/api/UserGroups/GroupUsersPermissions/paginated?page=1\&size=10\&order=username%20asc',
+   {
+     headers: {
+       Authorization: `Bearer ${__ENV.TOKEN}`,
+     },
+   }
+ );
+ check(res, {
+   'status is 200': (r) => r.status === 200,
+   'duration < 100ms': (r) => r.timings.duration < 100,
+ });
 }
 
 ```
 
-
-
 ---
 
-
-
-## 🔐 Testes de Segurança
-
+## 8. Testes de Segurança
 
 
 ### `AuthenticationTests.cs`
 
-
-
 | Teste | Cenário |
-
 | :--- | :--- |
-
 | `Request_SemToken_Retorna401` | Endpoint protegido sem header |
-
 | `Request_TokenInvalido_Retorna401` | JWT com assinatura errada |
-
 | `Request_TokenExpirado_Retorna401` | Token expirado |
-
 | `Request_TokenValidoComPermissao_Retorna200` | Autorização OK |
-
 | `Request_TokenValidoSemPermissao_Retorna403` | Policy bloqueou |
-
-
 
 ### `BCryptPasswordHasherTests.cs`
 
-
-
 | Teste | Descrição |
-
 | :--- | :--- |
-
 | `Hash_DeveGerarHashDiferenteParaMesmaSenha` | Salt aleatório |
-
 | `Verify_HashValido_RetornaTrue` | Autenticação correta |
-
 | `Verify_HashInvalido_RetornaFalse` | Autenticação incorreta |
-
-
 
 ### `CorrelationIdTests.cs`
 
-
-
 | Teste | Descrição |
-
 | :--- | :--- |
-
 | `Request_SemHeader_GeraCorrelationId` | Middleware gera |
-
 | `Request_ComHeader_UsaHeaderFornecido` | Middleware respeita |
-
 | `Response_ContemHeaderCorrelationId` | Header na resposta |
-
-
 
 ---
 
-
-
-## 📊 Matriz de Cobertura
-
-
+## 9. Matriz de Cobertura
 
 ### Metas
 
-
-
 | Camada | Meta | Atual | Status |
-
 | :--- | ---: | ----: | :----- |
-
 | Domain | 80% | 0% | 🔴 |
-
 | Application (Handlers) | 70% | 0% | 🔴 |
-
 | Application (Validators) | 90% | 0% | 🔴 |
-
 | Infrastructure (Repositories) | 60% | 0% | 🔴 |
-
 | Common (Auditing, Security) | 70% | 0% | 🔴 |
-
 | **Total** | **60%** | **0%** | 🔴 |
 
-
-
 ### Gerar relatório
-
-
 
 ```bash
 
@@ -744,126 +398,61 @@ reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
 
 ```
 
-
-
 ---
 
 
-
-## 🔄 CI/CD
-
-
+## 10. CI/CD
 
 ### Pipeline sugerido (GitHub Actions)
-
-
 
 ```yaml
 
 name: CI
 
-
-
 on:
-
-&#x20; push:
-
-&#x20;   branches: [main, develop]
-
-&#x20; pull_request:
-
-&#x20;   branches: [main]
-
-
+ push:
+   branches: [main, develop]
+ pull_request:
+   branches: [main]
 
 jobs:
-
-&#x20; build:
-
-&#x20;   runs-on: ubuntu-latest
-
-&#x20;   steps:
-
-&#x20;     - uses: actions/checkout@v4
-
-
-
-&#x20;     - uses: actions/setup-dotnet@v4
-
-&#x20;       with:
-
-&#x20;         dotnet-version: '9.0.x'
-
-
-
-&#x20;     - name: Restore
-
-&#x20;       run: dotnet restore
-
-
-
-&#x20;     - name: Build (warn as error)
-
-&#x20;       run: dotnet build --no-restore /warnaserror
-
-
-
-&#x20;     - name: Unit Tests
-
-&#x20;       run: dotnet test src/Tests/SJInovacao.Acesso.UnitTests --no-build
-
-
-
-&#x20;     - name: Integration Tests
-
-&#x20;       run: dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests --no-build
-
-
-
-&#x20;     - name: Coverage Report
-
-&#x20;       run: |
-
-&#x20;         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-
-&#x20;         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
-
-
-
-&#x20;     - name: Upload Coverage
-
-&#x20;       uses: codecov/codecov-action@v4
-
-&#x20;       with:
-
-&#x20;         files: ./coverage-report/Cobertura.xml
+ build:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v4
+     - uses: actions/setup-dotnet@v4
+       with:
+         dotnet-version: '9.0.x'
+     - name: Restore
+       run: dotnet restore
+     - name: Build (warn as error)
+       run: dotnet build --no-restore /warnaserror
+     - name: Unit Tests
+       run: dotnet test src/Tests/SJInovacao.Acesso.UnitTests --no-build
+     - name: Integration Tests
+       run: dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests --no-build
+     - name: Coverage Report
+       run: 
+         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+         reportgenerator -reports:**/coverage.opencover.xml -targetdir:coverage-report
+     - name: Upload Coverage
+       uses: codecov/codecov-action@v4
+       with:
+         files: ./coverage-report/Cobertura.xml
 
 ```
 
-
-
 ### Gates de qualidade
 
-
-
 | Gate | Requisito |
-
 | :--- | :--- |
-
 | Build | 0 erros, 0 avisos |
-
 | Testes unitários | 100% passando |
-
 | Testes de integração | 100% passando |
-
 | Cobertura | ≥ 60% |
-
 | Vulnerabilidades | 0 críticas |
 
-
-
 ---
-
 
 
 ## 🎯 Critérios de Aceite para Homologação
@@ -871,21 +460,13 @@ jobs:
 
 
 - [ ] Cobertura total ≥ 60%
-
 - [ ] Todos os testes passando em CI
-
 - [ ] Zero avisos no build
-
 - [ ] Testes de carga com resultado < 100ms (p95)
-
 - [ ] Testes de segurança validados
-
 - [ ] Teste de auditoria validado em todos os tipos de operação
 
-
-
 ---
-
 
 
 ## 📌 Comandos Rápidos
@@ -895,46 +476,27 @@ jobs:
 ```bash
 
 # Rodar todos os testes
-
 dotnet test
 
 
-
 # Rodar apenas unit tests
-
 dotnet test src/Tests/SJInovacao.Acesso.UnitTests
 
-
-
 # Rodar apenas integration tests
-
 dotnet test src/Tests/SJInovacao.Acesso.IntegrationTests
 
-
-
 # Com cobertura
-
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-
-
 # Um teste específico
-
 dotnet test --filter "FullyQualifiedName~CreateUserHandlerTests"
 
-
-
 # Watch mode (durante desenvolvimento)
-
 dotnet watch --project src/Tests/SJInovacao.Acesso.UnitTests test
 
 ```
 
-
-
 ---
-
-
 
 **Plano de Testes — US01 · Versão 1.0 · 10/10/2026**
 
