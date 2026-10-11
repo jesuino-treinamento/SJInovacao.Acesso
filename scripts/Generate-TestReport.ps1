@@ -11,6 +11,15 @@ if (-not (Test-Path $historyFile)) {
 
 $history = Get-Content $historyFile | ConvertFrom-Json
 
+# Garante que o histórico seja sempre tratado como uma lista (array)
+if (-not ($history -is [System.Collections.IList])) {
+    $history = @($history)
+}
+
+# Obtém a data da última execução de testes e a data de geração do relatório
+$lastRunDate = if ($history.Count -gt 0) { $history[-1].Date } else { "Nenhuma execução registrada" }
+$generationDate = (Get-Date).ToString("yyyy-MM-dd HH:mm")
+
 function Get-ProjectData($projectName) {
     $dates = @()
     $passed = @()
@@ -61,6 +70,8 @@ $html = @"
 <body>
     <h1>📊 Histórico de Execuções de Testes</h1>
     <div class="summary">
+        <strong>Última execução de testes:</strong> $lastRunDate <br>
+        <strong>Relatório gerado em:</strong> $generationDate <br>
         <strong>Taxa de sucesso geral:</strong> $successRate% <br>
         <strong>Total de testes:</strong> $totalTests <br>
         <strong>Passaram:</strong> $totalPassed <br>
