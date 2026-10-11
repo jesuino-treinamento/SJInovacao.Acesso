@@ -10,7 +10,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
 
             builder.Services.AddControllers();
         }
-
         public Task InitializeAsync(WebApplicationBuilder builder)
         {
             Initialize(builder);

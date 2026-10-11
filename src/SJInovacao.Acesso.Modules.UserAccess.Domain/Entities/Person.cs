@@ -24,10 +24,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
             Phones = new List<Phone>();
             Addresses = new List<Address>();
         }
-        /// <summary>
-        /// Adiciona um telefone à pessoa
-        /// </summary>
-        /// <param name="phone">Telefone a ser adicionado</param>
+        
         public void AddPhone(Phone phone)
         {
             Phones.Add(phone ?? throw new ArgumentNullException(nameof(phone)));

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreaterPermissionGroup;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetGroupPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.RemoveGroupPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.UpdateGroupPermissionStatus;
 using SJInovacao.Acesso.WebAPI.Common;
@@ -29,7 +25,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermission
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateGroupPermissionAccess(Guid groupId, Guid permissionId, CancellationToken ct)
         {
-            //if (request == null) return BadRequest();
             try
             {
                 var command = new CreaterPermissionGroupCommand
@@ -52,10 +47,8 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupPermission
 
         }
 
-        // PUT: api/groupAccess/groupPermissions/{groupId}/{permissionId}/status
         [HttpPut("{groupId:guid}/{permissionId:guid}/{status:bool}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> UpdateStatus(Guid userId, Guid permissionId, [FromBody] UpdateUserPermissionStatusResult request, CancellationToken ct)
         public async Task<IActionResult> UpdateStatus(Guid groupId, Guid permissionId, bool status, CancellationToken ct)
         {
             //if (request == null) return BadRequest();

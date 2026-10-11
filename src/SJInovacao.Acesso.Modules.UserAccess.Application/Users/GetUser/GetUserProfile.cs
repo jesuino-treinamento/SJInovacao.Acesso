@@ -19,10 +19,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.GetUser
                  }))
                  .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.Addresses))
                  .ForMember(dest => dest.Phones, opt => opt.MapFrom(src => src.Phones));
-
             CreateMap<Address, AddressDto>();
             CreateMap<Geolocation, GeolocationResult>();
-            CreateMap<Phone, PhoneDto>(); // ✅ Aqui
+            CreateMap<Phone, PhoneDto>(); 
         }
     }
 }

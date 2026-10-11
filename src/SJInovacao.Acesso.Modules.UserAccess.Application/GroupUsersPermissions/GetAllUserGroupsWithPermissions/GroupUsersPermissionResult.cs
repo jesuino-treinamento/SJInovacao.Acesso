@@ -9,8 +9,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
         public Guid GroupId { get; set; }
         public string? GroupName { get; set; } = string.Empty; 
         public bool UserIsActive { get; set; } = true;
-        public List<PermissionDto> Permissions { get; set; } = null!;
-
-        
+        public List<PermissionDto> Permissions { get; set; } = null!;        
     }
 }

@@ -10,7 +10,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
             "username",
             "userid",
             "groupname",
-            "name",       // alias de groupname
+            "name",       
             "groupid"
         };
 
@@ -67,15 +67,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
 
                 if (parts.Length == 0) return false;
 
-                // Campo
                 if (!_validFields.Contains(parts[0]))
                     return false;
 
-                // Direção (opcional)
                 if (parts.Length > 1 && !_validDirections.Contains(parts[1]))
                     return false;
 
-                // No máximo 2 partes (campo + direção)
                 if (parts.Length > 2)
                     return false;
             }

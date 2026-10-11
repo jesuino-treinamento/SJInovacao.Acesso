@@ -8,9 +8,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.CreatePer
         public Guid Id { get; internal set; }
         public string Name { get; set; } = string.Empty; 
         public string Description { get; set; } = string.Empty;
-
         public CreatePermissionCommand() {}
-
         public CreatePermissionCommand(Guid Id, string Name, string Description)
         {
             this.Id = Id;

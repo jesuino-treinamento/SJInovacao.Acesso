@@ -16,10 +16,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
             ILogger<GroupPermissionUserRepository> logger)
             : base(context, logger) { }
 
-        // =========================
-        // LEITURA
-        // =========================
-
         public Task<UserGroup?> GetByIdAsync(Guid userId, Guid groupId, CancellationToken ct)
             => ExecuteWithLoggingAsync(
                 $"GetUserGroupById:{userId}:{groupId}",
@@ -38,16 +34,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     if (size < 1) size = 10;
                     if (size > 100) size = 100;
 
-                    // 1. Query base sobre a ENTIDADE (não a projeção)
                     var baseQuery = _context.UserGroup.AsNoTracking();
 
-                    // 2. Count sobre a base SEM ordenação (mais rápido)
                     var total = await baseQuery.CountAsync(ct);
 
-                    // 3. Ordena sobre a ENTIDADE (o EF sabe traduzir)
                     var orderedQuery = ApplyOrder(baseQuery, orderBy);
 
-                    // 4. Pagina e PROJETA no final (Select depois de Skip/Take)
                     var items = await orderedQuery
                         .Skip((page - 1) * size)
                         .Take(size)
@@ -71,7 +63,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 "GetAllWithFilters",
                 async () =>
                 {
-                    // ===== 1. Query principal (sem permissões) =====
                     var baseQuery = _context.UserGroup
                         .AsNoTracking()
                         .Where(ug => !onlyActiveUsers || ug.IsActive);
@@ -100,7 +91,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                     if (parents.Count == 0)
                         return new List<UserGroupWithPermissionsSummary>();
 
-                    // ===== 2. Query das permissões (só dos IDs retornados) =====
                     var userIds = parents.Select(p => p.UserId).Distinct().ToList();
                     var groupIds = parents.Select(p => p.GroupId).Distinct().ToList();
 
@@ -127,7 +117,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                         .GroupBy(p => (p.UserId, p.GroupId))
                         .ToDictionary(g => g.Key, g => g.ToList());
 
-                    // ===== 3. Combina em memória =====
                     return parents.Select(p => new UserGroupWithPermissionsSummary(
                         p.UserId,
                         p.UserName,
@@ -173,11 +162,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                             g => g.Key,
                             g => g.Select(x => x.Permission).ToList());
                 });
-
-        // =========================
-        // ORDENAÇÃO — opera sobre a ENTIDADE
-        // =========================
-
+        
         private IQueryable<UserGroup> ApplyOrder(IQueryable<UserGroup> query, string? orderBy)
         {
             if (string.IsNullOrWhiteSpace(orderBy))
@@ -202,7 +187,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 query = ApplyOrderToField(query, field, direction, ref isFirst);
             }
 
-            // Garante ordenação determinística
             if (query is IOrderedQueryable<UserGroup> ordered)
                 return ordered.ThenBy(ug => ug.UserId).ThenBy(ug => ug.GroupId);
 
@@ -248,10 +232,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 ? ordered.ThenByDescending(keySelector)
                 : ordered.ThenBy(keySelector);
         }
-
-        // =========================
-        // ESCRITA
-        // =========================
 
         public Task DeleteAsync(Guid userId, Guid groupId, CancellationToken ct)
             => ExecuteWithLoggingAsync(

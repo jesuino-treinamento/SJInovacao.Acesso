@@ -17,14 +17,11 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public string Description { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }        
-
-        // Permissões atribuídas ao grupo
+        public DateTime? UpdatedAt { get; set; }  
         public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();       
         public ICollection<GroupsPermissions> GroupsPermissions { get; set; } = new List<GroupsPermissions>();
-        public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
-       
+        public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();       
     }
 
 }

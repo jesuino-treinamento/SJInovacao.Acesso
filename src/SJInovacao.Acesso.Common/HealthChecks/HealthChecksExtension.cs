@@ -21,27 +21,20 @@ namespace SJInovacao.Acesso.Common.HealthChecks
         public static IServiceCollection AddAdvancedHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks()
-                // ===== CORE HEALTH CHECKS =====
                 .AddCheck("Self", () => HealthCheckResult.Healthy("API is running"))
 
-                // ===== DATABASE =====
-               // .AddCheck<DatabaseHealthCheck>("Database", HealthStatus.Unhealthy, new[] { "database" })
-
-                // ===== MEMORY =====
                 .AddCheck("Memory", () =>
                 {
                     var totalMemory = GC.GetTotalMemory(false);
-                    const long threshold = 500 * 1024 * 1024; // 500MB
+                    const long threshold = 500 * 1024 * 1024; 
 
                     if (totalMemory > threshold)
                     {
                         return HealthCheckResult.Degraded($"High memory usage: {totalMemory / 1024 / 1024}MB");
                     }
-
                     return HealthCheckResult.Healthy($"Memory usage: {totalMemory / 1024 / 1024}MB");
                 })
 
-                // ===== STARTUP TIME =====
                 .AddCheck("Startup", () =>
                 {
                     var uptime = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
@@ -50,7 +43,6 @@ namespace SJInovacao.Acesso.Common.HealthChecks
                     {
                         return HealthCheckResult.Degraded($"Application just started: {uptime.TotalSeconds:F2}s ago");
                     }
-
                     return HealthCheckResult.Healthy($"Uptime: {uptime.TotalSeconds:F2}s");
                 });
 
@@ -78,12 +70,10 @@ namespace SJInovacao.Acesso.Common.HealthChecks
             {
                 ResponseWriter = WriteResponse
             });
-
             app.MapHealthChecks("/health/ready", new()
             {
                 Predicate = check => check.Tags.Contains("database")
             });
-
             return app;
         }
         private static async Task WriteResponse(HttpContext context, HealthReport report)
@@ -102,7 +92,6 @@ namespace SJInovacao.Acesso.Common.HealthChecks
                     duration = e.Value.Duration.TotalMilliseconds
                 })
             };
-
             await context.Response.WriteAsJsonAsync(response);
         }
 

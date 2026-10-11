@@ -3,10 +3,7 @@ using FluentValidation;
 using MediatR;
 using SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissios.CreateUserPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Exceptions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
-using System.Threading;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.CreateUserPermission
 {
@@ -28,7 +25,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.Creat
 
         public async Task<CreateUserPermissionResult> Handle(CreateUserPermissionCommand command, CancellationToken ct)
         {
-            // 1. Validar comando
             var validator = new CreateUserPermissionValidator();
             var validationResult = await validator.ValidateAsync(command, ct);
 
@@ -49,10 +45,8 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.Creat
             if (await _UserPermissionrepository.GetExistUserWithUsersPermissionsAsync(command.UserId, command.PermissionId, ct))
                     throw new KeyNotFoundException("O vínculo entre usuário e permissão já existe.");
 
-            // 2. Criar vínculo entre usuário e permissão
             await _UserPermissionrepository.AddAsync(command.UserId, command.PermissionId, ct);
 
-            // 3. Mapear resultado
             var userPermission = new UserPermission
             {
                 UserId = command.UserId,

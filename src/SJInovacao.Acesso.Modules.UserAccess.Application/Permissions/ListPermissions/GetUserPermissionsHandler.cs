@@ -18,21 +18,20 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermi
         public async Task<List<PermissionDto>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .Include(u => u.UserPermissions)              // Permissões diretas do usuário
+                .Include(u => u.UserPermissions)              
                     .ThenInclude(up => up.Permission)
-                .Include(u => u.UserGroups)                       // Grupos do usuário
-                    .ThenInclude(g => g.Group.Permissions)          // Permissões dos grupos
+                .Include(u => u.UserGroups)                       
+                    .ThenInclude(g => g.Group.Permissions)          
                 .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
             if (user == null)
                 return new List<PermissionDto>();
 
-            // Junta permissões diretas e dos grupos, eliminando duplicadas
             var permissions = user.UserPermissions
                 .Where(up => up.IsActive)
                 .Select(up => up.Permission)
                 .Concat(user.UserGroups.SelectMany(g => g.Group.Permissions))
-                .Distinct() // evita repetir permissões iguais
+                .Distinct() 
                 .Select(p => new PermissionDto
                 {
                     Id = p.Id,
@@ -41,7 +40,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermi
                 })
                 .ToList();
 
-            // Adiciona permissão extra se o usuário for Admin
             if (user.Role == UserRole.Admin)
             {
                 permissions.Add(new PermissionDto

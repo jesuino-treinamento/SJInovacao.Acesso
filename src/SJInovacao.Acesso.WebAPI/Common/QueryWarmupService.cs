@@ -50,7 +50,6 @@ public class QueryWarmupService : BackgroundService
         }
         catch (OperationCanceledException)
         {
-            // Shutdown solicitado — não é erro
             _logger.LogDebug("Warmup cancelado por shutdown");
         }
         catch (Exception ex)

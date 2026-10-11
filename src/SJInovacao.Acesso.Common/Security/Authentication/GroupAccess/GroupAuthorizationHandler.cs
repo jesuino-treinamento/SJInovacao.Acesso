@@ -31,7 +31,5 @@ namespace SJInovacao.Acesso.Common.Security.Authentication.GroupAccess
 
             return Task.CompletedTask;
         }
-
-
     }
 }

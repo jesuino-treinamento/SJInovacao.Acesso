@@ -6,7 +6,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
     public class CreateGroupUsersPermissionCommand : IRequest<GroupUsersPermissionDto>
     {
         public Guid UserId { get; set; }
-        public Guid GroupAccessId { get; set; }
-        
+        public Guid GroupAccessId { get; set; }        
     }
 }

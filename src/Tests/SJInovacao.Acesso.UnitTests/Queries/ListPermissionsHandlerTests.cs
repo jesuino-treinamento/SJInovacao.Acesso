@@ -1,19 +1,13 @@
-﻿namespace SJInovacao.Acesso.UnitTests.Queries
-{
-    using FluentAssertions;
-    using Moq;
-    using AutoMapper;
-    using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermissions;
-    using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
-    using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-    using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xunit;
+﻿using FluentAssertions;
+using AutoMapper;
+using SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.ListPermissions;
+using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
+using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
+using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
+using Microsoft.EntityFrameworkCore;
 
+namespace SJInovacao.Acesso.UnitTests.Queries
+{
     public class ListPermissionsHandlerTests
     {
         [Fact]

@@ -2,13 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetAllGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.CreateGroupUsersPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.DeleteGroupUsersPermission;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.GetAllUserGroupsWithPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions.UpdateGroupUsersPermission;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users;
-using SJInovacao.Acesso.Modules.UserAccess.Application.Users.ListUser;
 using SJInovacao.Acesso.WebAPI.Common;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.CreateGroupUsersPermissions;
 using SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions.DeleteGroupUsersPermissions;
@@ -102,8 +99,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
             }
         }
 
-        //[Authorize]
-        //[HttpPut("{UserId:guid}/{groupAccessId:guid}/{userIsActive:bool}/{permissionId:guid}/{permissionIsActive:bool}")]
         [HttpPut("{UserId:guid}/{GroupAccessId:guid}/{UserIsActive:bool}")]
         [ProducesResponseType(typeof(ApiResponseWithData<UpdateGroupUsersPermissionsResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
@@ -111,7 +106,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponseWithData<UpdateGroupUsersPermissionsResponse>), StatusCodes.Status401Unauthorized)]
-        //public async Task<IActionResult> Update(Guid UserId, Guid GroupAccessId, bool UserIsActive, [FromRoute]  Guid PermissionId, [FromRoute] bool PermissionIsActive, CancellationToken cancellationToken)
         public async Task<IActionResult> Update([FromRoute] Guid UserId, [FromRoute] Guid GroupAccessId, [FromRoute] bool UserIsActive, [FromBody] UpdateGroupUsersPermissionsRequest request, CancellationToken cancellationToken)
         {
             try
@@ -165,7 +159,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupUsersPermissions
             }
         }
 
-        // [Authorize]
         [HttpGet("paginated")]
         public async Task<ActionResult<PaginatedResponse<GroupUsersPermissionResult>>> GetAllGroupUsersPermission(
         [FromQuery] int page = 1,

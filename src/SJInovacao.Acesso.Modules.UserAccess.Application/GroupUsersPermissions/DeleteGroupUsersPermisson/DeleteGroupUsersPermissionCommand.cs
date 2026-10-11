@@ -7,7 +7,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
     {
         public Guid UserId { get; set; }
         public Guid GroupAccessId { get; set; }
-
         public bool UserIsActive { get; set; }
 
     }

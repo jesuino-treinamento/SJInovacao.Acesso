@@ -21,12 +21,10 @@ namespace SJInovacao.Acesso.WebAPI.Middleware
                 ? id.ToString()
                 : Activity.Current?.Id ?? context.TraceIdentifier;
 
-            // ✅ Disponibiliza para outros middlewares/services (AuditService lê daqui)
             context.Items["CorrelationId"] = correlationId;
 
             using (LogContext.PushProperty("CorrelationId", correlationId))
             {
-                // Header na resposta
                 context.Response.Headers[CorrelationIdHeader] = correlationId;
 
                 var stopwatch = Stopwatch.StartNew();

@@ -31,7 +31,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
         {
             try
             {           
-                // Validação
                 var validator = new UpdateUserCommandValidator();
                 var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
@@ -49,7 +48,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
                     throw new DomainException($"User with ID {command.Id} not found for update");
                 }
 
-                // Verificação de email/username
                 if ((existingUser.Email != command.Email) || (existingUser.Username != command.Username))
                 {
                     var exists = await _userRepository.ExistsWithEmailOrUsernameAsync(
@@ -62,7 +60,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
                     }
                 }
 
-                // Atualiza dados principais
                 existingUser.Username = command.Username;
                 existingUser.Email = command.Email;
                 existingUser.Role = command.Role;
@@ -76,14 +73,12 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.UpdateUser
 
                 existingUser.UpdateName(command.Name.FirstName, command.Name.LastName);
 
-                // Telefones
                 existingUser.ClearPhones();
                 foreach (var phoneDto in command.Phones)
                 {
                     existingUser.AddPhone(new Phone(phoneDto.Number, phoneDto.Type, existingUser));
                 }
 
-                // Endereços
                 existingUser.ClearAddresses();
                 foreach (var addressDto in command.Addresses)
                 {

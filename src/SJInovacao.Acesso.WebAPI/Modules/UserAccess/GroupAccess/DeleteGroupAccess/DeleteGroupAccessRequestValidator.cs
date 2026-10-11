@@ -6,8 +6,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.DeleteGroupAcc
     {
         public DeleteGroupAccessRequestValidator()
         {
-            //RuleFor(x => x.GroupAccessId).NotEmpty();
-            //RuleFor(x => x.UserId).NotEmpty();
             RuleFor(x => x.GroupAccessId).NotNull();
         }
     }

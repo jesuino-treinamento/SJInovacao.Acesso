@@ -44,12 +44,10 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     throw new ValidationException(validationResult.Errors);
                 }
 
-                // Verifica duplicidade de nome
                 var allPermissions = await _permissionRepository.GetAllAsync(cancellationToken);
                 if (allPermissions.Any(p => p.Id != request.Id && p.Name == request.Name))
                     throw new DomainException($"Já existe uma permissão com o nome '{request.Name}'.");
 
-                // Busca a permissão existente
                 var permission = allPermissions.FirstOrDefault(p => p.Id == request.Id);
                 if (permission == null)
                 {
@@ -57,7 +55,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     throw new DomainException($"Permission with ID {request.Id} not found for update");
                 }
 
-                // Atualiza dados básicos
                 permission.Name = request.Name;
                 permission.Description = request.Description;
                 permission.IsActive = request.IsActive;
@@ -65,7 +62,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
 
                 _logger.LogInformation("Atualizando status em cascata para permissão {PermissionId}", request.Id);
 
-                // Atualiza vínculos em GroupsPermissions
                 var groupsPermissions = await _context.GroupsPermissions
                     .Where(gp => gp.PermissionId == permission.Id)
                     .ToListAsync(cancellationToken);
@@ -76,7 +72,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     gp.UpdatedAt = DateTime.UtcNow;
                 }
 
-                // Atualiza vínculos em UsersGroupsPermissions
                 var entities = await _context.UsersGroupsPermissions
                     .Where(ugp => ugp.PermissionId == permission.Id)
                     .ToListAsync(cancellationToken);
@@ -87,7 +82,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     entity.UpdatedAt = DateTime.UtcNow;
                 }
 
-                // Atualiza vínculos em UserPermissions
                 var usersPermissions = await _context.UserPermissions
                     .Where(up => up.PermissionId == permission.Id)
                     .ToListAsync(cancellationToken);
@@ -98,7 +92,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Permissions.UpdatePer
                     userPermission.UpdatedAt = DateTime.UtcNow;
                 }
 
-                // Atualiza a própria permissão
                 var updatedPermission = _context.Permissions.Update(permission);
 
                 await _context.SaveChangesAsync(cancellationToken);

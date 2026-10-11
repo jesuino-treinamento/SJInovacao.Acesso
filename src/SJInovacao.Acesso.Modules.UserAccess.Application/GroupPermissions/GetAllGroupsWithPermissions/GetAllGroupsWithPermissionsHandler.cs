@@ -19,11 +19,9 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetA
         {
             var groups = await _repository.GetAllWithGroupPermissionsAsync(ct);
 
-            // Filtro: apenas grupos ativos
             if (query.OnlyActiveUsers)
                 groups = groups.Where(g => g.IsActive);
 
-            // Filtro: por nome de permissão
             if (!string.IsNullOrWhiteSpace(query.PermissionNameFilter))
             {
                 var filter = query.PermissionNameFilter;
@@ -31,17 +29,14 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetA
                                         && g.Permissions.Any(p => p.Name.Contains(filter)));
             }
 
-            // Limite de resultados
             if (query.MaxResults.HasValue)
                 groups = groups.Take(query.MaxResults.Value);
 
-            // Monta DTO
             var result = groups.Select(g => new GroupPermissionsDto
             {
                 Id = g.Id,
                 Name = g.Name,
                 Permissions = g.GroupsPermissions
-                    //.Where(p => p.IsActive) // só permissões ativas
                     .Select(p => new PermissionDto
                     {
                         Id = p.Permission.Id,
@@ -56,6 +51,5 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.GetA
 
             return result;
         }
-
     }
 }

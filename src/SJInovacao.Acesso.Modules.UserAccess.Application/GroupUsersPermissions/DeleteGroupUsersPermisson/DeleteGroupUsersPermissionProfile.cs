@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.CreateGroupPermissions;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
 using SJInovacao.Acesso.Modules.UserAccess.Application.DTOs;
 
@@ -9,7 +8,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupUsersPermissions
     {
         public DeleteGroupUsersPermissionProfile() 
         {
-            // Mapeamento de User para DeleteGroupUsersPermissionResult 
             CreateMap<User, GroupUsersPermissionDto>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.GroupId, opt => opt.Ignore()) // Será definido manualmente

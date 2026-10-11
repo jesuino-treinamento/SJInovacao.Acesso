@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Validation;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.ValueObjects;
 
 namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
 {

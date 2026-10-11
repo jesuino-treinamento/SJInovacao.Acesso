@@ -57,7 +57,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
                 }
                 
 
-                //// Remove UsersGroupsPermissions
                 var usersGroupsPermissions = await _context.UsersGroupsPermissions
                     .Where(ugp => ugp.GroupId == command.GroupId && ugp.PermissionId == command.PermissionId)
                     .ToListAsync(cancellationToken);
@@ -65,7 +64,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
                 _logger.LogInformation("Removendo {Count} permissões de usuários em grupo para GroupId {GroupId}", usersGroupsPermissions.Count, command.GroupId);
                 _context.RemoveRange(usersGroupsPermissions);
 
-                //// Remove UserPermissions
                 var userPermissions = await _context.UserPermissions
                     .Where(ugp => ugp.PermissionId == command.PermissionId)
                     .ToListAsync(cancellationToken);
@@ -73,7 +71,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.GroupPermissions.Remo
                 _logger.LogInformation("Removendo {Count} vínculos de usuários com permissião {PermissionId}", userPermissions.Count, command.PermissionId);
                 _context.RemoveRange(userPermissions);
 
-                // Remove o próprio GroupPermission
                 _context.Remove(groupAccess);
 
                 await _context.SaveChangesAsync(cancellationToken);

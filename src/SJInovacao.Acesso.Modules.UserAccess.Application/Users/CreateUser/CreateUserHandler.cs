@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR;
 using SJInovacao.Acesso.Common.Security;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Enums;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.ValueObjects;
 
@@ -14,21 +13,17 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
         private readonly IUserRepository _userRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IPhoneRepository _phoneRepository;
-        private readonly IPersonRepository _personRepository;
-        private readonly IPermissionRepository _permissionRepository;
         private readonly IMapper _mapper;
         private readonly IPasswordHasher _passwordHasher;
 
         public CreateUserHandler(IUserRepository userRepository,
             IAddressRepository addressRepository,
-            IPhoneRepository phoneRepository, IPersonRepository personRepository, IPermissionRepository permissionRepository,
+            IPhoneRepository phoneRepository, 
             IMapper mapper, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _addressRepository = addressRepository;
             _phoneRepository = phoneRepository;
-            _personRepository = personRepository;
-            _permissionRepository = permissionRepository;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
         }
@@ -51,7 +46,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
                 var name = new Name(command.Name.FirstName, command.Name.LastName);
 
                 var person = new Person(name, document);
-
 
                 var user = new User(
                     command.Username,
@@ -105,17 +99,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.CreateUser
 
                 var createdUser = await _userRepository.CreateAsync(user, cancellationToken);
 
-
                 var result = _mapper.Map<CreateUserResult>(createdUser);
                 return result;
             }
             catch (Exception)
             {
-
                 throw;
-            }
-           
+            }           
         }
-
     }
 }

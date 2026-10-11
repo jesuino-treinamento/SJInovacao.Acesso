@@ -15,10 +15,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
         {
         }
 
-        // =========================
-        // LEITURA
-        // =========================
-
         public Task<Permission?> GetByIdAsync(Guid id, CancellationToken ct)
             => ExecuteWithLoggingAsync(
                 $"GetById:{id}",
@@ -41,10 +37,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories
                 async () => await _context.Permissions
                     .AsNoTracking()
                     .AnyAsync(p => p.Name == name, ct));
-
-        // =========================
-        // ESCRITA
-        // =========================
 
         public Task<Permission> CreateAsync(Permission permission, CancellationToken ct)
             => ExecuteWithLoggingAsync(

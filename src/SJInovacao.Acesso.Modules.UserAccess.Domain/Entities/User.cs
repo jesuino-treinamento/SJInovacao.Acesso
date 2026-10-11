@@ -29,8 +29,6 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Domain.Entities
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
         public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
         public ICollection<UsersGroupsPermissions> UsersGroupsPermissions { get; set; } = new List<UsersGroupsPermissions>();
-
-
         public User() { }
 
         public User(string username, string email, string passwordHash, UserRole role, Name name, Document document)

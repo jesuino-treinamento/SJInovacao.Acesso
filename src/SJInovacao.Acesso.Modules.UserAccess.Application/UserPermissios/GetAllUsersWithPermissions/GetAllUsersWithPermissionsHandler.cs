@@ -19,16 +19,13 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.GetAl
         {
             var users = await _repository.GetAllWithPermissionsAsync(ct);
 
-            // Filtro: apenas usuários ativos
             if (query.OnlyActiveUsers)
                 users = users.Where(u => u.Status == StatusTypes.Active);
 
-            // Filtro: por nome de permissão
             if (!string.IsNullOrWhiteSpace(query.PermissionNameFilter))
                 users = users.Where(u => u.UserPermissions
                     .Any(up => up.Permission.Name.Contains(query.PermissionNameFilter)));
 
-            // Limite de resultados
             if (query.MaxResults.HasValue)
                 users = users.Take(query.MaxResults.Value);
 
@@ -38,7 +35,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.UserPermissions.GetAl
                 Username = u.Username,
                 Email = u.Email,
                 Permissions = u.UserPermissions
-                    .Where(up => up.IsActive) // só permissões ativas
+                    .Where(up => up.IsActive) 
                     .Select(up => new PermissionDto
                     {
                         Id = up.PermissionId,

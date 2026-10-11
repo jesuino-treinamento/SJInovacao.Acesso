@@ -15,9 +15,7 @@ using SJInovacao.Acesso.Common.Validation;
 using SJInovacao.Acesso.Modules.UserAccess.Application;
 using SJInovacao.Acesso.Modules.UserAccess.Application.Contracts;
 using SJInovacao.Acesso.Modules.UserAccess.Domain.Entities;
-using SJInovacao.Acesso.Modules.UserAccess.Domain.Repositories;
 using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM;
-using SJInovacao.Acesso.Modules.UserAccess.Infrastructure.ORM.Repositories;
 using System.Reflection;
 
 namespace SJInovacao.Acesso.IoC.ModuleInitializers

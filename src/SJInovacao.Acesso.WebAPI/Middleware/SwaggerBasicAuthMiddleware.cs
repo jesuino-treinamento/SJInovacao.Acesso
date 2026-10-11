@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Text;
+﻿using System.Text;
 
-namespace SJInovacao.Acesso.WebAPI.Middleware // Ajuste o namespace conforme sua estrutura
+namespace SJInovacao.Acesso.WebAPI.Middleware 
 {
     public class SwaggerBasicAuthMiddleware
     {
@@ -16,18 +15,15 @@ namespace SJInovacao.Acesso.WebAPI.Middleware // Ajuste o namespace conforme sua
 
         public async Task InvokeAsync(HttpContext context)
         {
-            // Verifica se a requisição é para a rota do Swagger
             if (context.Request.Path.StartsWithSegments("/swagger"))
             {
                 string authHeader = context.Request.Headers["Authorization"].ToString();
                 if (authHeader != null && authHeader.StartsWith("Basic "))
                 {
-                    // Obtém as credenciais codificadas em Base64
                     var encodedUsernamePassword = authHeader.Substring("Basic ".Length).Trim();
                     var encoding = Encoding.GetEncoding("iso-8859-1");
                     var usernamePassword = encoding.GetString(Convert.FromBase64String(encodedUsernamePassword));
 
-                    // Lê as credenciais configuradas no appsettings
                     var expectedUsername = _configuration["SwaggerAuth:Username"];
                     var expectedPassword = _configuration["SwaggerAuth:Password"];
 
@@ -38,7 +34,6 @@ namespace SJInovacao.Acesso.WebAPI.Middleware // Ajuste o namespace conforme sua
                     }
                 }
 
-                // Se a autenticação falhar, retorna 401 e o cabeçalho para o navegador exibir o prompt
                 context.Response.StatusCode = 401;
                 context.Response.Headers["WWW-Authenticate"] = "Basic realm=\"Swagger\"";
                 return;

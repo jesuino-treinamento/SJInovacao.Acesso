@@ -8,9 +8,6 @@ namespace SJInovacao.Acesso.WebAPI.Modules.UserAccess.GroupAccess.CreateGroupAcc
     {
         public CreateGroupAccessProfile()
         {
-            //CreateMap<CreateGroupUserRequest, CreateGroupUserCommand>();
-            //CreateMap<CreateGroupUserResult, GroupUserResponse>();
-
             CreateMap<CreateGroupAccessRequest, CreateGroupPermissionCommand>();
             CreateMap<CreateGroupPermissionResult, GroupAccessResponse>();
             CreateMap<GroupPermissionsDto, GroupAccessResponse>();

@@ -17,7 +17,7 @@ namespace SJInovacao.Acesso.Modules.UserAccess.Application.Users.GroupUsers
             await _userRepository.AddGroupToUserAsync(request.UserId, request.GroupUserId, cancellationToken);
             return Unit.Value;
         }
-        //Esta errado  IRequestHandler<AddUserPermissionCommand>
+        
         Task IRequestHandler<AddGroupUserCommand>.Handle(AddGroupUserCommand request, CancellationToken cancellationToken)
         {
             return Handle(request, cancellationToken);

@@ -24,7 +24,6 @@ namespace SJInovacao.Acesso.IoC.ModuleInitializers
             builder.Services.AddScoped<IUsersGroupsPermissionsRepository, UsersGroupsPermissionsRepository>();
             builder.Services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
         }
-
         public Task InitializeAsync(WebApplicationBuilder builder)
         {
             return Task.CompletedTask;
