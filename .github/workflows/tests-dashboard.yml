@@ -82,11 +82,13 @@ jobs:
     - name: Preparar pasta de deploy
       run: |
         mkdir -p deploy
+        mkdir -p deploy/TestResults
         cp ./index.html ./deploy/index.html
-        cp ./TestResults/Dashboard.html ./deploy/Dashboard.html
-        cp ./TestResults/history.json ./deploy/history.json
+        cp ./TestResults/Dashboard.html ./deploy/TestResults/Dashboard.html
+        cp ./TestResults/history.json ./deploy/TestResults/history.json
         echo "--- Conteúdo de deploy: ---"
         ls -la ./deploy/
+        ls -la ./deploy/TestResults/
 
     # =========================
     # 6. PUBLICAR
